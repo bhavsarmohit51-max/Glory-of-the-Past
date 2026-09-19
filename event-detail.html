@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Details | Glory of the Past</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-historical sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="bi bi-compass text-warning fs-4"></i>
+                <span>GLORY OF THE PAST</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarMain">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="events.html">Events</a></li>
+                    <li class="nav-item"><a class="nav-link" href="timeline.html">Interactive Timeline</a></li>
+                    <li class="nav-item"><a class="nav-link" href="personalities.html">Personalities</a></li>
+                    <li class="nav-item"><a class="nav-link" href="places.html">Historical Places</a></li>
+                    <li class="nav-item"><a class="nav-link" href="quiz.html">History Quiz</a></li>
+                    <li class="nav-item"><a class="nav-link" href="ai-guide.html"><i class="bi bi-robot text-warning me-1"></i>AI Guide</a></li>
+                </ul>
+                <div id="navAuthContainer"></div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Detail Content Container -->
+    <div class="container py-5" id="eventDetailContent">
+        <div class="text-center py-5">
+            <div class="spinner-border text-warning" role="status"></div>
+            <p class="text-secondary mt-2">Loading historical event...</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container text-center text-secondary small">
+            © 2026 AI-Powered Historical Explorer. Final-Year College Project.
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+
+    <script>
+        let currentEvent = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const id = urlParams.get('id');
+            if (id) {
+                loadEventDetail(id);
+            } else {
+                window.location.href = 'events.html';
+            }
+        });
+
+        async function loadEventDetail(id) {
+            const container = document.getElementById('eventDetailContent');
+            try {
+                const ev = await api.get(`/events/${id}`);
+                currentEvent = ev;
+
+                // Check if already bookmarked
+                let isFav = false;
+                if (auth.isLoggedIn()) {
+                    try {
+                        isFav = await api.get(`/favorites/check?type=Event&id=${ev.id}`);
+                    } catch (e) {}
+                }
+
+                container.innerHTML = `
+                    <!-- Breadcrumbs -->
+                    <nav aria-label="breadcrumb" class="mb-4">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="index.html" class="text-warning text-decoration-none">Home</a></li>
+                            <li class="breadcrumb-item"><a href="events.html" class="text-warning text-decoration-none">Events</a></li>
+                            <li class="breadcrumb-item active text-secondary" aria-current="page">${ev.title}</li>
+                        </ol>
+                    </nav>
+
+                    <div class="row g-4">
+                        <!-- Main Content Column -->
+                        <div class="col-lg-8">
+                            <div class="historical-card overflow-hidden mb-4">
+                                <img src="${ev.imageUrl || 'https://images.unsplash.com/photo-1461360370896-922624d12aa1?w=1200'}" class="w-100" style="max-height: 420px; object-fit: cover;" alt="${ev.title}" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1461360370896-922624d12aa1?w=1200';">
+                                <div class="p-4 p-md-5">
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <span class="badge bg-warning text-dark px-3 py-1 fw-bold">${ev.categoryName || 'Historical Era'}</span>
+                                        <button class="btn btn-sm ${isFav ? 'btn-warning' : 'btn-outline-gold'}" id="favBtn" onclick="toggleBookmark()">
+                                            <i class="bi ${isFav ? 'bi-bookmark-check-fill' : 'bi-bookmark-plus'} me-1"></i> ${isFav ? 'Bookmarked' : 'Save Event'}
+                                        </button>
+                                    </div>
+                                    <h1 class="display-6 fw-bold text-white mb-3">${ev.title}</h1>
+                                    
+                                    <div class="d-flex gap-4 text-secondary small mb-4 pb-3 border-bottom border-secondary border-opacity-25 flex-wrap">
+                                        <div><i class="bi bi-calendar-event text-warning me-1"></i><strong>Date:</strong> ${ev.formattedDate}</div>
+                                        <div><i class="bi bi-geo-alt text-warning me-1"></i><strong>Location:</strong> ${ev.location}</div>
+                                    </div>
+
+                                    <div class="alert alert-dark border-secondary mb-4">
+                                        <div class="text-warning fw-bold small text-uppercase mb-1"><i class="bi bi-journal-text me-1"></i>Executive Summary</div>
+                                        <div class="text-light">${ev.summary}</div>
+                                    </div>
+
+                                    <h4 class="text-white fw-bold mb-3">Detailed Historical Narrative</h4>
+                                    <div class="text-light leading-relaxed mb-4" style="line-height: 1.8; font-size: 1.05rem;">
+                                        ${ev.description}
+                                    </div>
+
+                                    <!-- Live Wikipedia Deep Dive Section -->
+                                    <div class="p-4 rounded bg-dark border border-warning border-opacity-50 mb-4 shadow-sm">
+                                        <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+                                            <h5 class="text-white fw-bold mb-0">
+                                                <i class="bi bi-book-half text-warning me-2"></i>Live Wikipedia Event Chronicle
+                                            </h5>
+                                            <span class="badge bg-secondary text-light"><i class="bi bi-broadcast me-1"></i>Wikimedia REST API</span>
+                                        </div>
+                                        <div id="wikiContent" class="text-light">
+                                            <div class="spinner-border spinner-border-sm text-warning me-2" role="status"></div> Fetching live event chronicles...
+                                        </div>
+                                    </div>
+
+                                    <div class="pt-4 border-top border-secondary border-opacity-25 d-flex gap-3">
+                                        <a href="ai-guide.html?q=${encodeURIComponent('Tell me more about ' + ev.title)}" class="btn btn-gold">
+                                            <i class="bi bi-robot me-2"></i>Ask AI Guide About This
+                                        </a>
+                                        <a href="timeline.html" class="btn btn-outline-secondary">
+                                            <i class="bi bi-clock-history me-1"></i>View on Timeline
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sidebar: Related People & Places -->
+                        <div class="col-lg-4">
+                            <!-- Related Figures -->
+                            <div class="historical-card p-4 mb-4">
+                                <h5 class="fw-bold text-white mb-3"><i class="bi bi-people text-warning me-2"></i>Prominent Figures</h5>
+                                ${ev.relatedPersons && ev.relatedPersons.length > 0 ? `
+                                    <div class="d-flex flex-column gap-3">
+                                        ${ev.relatedPersons.map(p => `
+                                            <a href="person-detail.html?id=${p.id}" class="d-flex align-items-center gap-3 text-decoration-none p-2 rounded hover-bg-dark">
+                                                <img src="${p.imageUrl || 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=100'}" class="rounded-circle border border-warning" style="width: 50px; height: 50px; object-fit: cover;" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=100';">
+                                                <div>
+                                                    <div class="text-white fw-bold">${p.fullName}</div>
+                                                    <div class="text-secondary small">${p.titleOrRole}</div>
+                                                </div>
+                                            </a>
+                                        `).join('')}
+                                    </div>
+                                ` : '<p class="text-secondary small mb-0">No specific personalities linked.</p>'}
+                            </div>
+
+                            <!-- Related Places -->
+                            <div class="historical-card p-4">
+                                <h5 class="fw-bold text-white mb-3"><i class="bi bi-pin-map text-warning me-2"></i>Associated Monuments & Places</h5>
+                                ${ev.relatedPlaces && ev.relatedPlaces.length > 0 ? `
+                                    <div class="d-flex flex-column gap-3">
+                                        ${ev.relatedPlaces.map(pl => `
+                                            <a href="place-detail.html?id=${pl.id}" class="d-flex align-items-center gap-3 text-decoration-none p-2 rounded hover-bg-dark">
+                                                <img src="${pl.imageUrl || 'https://images.unsplash.com/photo-1564507592333-c60657eea523?w=100'}" class="rounded border border-warning" style="width: 50px; height: 50px; object-fit: cover;" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1564507592333-c60657eea523?w=100';">
+                                                <div>
+                                                    <div class="text-white fw-bold">${pl.name}</div>
+                                                    <div class="text-secondary small">${pl.cityOrRegion}, ${pl.country}</div>
+                                                </div>
+                                            </a>
+                                        `).join('')}
+                                    </div>
+                                ` : '<p class="text-secondary small mb-0">No specific monuments linked.</p>'}
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                // Load Wikipedia live extract
+                loadWikipediaArchive(ev.title);
+            } catch (err) {
+                container.innerHTML = '<div class="text-center text-danger py-5">Failed to load event details.</div>';
+            }
+        }
+
+        async function toggleBookmark() {
+            if (!auth.isLoggedIn()) {
+                alert('Please sign in to bookmark your favorite historical events!');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            try {
+                await api.post('/favorites', {
+                    entityType: 'Event',
+                    entityId: currentEvent.id,
+                    title: currentEvent.title,
+                    imageUrl: currentEvent.imageUrl
+                });
+
+                const favBtn = document.getElementById('favBtn');
+                favBtn.className = 'btn btn-sm btn-warning';
+                favBtn.innerHTML = '<i class="bi bi-bookmark-check-fill me-1"></i> Bookmarked';
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        async function loadWikipediaArchive(title) {
+            const wikiContainer = document.getElementById('wikiContent');
+            if (!wikiContainer) return;
+            try {
+                let wikiQuery = title;
+                if (title.includes('Coronation')) wikiQuery = 'Shivaji#Coronation';
+                else if (title.includes('1857') || title.includes('Rebellion')) wikiQuery = 'Indian_Rebellion_of_1857';
+                else if (title.includes('Independence') || title.includes('Midnight')) wikiQuery = 'Indian_Independence_Act_1947';
+                else if (title.includes('Dandi') || title.includes('Salt')) wikiQuery = 'Salt_March';
+                else if (title.includes('Kalinga')) wikiQuery = 'Kalinga_War';
+                else if (title.includes('Apollo')) wikiQuery = 'Apollo_11';
+                else if (title.includes('Bastille') || title.includes('French')) wikiQuery = 'Storming_of_the_Bastille';
+                else wikiQuery = encodeURIComponent(title.replace(/\s+/g, '_'));
+
+                const res = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${wikiQuery}`);
+                if (!res.ok) throw new Error('Live Wikipedia data unavailable');
+                const data = await res.json();
+
+                wikiContainer.innerHTML = `
+                    <div class="d-flex flex-column gap-3">
+                        <p class="mb-2 text-light" style="line-height: 1.8; font-size: 0.98rem;">
+                            ${data.extract || 'No chronicle extract available.'}
+                        </p>
+                        <div class="d-flex justify-content-between align-items-center pt-2 border-top border-secondary border-opacity-25 flex-wrap gap-2">
+                            <span class="text-secondary small"><i class="bi bi-info-circle me-1"></i>Official Wikimedia Foundation Archive (CC BY-SA 4.0)</span>
+                            <a href="${data.content_urls ? data.content_urls.desktop.page : `https://en.wikipedia.org/wiki/${wikiQuery}`}" target="_blank" class="btn btn-sm btn-outline-warning text-gold px-3">
+                                <i class="bi bi-box-arrow-up-right me-1"></i> Read Full Wikipedia Article
+                            </a>
+                        </div>
+                    </div>
+                `;
+            } catch (err) {
+                wikiContainer.innerHTML = `
+                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                        <span class="text-secondary small">Live Wikimedia sync resting. Comprehensive offline historical records available above.</span>
+                        <a href="https://en.wikipedia.org/wiki/Special:Search?search=${encodeURIComponent(title)}" target="_blank" class="btn btn-sm btn-outline-secondary">
+                            <i class="bi bi-search me-1"></i> Search on Wikipedia
+                        </a>
+                    </div>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>

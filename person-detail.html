@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personality Biography | Glory of the Past</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-historical sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="bi bi-compass text-warning fs-4"></i>
+                <span>GLORY OF THE PAST</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarMain">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="events.html">Events</a></li>
+                    <li class="nav-item"><a class="nav-link" href="timeline.html">Interactive Timeline</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="personalities.html">Personalities</a></li>
+                    <li class="nav-item"><a class="nav-link" href="places.html">Historical Places</a></li>
+                    <li class="nav-item"><a class="nav-link" href="quiz.html">History Quiz</a></li>
+                    <li class="nav-item"><a class="nav-link" href="ai-guide.html"><i class="bi bi-robot text-warning me-1"></i>AI Guide</a></li>
+                </ul>
+                <div id="navAuthContainer"></div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container py-5" id="personDetailContainer">
+        <div class="text-center py-5">
+            <div class="spinner-border text-warning"></div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container text-center text-secondary small">
+            © 2026 AI-Powered Historical Explorer. Final-Year College Project.
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+
+    <script>
+        let currentPerson = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const id = urlParams.get('id');
+            if (id) {
+                loadPersonDetail(id);
+            } else {
+                window.location.href = 'personalities.html';
+            }
+        });
+
+        async function loadPersonDetail(id) {
+            const container = document.getElementById('personDetailContainer');
+            try {
+                const person = await api.get(`/persons/${id}`);
+                currentPerson = person;
+
+                let isFav = false;
+                if (auth.isLoggedIn()) {
+                    try {
+                        isFav = await api.get(`/favorites/check?type=Person&id=${person.id}`);
+                    } catch(e) {}
+                }
+
+                container.innerHTML = `
+                    <nav aria-label="breadcrumb" class="mb-4">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="index.html" class="text-warning text-decoration-none">Home</a></li>
+                            <li class="breadcrumb-item"><a href="personalities.html" class="text-warning text-decoration-none">Personalities</a></li>
+                            <li class="breadcrumb-item active text-secondary">${person.fullName}</li>
+                        </ol>
+                    </nav>
+
+                    <div class="row g-4">
+                        <div class="col-lg-4 text-center">
+                            <div class="historical-card p-4">
+                                <img src="${person.imageUrl || 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=400'}" class="rounded shadow border border-warning w-100 mb-3" style="max-height: 380px; object-fit: cover;" alt="${person.fullName}" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=400';">
+                                <h3 class="fw-bold text-white mb-1">${person.fullName}</h3>
+                                <div class="text-warning small fw-bold mb-2">${person.titleOrRole}</div>
+                                <span class="badge bg-dark border border-secondary text-light mb-3">${person.birthDeathDisplay}</span>
+                                
+                                <div class="d-grid gap-2">
+                                    <button class="btn btn-sm ${isFav ? 'btn-warning' : 'btn-outline-gold'}" id="favPersonBtn" onclick="togglePersonBookmark()">
+                                        <i class="bi ${isFav ? 'bi-bookmark-check-fill' : 'bi-bookmark-plus'} me-1"></i> ${isFav ? 'Bookmarked' : 'Save Personality'}
+                                    </button>
+                                    <a href="ai-guide.html?q=${encodeURIComponent('Tell me about the life and impact of ' + person.fullName)}" class="btn btn-sm btn-gold">
+                                        <i class="bi bi-robot me-1"></i> Ask AI About ${person.fullName.split(' ')[0]}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-8">
+                            <div class="historical-card p-4 p-md-5 mb-4">
+                                <span class="badge bg-warning text-dark fw-bold px-3 py-1 rounded-pill mb-3">${person.era}</span>
+                                <h2 class="fw-bold text-white mb-4">Biography & Life Narrative</h2>
+                                <div class="text-light leading-relaxed mb-4" style="line-height: 1.8; font-size: 1.05rem;">
+                                    ${person.biography}
+                                </div>
+
+                                <h4 class="text-white fw-bold mb-3"><i class="bi bi-trophy text-warning me-2"></i>Key Historical Achievements</h4>
+                                <div class="alert alert-dark border-secondary text-light mb-4">
+                                    ${person.keyAchievements}
+                                </div>
+
+                                <!-- Live Wikipedia Deep Dive Section -->
+                                <div class="p-4 rounded bg-dark border border-warning border-opacity-50 mb-4 shadow-sm">
+                                    <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+                                        <h5 class="text-white fw-bold mb-0">
+                                            <i class="bi bi-book-half text-warning me-2"></i>Live Wikipedia Deep Dive
+                                        </h5>
+                                        <span class="badge bg-secondary text-light"><i class="bi bi-broadcast me-1"></i>Wikimedia REST API</span>
+                                    </div>
+                                    <div id="wikiContent" class="text-light">
+                                        <div class="spinner-border spinner-border-sm text-warning me-2" role="status"></div> Loading live Wikipedia archive data...
+                                    </div>
+                                </div>
+
+                                <h4 class="text-white fw-bold mb-3"><i class="bi bi-calendar3 text-warning me-2"></i>Associated Events</h4>
+                                ${person.relatedEvents && person.relatedEvents.length > 0 ? `
+                                    <div class="row g-3">
+                                        ${person.relatedEvents.map(e => `
+                                            <div class="col-md-6">
+                                                <div class="p-3 rounded bg-dark border border-secondary border-opacity-25 h-100 d-flex flex-column">
+                                                    <span class="badge bg-warning text-dark mb-2 align-self-start">${e.formattedDate}</span>
+                                                    <h6 class="text-white fw-bold mb-2">${e.title}</h6>
+                                                    <p class="text-secondary small mb-3 flex-grow-1">${e.summary}</p>
+                                                    <a href="event-detail.html?id=${e.id}" class="btn btn-sm btn-outline-gold align-self-start">Read Event</a>
+                                                </div>
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                ` : '<p class="text-secondary small mb-0">No specific linked events registered in current records.</p>'}
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                // Load Wikipedia live extract
+                loadWikipediaArchive(person.fullName);
+            } catch (err) {
+                container.innerHTML = '<div class="text-center text-danger py-5">Error loading biography.</div>';
+            }
+        }
+
+        async function togglePersonBookmark() {
+            if (!auth.isLoggedIn()) {
+                alert('Please sign in to save historical figures!');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            try {
+                await api.post('/favorites', {
+                    entityType: 'Person',
+                    entityId: currentPerson.id,
+                    title: currentPerson.fullName,
+                    imageUrl: currentPerson.imageUrl
+                });
+
+                const btn = document.getElementById('favPersonBtn');
+                btn.className = 'btn btn-sm btn-warning';
+                btn.innerHTML = '<i class="bi bi-bookmark-check-fill me-1"></i> Bookmarked';
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        async function loadWikipediaArchive(title) {
+            const wikiContainer = document.getElementById('wikiContent');
+            if (!wikiContainer) return;
+            try {
+                let wikiQuery = title;
+                if (title.includes('Shivaji')) wikiQuery = 'Shivaji';
+                else if (title.includes('Gandhi')) wikiQuery = 'Mahatma_Gandhi';
+                else if (title.includes('Lakshmibai')) wikiQuery = 'Rani_of_Jhansi';
+                else if (title.includes('Subhas')) wikiQuery = 'Subhas_Chandra_Bose';
+                else if (title.includes('Kalam')) wikiQuery = 'A._P._J._Abdul_Kalam';
+                else if (title.includes('Bhagat Singh')) wikiQuery = 'Bhagat_Singh';
+                else if (title.includes('Patel')) wikiQuery = 'Vallabhbhai_Patel';
+                else if (title.includes('Vivekananda')) wikiQuery = 'Swami_Vivekananda';
+                else if (title.includes('Ashoka')) wikiQuery = 'Ashoka';
+                else if (title.includes('Einstein')) wikiQuery = 'Albert_Einstein';
+                else if (title.includes('da Vinci')) wikiQuery = 'Leonardo_da_Vinci';
+                else if (title.includes('Alexander')) wikiQuery = 'Alexander_the_Great';
+                else wikiQuery = encodeURIComponent(title.replace(/\s+/g, '_'));
+
+                const res = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${wikiQuery}`);
+                if (!res.ok) throw new Error('Live Wikipedia data unavailable');
+                const data = await res.json();
+
+                wikiContainer.innerHTML = `
+                    <div class="d-flex flex-column gap-3">
+                        <p class="mb-2 text-light" style="line-height: 1.8; font-size: 0.98rem;">
+                            ${data.extract || 'No lead extract available.'}
+                        </p>
+                        <div class="d-flex justify-content-between align-items-center pt-2 border-top border-secondary border-opacity-25 flex-wrap gap-2">
+                            <span class="text-secondary small"><i class="bi bi-info-circle me-1"></i>Official Wikimedia Foundation Archive (CC BY-SA 4.0)</span>
+                            <a href="${data.content_urls ? data.content_urls.desktop.page : `https://en.wikipedia.org/wiki/${wikiQuery}`}" target="_blank" class="btn btn-sm btn-outline-warning text-gold px-3">
+                                <i class="bi bi-box-arrow-up-right me-1"></i> Read Full Wikipedia Article
+                            </a>
+                        </div>
+                    </div>
+                `;
+            } catch (err) {
+                wikiContainer.innerHTML = `
+                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                        <span class="text-secondary small">Live Wikimedia sync resting. Comprehensive offline biography available above.</span>
+                        <a href="https://en.wikipedia.org/wiki/Special:Search?search=${encodeURIComponent(title)}" target="_blank" class="btn btn-sm btn-outline-secondary">
+                            <i class="bi bi-search me-1"></i> Search on Wikipedia
+                        </a>
+                    </div>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>

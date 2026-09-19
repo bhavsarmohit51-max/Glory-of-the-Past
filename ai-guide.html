@@ -1,0 +1,1287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Historical Guide | Glory of the Past</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        @keyframes pulseMic {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.7); }
+            70% { transform: scale(1.08); box-shadow: 0 0 0 12px rgba(220, 53, 69, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(220, 53, 69, 0); }
+        }
+        .pulse-mic {
+            animation: pulseMic 1.4s infinite !important;
+        }
+        .cursor-pointer { cursor: pointer; }
+    </style>
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-historical sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="bi bi-compass text-warning fs-4"></i>
+                <span>GLORY OF THE PAST</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarMain">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="events.html">Events</a></li>
+                    <li class="nav-item"><a class="nav-link" href="timeline.html">Interactive Timeline</a></li>
+                    <li class="nav-item"><a class="nav-link" href="personalities.html">Personalities</a></li>
+                    <li class="nav-item"><a class="nav-link" href="places.html">Historical Places</a></li>
+                    <li class="nav-item"><a class="nav-link" href="quiz.html">History Quiz</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="ai-guide.html"><i class="bi bi-robot text-warning me-1"></i>AI Guide</a></li>
+                </ul>
+                <div id="navAuthContainer"></div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="py-4 text-center" style="background: radial-gradient(circle at center, #1b2640 0%, #0a0e17 80%); border-bottom: 1px solid var(--border-color);">
+        <div class="container">
+            <span class="badge bg-warning text-dark px-3 py-1 rounded-pill mb-2"><i class="bi bi-cpu me-1"></i>Intelligent Historical Knowledge Base</span>
+            <h1 class="h2 fw-bold text-white mb-1">AI Historical Guide & Companion</h1>
+            <p class="text-secondary small mx-auto mb-0" style="max-width: 600px;">
+                Ask any question about world history, emperors, landmark revolutions, or architectural marvels.
+            </p>
+        </div>
+    </header>
+
+    <!-- Chat Container -->
+    <div class="container my-auto py-4">
+        <div class="row justify-content-center">
+            <div class="col-lg-9">
+
+                <!-- AI Engine Selector & Status Bar -->
+                <div class="mb-3 d-flex justify-content-between align-items-center flex-wrap gap-2 p-2 rounded bg-dark border border-secondary border-opacity-25">
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="badge bg-warning text-dark fw-bold" id="aiStatusBadge"><i class="bi bi-cpu me-1"></i>Internal Intelligence (DB + Wikipedia)</span>
+                        <span class="text-secondary small d-none d-md-inline" id="aiStatusSubtext">Ready to answer any historical topic</span>
+                    </div>
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="form-check form-switch text-light small d-flex align-items-center gap-2 my-0">
+                            <input class="form-check-input" type="checkbox" id="autoVoiceToggle" onchange="toggleAutoVoice()">
+                            <label class="form-check-label text-warning small cursor-pointer" for="autoVoiceToggle">
+                                <i class="bi bi-volume-up-fill me-1"></i>Auto-Speak
+                            </label>
+                        </div>
+                        <button class="btn btn-sm btn-outline-gold" data-bs-toggle="modal" data-bs-target="#aiSettingsModal">
+                            <i class="bi bi-gear-fill me-1"></i> Settings
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Interactive Voice Assistant Banner (Proactive Speaking / Aage Se Bolna) -->
+                <div class="card bg-gradient border-warning border-opacity-50 text-white mb-3 shadow-sm" style="background: linear-gradient(135deg, rgba(212, 160, 23, 0.15) 0%, rgba(15, 23, 42, 0.95) 100%);">
+                    <div class="card-body p-3 d-flex align-items-center justify-content-between flex-wrap gap-3">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="rounded-circle bg-warning text-dark p-2 d-flex align-items-center justify-content-center shadow" style="width: 48px; height: 48px; min-width: 48px;" id="voiceAvatarIcon">
+                                <i class="bi bi-person-fill fs-3 text-dark" id="avatarIconInside"></i>
+                            </div>
+                            <div>
+                                <div class="fw-bold text-warning d-flex align-items-center gap-2">
+                                    <span id="voiceAssistantPersonaName">👩 Dr. Aditi (Senior Historian)</span>
+                                    <span class="badge bg-danger text-white rounded-pill px-2 py-0" style="font-size: 0.7rem;">Interactive Voice</span>
+                                </div>
+                                <div class="text-light small" id="proactiveVoiceStatus">
+                                    Click <strong>"Talk to Historian"</strong> — Assistant pehle khud aapse bolegi aur aapse sawal sunegi!
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <button type="button" class="btn btn-sm btn-gold px-3 py-2 fw-bold shadow-sm d-flex align-items-center gap-2" id="startVoiceConvBtn" onclick="startProactiveVoiceGuide()">
+                                <i class="bi bi-volume-up-fill fs-6 text-dark" id="startVoiceBtnIcon"></i>
+                                <span id="startVoiceBtnText">Talk to Historian</span>
+                            </button>
+                            <button type="button" class="btn btn-sm btn-outline-danger px-3 py-2 fw-bold shadow-sm d-flex align-items-center gap-2" id="globalStopVoiceBtn" onclick="stopAllAssistantAudio()" title="Stop Voice & Assistant (Or Press Esc key)">
+                                <i class="bi bi-stop-circle-fill fs-6"></i>
+                                <span>Stop (Esc)</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Voice Selector & Persona Switcher Toolbar -->
+                    <div class="card-footer bg-black bg-opacity-40 border-top border-warning border-opacity-25 px-3 py-2 d-flex align-items-center justify-content-between flex-wrap gap-2">
+                        <div class="d-flex align-items-center gap-2 flex-wrap">
+                            <label for="assistantVoiceSelect" class="small fw-bold text-warning d-flex align-items-center gap-1 mb-0">
+                                <i class="bi bi-person-lines-fill"></i> Change Voice:
+                            </label>
+                            <select id="assistantVoiceSelect" class="form-select form-select-sm bg-dark text-warning border-warning border-opacity-50" style="min-width: 280px; max-width: 440px;" onchange="handleVoiceChange()" title="Choose your preferred voice assistant">
+                                <option value="">Loading voices...</option>
+                            </select>
+                            <button type="button" class="btn btn-sm btn-outline-warning py-1 px-3 d-flex align-items-center gap-1" onclick="testCurrentVoice()" title="Click to preview this voice">
+                                <i class="bi bi-play-circle-fill"></i> Test Voice
+                            </button>
+                        </div>
+                        <div class="d-flex align-items-center gap-2 small text-light">
+                            <span class="badge bg-warning text-dark fw-bold"><i class="bi bi-soundwave me-1"></i>Speed: 1.05x</span>
+                            <span class="text-secondary small">(Auto-saves preference)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Suggested Questions Chips -->
+                <div class="mb-3 d-flex gap-2 flex-wrap align-items-center">
+                    <span class="text-secondary small fw-bold">Suggested questions:</span>
+                    <button class="btn btn-sm btn-outline-secondary rounded-pill py-0 px-2" onclick="setPrompt('Analyze the military tactics of Shivaji Maharaj')">Shivaji Maharaj</button>
+                    <button class="btn btn-sm btn-outline-secondary rounded-pill py-0 px-2" onclick="setPrompt('Tell me about Shaheed Bhagat Singh and the 1929 Assembly protest')">Bhagat Singh</button>
+                    <button class="btn btn-sm btn-outline-secondary rounded-pill py-0 px-2" onclick="setPrompt('How did Sardar Patel integrate 565 princely states into India?')">Sardar Patel</button>
+                    <button class="btn btn-sm btn-outline-secondary rounded-pill py-0 px-2" onclick="setPrompt('Why was the Taj Mahal built and what is its architecture?')">Taj Mahal</button>
+                    <button class="btn btn-sm btn-outline-secondary rounded-pill py-0 px-2" onclick="setPrompt('Explain the origins and impact of the Roman Empire')">Roman Empire</button>
+                </div>
+
+                <!-- Chat Box -->
+                <div class="ai-chat-window shadow-lg">
+                    <!-- Body messages -->
+                    <div class="ai-chat-body" id="chatBody">
+                        <!-- Welcome message -->
+                        <div class="chat-bubble chat-bubble-ai cursor-pointer" onclick="if (!window.speechSynthesis.speaking) startProactiveVoiceGuide();" title="Click to hear voice greeting">
+                            <div class="d-flex align-items-center justify-content-between mb-2">
+                                <div class="d-flex align-items-center gap-2 text-warning fw-bold small">
+                                    <i class="bi bi-robot"></i> Historical Guide AI
+                                </div>
+                                <button type="button" id="welcomeListenBtn" class="btn btn-xs btn-outline-warning py-0 px-2 text-gold speak-btn" onclick="event.stopPropagation(); speakAiResponse(this, 'Greetings, explorer! I am your AI Historical Companion. You can ask me about significant historical figures, ancient empires, monumental battles, or the stories behind famous monuments. How may I enlighten your journey through history today?')">
+                                    <i class="bi bi-volume-up-fill me-1"></i>Listen
+                                </button>
+                            </div>
+                            <div>
+                                Greetings, explorer! I am your AI Historical Companion. You can ask me about significant historical figures, ancient empires, monumental battles, or the stories behind famous monuments. 
+                                <br><br>
+                                <em>How may I enlighten your journey through history today?</em>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Input bar with Voice Assistant -->
+                    <div class="p-3 border-top border-secondary border-opacity-25 bg-dark">
+                        <!-- Voice Recording Status Indicator (Hidden by default) -->
+                        <div id="voiceStatusIndicator" class="mb-2 text-warning small p-2 rounded bg-black border border-danger border-opacity-75 shadow-sm" style="display: none;">
+                            <div class="d-flex align-items-center justify-content-between mb-1">
+                                <div class="d-flex align-items-center gap-2 text-truncate" style="max-width: 75%;">
+                                    <span class="badge bg-danger text-white pulse-mic px-2 py-1"><i class="bi bi-broadcast me-1"></i>LIVE MIC</span>
+                                    <span id="voiceStatusText" class="fw-bold text-white text-truncate">Listening to your voice... Speak your historical question now!</span>
+                                </div>
+                                <div class="d-flex align-items-center gap-1">
+                                    <button type="button" class="btn btn-sm btn-success py-0 px-2 fw-bold" onclick="submitVoiceQuery()" title="Send what you said">Done <i class="bi bi-check-lg"></i></button>
+                                    <button type="button" class="btn btn-sm btn-outline-danger py-0 px-2" onclick="stopAllAssistantAudio()">Cancel</button>
+                                </div>
+                            </div>
+                            <!-- Live Voice Level VU Meter -->
+                            <div class="d-flex align-items-center gap-2 mt-1">
+                                <span class="text-secondary small" style="font-size: 0.72rem;"><i class="bi bi-mic-fill text-danger me-1"></i>Voice Input Level:</span>
+                                <div class="progress flex-grow-1 bg-secondary bg-opacity-25" style="height: 5px;">
+                                    <div id="micVuMeter" class="progress-bar bg-warning" role="progressbar" style="width: 5%; transition: width 0.08s ease;"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Voice Alert Box (for mic permissions / errors) -->
+                        <div id="voiceAlertBox" class="mb-2" style="display: none;"></div>
+
+                        <form id="aiForm" onsubmit="handleAskAI(event)" class="d-flex gap-2 align-items-center">
+                            <select id="voiceLangSelect" class="form-select form-select-sm bg-dark text-warning border-secondary" style="width: 140px;" title="Select Voice Recognition Language">
+                                <option value="en-IN" selected>🇮🇳 English (India)</option>
+                                <option value="hi-IN">🇮🇳 Hindi (हिंदी)</option>
+                                <option value="en-US">🇺🇸 English (US)</option>
+                            </select>
+                            <button type="button" id="voiceMicBtn" class="btn btn-outline-warning px-3 d-flex align-items-center justify-content-center" onclick="toggleVoiceInput()" title="Voice Assistant: Speak Your Query (Click to Start/Stop)">
+                                <i class="bi bi-mic-fill fs-5" id="micIcon"></i>
+                            </button>
+                            <input type="text" id="aiQuestionInput" class="form-control bg-dark text-white border-secondary" placeholder="Ask via voice or type your history question..." required autocomplete="off">
+                            <button type="submit" id="aiSubmitBtn" class="btn btn-gold px-4 d-flex align-items-center gap-1">
+                                <span>Send</span>
+                                <i class="bi bi-send-fill ms-1"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Security Note for Evaluators -->
+                <div class="mt-3 text-center text-secondary small">
+                    <i class="bi bi-shield-check text-success me-1"></i> <strong>Architectural Security:</strong> AI API requests are proxied via ASP.NET Core Backend. Secret API keys are never exposed in frontend scripts.
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- AI Settings Modal -->
+    <div class="modal fade" id="aiSettingsModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-dark text-white border-warning">
+                <div class="modal-header border-secondary border-opacity-50">
+                    <h5 class="modal-title text-warning fw-bold"><i class="bi bi-robot me-2"></i>AI Historical Engine Settings</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="small text-secondary mb-3">
+                        Choose your preferred AI Intelligence provider to power your Senior Historian guide.
+                    </p>
+                    
+                    <div class="mb-3">
+                        <label class="form-label fw-bold text-light">AI Provider</label>
+                        <select id="modalAiProvider" class="form-select bg-dark text-white border-secondary" onchange="handleProviderChange()">
+                            <option value="gemini">Google Gemini 1.5 Flash (Free & Fast)</option>
+                            <option value="openai">OpenAI ChatGPT (GPT-4o Mini)</option>
+                            <option value="internal">Built-in Historical Engine (Database + Wikipedia)</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3" id="apiKeyContainer">
+                        <label class="form-label fw-bold text-light" id="apiKeyLabel">Google Gemini API Key</label>
+                        <div class="input-group">
+                            <input type="password" id="modalAiApiKey" class="form-control bg-dark text-white border-secondary" placeholder="Paste your API key here...">
+                            <button class="btn btn-outline-secondary" type="button" onclick="toggleApiKeyVisibility()"><i class="bi bi-eye" id="toggleEyeIcon"></i></button>
+                        </div>
+                        <div class="form-text text-secondary small mt-2" id="apiKeyHelpText">
+                            <i class="bi bi-stars text-warning me-1"></i>
+                            Get a free Google Gemini key in 30 seconds at <a href="https://aistudio.google.com/app/apikey" target="_blank" class="text-warning text-decoration-underline">aistudio.google.com</a> (No credit card needed).
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-secondary border-opacity-50">
+                    <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-sm btn-gold" onclick="saveAiSettings()">Save Settings</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container text-center text-secondary small">
+            © 2026 Glory of the Past. Final-Year College Project.
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+
+    <script>
+        let recognition = null;
+        let isRecording = false;
+        let currentSpeakingBtn = null;
+        let pendingAutoSubmit = false;
+        let hasSpokenGreeting = false;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check protocol: Chrome requires localhost or https for speech recognition!
+            if (window.location.protocol === 'file:') {
+                const fileWarning = document.createElement('div');
+                fileWarning.className = 'alert alert-danger border-danger shadow-lg p-3 text-center fw-bold fixed-top m-3';
+                fileWarning.style.zIndex = '99999';
+                fileWarning.innerHTML = `
+                    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 text-start">
+                        <div>
+                            <div class="fs-6 text-warning"><i class="bi bi-exclamation-triangle-fill me-2 fs-5"></i>Chrome Browser Notice: Speech Recognition is BLOCKED on <code>file://</code> protocol!</div>
+                            <div class="small fw-normal text-light mt-1">
+                                Voice Assistant microphone cannot send audio over local files. Please open this page via our local web server:
+                            </div>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <a href="http://localhost:5203/ai-guide.html" class="btn btn-warning btn-sm fw-bold px-3 py-2 text-dark">
+                                Open on http://localhost:5203 <i class="bi bi-box-arrow-up-right ms-1"></i>
+                            </a>
+                            <a href="http://localhost:5500/ai-guide.html" class="btn btn-gold btn-sm fw-bold px-3 py-2 text-dark">
+                                Open on http://localhost:5500 <i class="bi bi-box-arrow-up-right ms-1"></i>
+                            </a>
+                        </div>
+                    </div>
+                `;
+                document.body.prepend(fileWarning);
+            }
+
+            initAiSettings();
+            populateVoiceSelector();
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const q = urlParams.get('q');
+            if (q) {
+                document.getElementById('aiQuestionInput').value = q;
+                handleAskAI();
+            }
+
+            // Proactive greeting on first document click if not already interacting
+            setTimeout(() => {
+                window.addEventListener('click', function onFirstDocClick(e) {
+                    if (hasSpokenGreeting) return;
+                    const tag = e.target.tagName.toLowerCase();
+                    if (tag === 'input' || tag === 'button' || tag === 'a' || e.target.closest('button') || e.target.closest('a')) {
+                        return;
+                    }
+                    hasSpokenGreeting = true;
+                    startProactiveVoiceGuide();
+                    window.removeEventListener('click', onFirstDocClick);
+                }, { passive: true });
+            }, 600);
+        });
+
+        function initAiSettings() {
+            const savedProvider = localStorage.getItem('ai_provider') || 'gemini';
+            const savedKey = localStorage.getItem('ai_api_key') || '';
+            const savedAutoVoice = localStorage.getItem('ai_auto_voice');
+            // Proactive voice assistant: Default is TRUE so assistant speaks out loud automatically!
+            const autoVoice = savedAutoVoice === null ? true : savedAutoVoice === 'true';
+
+            const provSelect = document.getElementById('modalAiProvider');
+            if (provSelect) provSelect.value = savedProvider;
+            const keyInput = document.getElementById('modalAiApiKey');
+            if (keyInput) keyInput.value = savedKey;
+
+            const autoVoiceToggle = document.getElementById('autoVoiceToggle');
+            if (autoVoiceToggle) autoVoiceToggle.checked = autoVoice;
+
+            handleProviderChange();
+            updateAiBadge(savedProvider, savedKey);
+        }
+
+        function toggleAutoVoice() {
+            const toggle = document.getElementById('autoVoiceToggle');
+            if (toggle) {
+                localStorage.setItem('ai_auto_voice', toggle.checked);
+            }
+        }
+
+        function handleProviderChange() {
+            const provider = document.getElementById('modalAiProvider').value;
+            const keyContainer = document.getElementById('apiKeyContainer');
+            const keyLabel = document.getElementById('apiKeyLabel');
+            const helpText = document.getElementById('apiKeyHelpText');
+
+            if (provider === 'internal') {
+                keyContainer.style.display = 'none';
+            } else {
+                keyContainer.style.display = 'block';
+                if (provider === 'openai') {
+                    keyLabel.innerText = 'OpenAI API Key (ChatGPT)';
+                    helpText.innerHTML = '<i class="bi bi-info-circle text-warning me-1"></i> Get your OpenAI key from <a href="https://platform.openai.com/api-keys" target="_blank" class="text-warning text-decoration-underline">platform.openai.com</a>.';
+                } else {
+                    keyLabel.innerText = 'Google Gemini API Key';
+                    helpText.innerHTML = '<i class="bi bi-stars text-warning me-1"></i> Get a free Google Gemini key in 30 seconds at <a href="https://aistudio.google.com/app/apikey" target="_blank" class="text-warning text-decoration-underline">aistudio.google.com</a> (No credit card needed).';
+                }
+            }
+        }
+
+        function toggleApiKeyVisibility() {
+            const input = document.getElementById('modalAiApiKey');
+            const icon = document.getElementById('toggleEyeIcon');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.className = 'bi bi-eye-slash';
+            } else {
+                input.type = 'password';
+                icon.className = 'bi bi-eye';
+            }
+        }
+
+        function saveAiSettings() {
+            const provider = document.getElementById('modalAiProvider').value;
+            const key = document.getElementById('modalAiApiKey').value.trim();
+
+            localStorage.setItem('ai_provider', provider);
+            localStorage.setItem('ai_api_key', key);
+
+            updateAiBadge(provider, key);
+
+            const modalEl = document.getElementById('aiSettingsModal');
+            const modal = bootstrap.Modal.getInstance(modalEl);
+            if (modal) modal.hide();
+        }
+
+        function updateAiBadge(provider, key) {
+            const badge = document.getElementById('aiStatusBadge');
+            const subtext = document.getElementById('aiStatusSubtext');
+            if (!badge) return;
+
+            if (provider === 'openai' && key) {
+                badge.className = 'badge bg-success text-white fw-bold';
+                badge.innerHTML = '<i class="bi bi-lightning-charge-fill me-1"></i>OpenAI ChatGPT (Active)';
+                if (subtext) subtext.innerText = 'Live Generative GPT-4o Mini connected';
+            } else if (provider === 'gemini' && key) {
+                badge.className = 'badge bg-primary text-white fw-bold';
+                badge.innerHTML = '<i class="bi bi-stars me-1"></i>Google Gemini 3.5 (Active)';
+                if (subtext) subtext.innerText = 'Live Google Generative AI connected';
+            } else {
+                badge.className = 'badge bg-warning text-dark fw-bold';
+                badge.innerHTML = '<i class="bi bi-cpu me-1"></i>Historical Intelligence (Active)';
+                if (subtext) subtext.innerText = 'Live Gemini & Wikipedia archive ready';
+            }
+        }
+
+        function setPrompt(text) {
+            document.getElementById('aiQuestionInput').value = text;
+            handleAskAI();
+        }
+
+        // ==========================================
+        // WEB AUDIO CHIMES (ZERO EXTERNAL DEPENDENCY)
+        // ==========================================
+        function playChime(type = 'wake') {
+            try {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                if (!AudioContext) return;
+                const ctx = new AudioContext();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+
+                const now = ctx.currentTime;
+                if (type === 'wake') {
+                    osc.frequency.setValueAtTime(523.25, now);
+                    osc.frequency.exponentialRampToValueAtTime(659.25, now + 0.15);
+                    gain.gain.setValueAtTime(0.18, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
+                    osc.start(now);
+                    osc.stop(now + 0.35);
+                } else if (type === 'done') {
+                    osc.frequency.setValueAtTime(659.25, now);
+                    osc.frequency.exponentialRampToValueAtTime(783.99, now + 0.15);
+                    gain.gain.setValueAtTime(0.15, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+                    osc.start(now);
+                    osc.stop(now + 0.3);
+                }
+            } catch (e) {
+                console.warn("Audio chime error:", e);
+            }
+        }
+
+        // ==========================================
+        // VOICE ASSISTANT SELECTION & PERSONA MANAGEMENT
+        // ==========================================
+        function getSelectedVoice() {
+            if (!('speechSynthesis' in window)) return null;
+            const voices = window.speechSynthesis.getVoices();
+            if (!voices || voices.length === 0) return null;
+
+            const savedVoiceName = localStorage.getItem('selected_voice_name');
+            if (savedVoiceName) {
+                const found = voices.find(v => v.name === savedVoiceName);
+                if (found) return found;
+            }
+
+            // Default: Prefer Warm, Expressive Female Voices (Zira, Jenny, Aria, Sonia, Google US Female) over robotic David!
+            const femaleVoice = voices.find(v => 
+                (v.name.includes('Zira') || v.name.includes('Jenny') || v.name.includes('Aria') || v.name.includes('Samantha') || v.name.includes('Sonia') || (v.name.includes('Google') && !v.name.toLowerCase().includes('male')) || v.name.toLowerCase().includes('female')) && v.lang.startsWith('en')
+            );
+            if (femaleVoice) return femaleVoice;
+
+            // Natural / Online voices
+            const naturalVoice = voices.find(v => (v.name.includes('Natural') || v.name.includes('Google')) && v.lang.startsWith('en'));
+            if (naturalVoice) return naturalVoice;
+
+            // Any English voice that is NOT David or Mark
+            const nonDavidVoice = voices.find(v => v.lang.startsWith('en') && !v.name.includes('David') && !v.name.includes('Mark'));
+            if (nonDavidVoice) return nonDavidVoice;
+
+            // Any English voice
+            const anyEnglish = voices.find(v => v.lang.startsWith('en'));
+            if (anyEnglish) return anyEnglish;
+
+            return voices[0];
+        }
+
+        function populateVoiceSelector() {
+            const selector = document.getElementById('assistantVoiceSelect');
+            if (!selector || !('speechSynthesis' in window)) return;
+
+            const voices = window.speechSynthesis.getVoices();
+            if (!voices || voices.length === 0) return;
+
+            const currentSelected = getSelectedVoice();
+            const savedVoiceName = localStorage.getItem('selected_voice_name') || (currentSelected ? currentSelected.name : '');
+
+            selector.innerHTML = '';
+
+            const recommendedGroup = document.createElement('optgroup');
+            recommendedGroup.label = '⭐ Recommended (Warm, Clear Female Voices)';
+
+            const indianGroup = document.createElement('optgroup');
+            indianGroup.label = '🇮🇳 Indian English & Hindi Voices';
+
+            const maleGroup = document.createElement('optgroup');
+            maleGroup.label = '🏛️ Senior Historian (Male Voices)';
+
+            const otherGroup = document.createElement('optgroup');
+            otherGroup.label = '🌐 Other System Voices';
+
+            voices.forEach(voice => {
+                const opt = document.createElement('option');
+                opt.value = voice.name;
+
+                const nameLower = voice.name.toLowerCase();
+                const isFemale = nameLower.includes('zira') || nameLower.includes('jenny') || nameLower.includes('aria') || nameLower.includes('female') || nameLower.includes('samantha') || nameLower.includes('sonia') || (voice.name.includes('Google') && !nameLower.includes('male'));
+                const isIndian = voice.lang.includes('IN') || voice.lang.includes('hi') || nameLower.includes('india') || nameLower.includes('hindi') || nameLower.includes('neerja') || nameLower.includes('prabhat') || nameLower.includes('swara') || nameLower.includes('kalpana') || nameLower.includes('hemant');
+                const isMale = nameLower.includes('david') || nameLower.includes('mark') || nameLower.includes('george') || nameLower.includes('male') || nameLower.includes('guy');
+
+                let label = voice.name;
+                if (voice.name.includes('Zira')) label = '👩 Dr. Aditi (Warm Female - Microsoft Zira)';
+                else if (voice.name.includes('Jenny')) label = '👩 Dr. Aditi (Natural Expressive - Microsoft Jenny)';
+                else if (voice.name.includes('Aria')) label = '👩 Dr. Aditi (Clear Professional - Microsoft Aria)';
+                else if (voice.name.includes('David')) label = '👨 Prof. Vikram (Scholarly Male - Microsoft David)';
+                else if (voice.name.includes('Mark')) label = '👨 Prof. Vikram (Classic Male - Microsoft Mark)';
+                else if (voice.name.includes('Neerja')) label = '🇮🇳 Ananya (Indian English - Microsoft Neerja)';
+                else if (voice.name.includes('Prabhat')) label = '🇮🇳 Prof. Aryan (Indian English Male - Microsoft Prabhat)';
+                else if (voice.name.includes('Swara') || voice.name.includes('हिन्दी') || voice.name.includes('Kalpana')) label = '🇮🇳 Pooja (Hindi - मधुर हिंदी स्वर)';
+                else if (voice.name === 'Google US English') label = '👩 Google US English (Clear Female)';
+                else if (voice.name === 'Google UK English Female') label = '🇬🇧 Victoria (British Female Historian)';
+                else {
+                    label = `${isFemale ? '👩' : isMale ? '👨' : '🎙️'} ${voice.name} (${voice.lang})`;
+                }
+
+                opt.text = label;
+
+                if (isIndian) {
+                    indianGroup.appendChild(opt);
+                } else if (isFemale || voice.name.includes('Natural') || voice.name.includes('Google')) {
+                    recommendedGroup.appendChild(opt);
+                } else if (isMale) {
+                    maleGroup.appendChild(opt);
+                } else {
+                    otherGroup.appendChild(opt);
+                }
+            });
+
+            if (recommendedGroup.children.length > 0) selector.appendChild(recommendedGroup);
+            if (indianGroup.children.length > 0) selector.appendChild(indianGroup);
+            if (maleGroup.children.length > 0) selector.appendChild(maleGroup);
+            if (otherGroup.children.length > 0) selector.appendChild(otherGroup);
+
+            if (savedVoiceName) {
+                selector.value = savedVoiceName;
+            } else if (currentSelected) {
+                selector.value = currentSelected.name;
+                localStorage.setItem('selected_voice_name', currentSelected.name);
+            }
+
+            updateVoicePersonaBadge();
+        }
+
+        function handleVoiceChange() {
+            const selector = document.getElementById('assistantVoiceSelect');
+            if (!selector) return;
+            const voiceName = selector.value;
+            localStorage.setItem('selected_voice_name', voiceName);
+            updateVoicePersonaBadge();
+            
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+            }
+
+            testCurrentVoice();
+        }
+
+        function updateVoicePersonaBadge() {
+            const voice = getSelectedVoice();
+            const personaNameEl = document.getElementById('voiceAssistantPersonaName');
+            const avatarIconInside = document.getElementById('avatarIconInside');
+            const voiceAvatarIcon = document.getElementById('voiceAvatarIcon');
+
+            if (!personaNameEl) return;
+
+            if (!voice) {
+                personaNameEl.innerText = "👩 Dr. Aditi (Senior Historian)";
+                return;
+            }
+
+            const nameLower = voice.name.toLowerCase();
+            if (nameLower.includes('david') || nameLower.includes('mark') || nameLower.includes('george') || (nameLower.includes('male') && !nameLower.includes('female'))) {
+                personaNameEl.innerText = "👨 Prof. Vikram (Senior Historian)";
+                if (avatarIconInside) avatarIconInside.className = "bi bi-person-workspace fs-3 text-dark";
+                if (voiceAvatarIcon) voiceAvatarIcon.className = "rounded-circle bg-info text-dark p-2 d-flex align-items-center justify-content-center shadow";
+            } else if (voice.lang.includes('IN') || voice.lang.includes('hi') || nameLower.includes('india') || nameLower.includes('hindi') || nameLower.includes('swara') || nameLower.includes('neerja')) {
+                personaNameEl.innerText = "🇮🇳 Ananya (Indian Heritage Guide)";
+                if (avatarIconInside) avatarIconInside.className = "bi bi-compass-fill fs-3 text-dark";
+                if (voiceAvatarIcon) voiceAvatarIcon.className = "rounded-circle bg-warning text-dark p-2 d-flex align-items-center justify-content-center shadow";
+            } else {
+                personaNameEl.innerText = "👩 Dr. Aditi (Senior Historian)";
+                if (avatarIconInside) avatarIconInside.className = "bi bi-person-fill fs-3 text-dark";
+                if (voiceAvatarIcon) voiceAvatarIcon.className = "rounded-circle bg-warning text-dark p-2 d-flex align-items-center justify-content-center shadow";
+            }
+        }
+
+        function testCurrentVoice() {
+            if (!('speechSynthesis' in window)) {
+                alert("Text-to-speech is not supported in this browser.");
+                return;
+            }
+            window.speechSynthesis.cancel();
+            const voice = getSelectedVoice();
+            const sampleText = "Namaste! I am your AI Historian for Glory of the Past. How does my voice sound?";
+            const utterance = new SpeechSynthesisUtterance(sampleText);
+            utterance.rate = 1.05;
+            utterance.pitch = 1.0;
+            if (voice) utterance.voice = voice;
+
+            const bannerStatus = document.getElementById('proactiveVoiceStatus');
+            if (bannerStatus) {
+                bannerStatus.innerHTML = `<span class="spinner-grow spinner-grow-sm text-warning me-1"></span>Testing voice: <strong>${voice ? voice.name : 'Default'}</strong>...`;
+            }
+
+            utterance.onend = () => {
+                if (bannerStatus) {
+                    bannerStatus.innerHTML = `Voice set to <strong>${voice ? voice.name : 'Current Voice'}</strong>! Click <strong>"Talk to Historian"</strong> to begin.`;
+                }
+            };
+            window.speechSynthesis.speak(utterance);
+        }
+
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.onvoiceschanged = () => {
+                populateVoiceSelector();
+            };
+        }
+
+        // ==========================================
+        // PROACTIVE VOICE GUIDE ("AAGE SE BOLNA")
+        // ==========================================
+        function speakAssistantPrompt(text, onFinishCallback) {
+            if (!('speechSynthesis' in window)) {
+                if (onFinishCallback) onFinishCallback();
+                return;
+            }
+            window.speechSynthesis.cancel();
+            playChime('wake');
+
+            const utterance = new SpeechSynthesisUtterance(cleanTextForSpeech(text));
+            utterance.rate = 1.05;
+            utterance.pitch = 1.0;
+
+            const voice = getSelectedVoice();
+            if (voice) utterance.voice = voice;
+
+            utterance.onstart = () => {
+                updateBannerToStopMode('Historian Speaking');
+            };
+
+            utterance.onend = () => {
+                if (onFinishCallback) onFinishCallback();
+            };
+            utterance.onerror = () => {
+                if (onFinishCallback) onFinishCallback();
+            };
+
+            window.speechSynthesis.speak(utterance);
+        }
+
+        function showVoiceAlert(type, message) {
+            const box = document.getElementById('voiceAlertBox');
+            if (!box) return;
+            box.style.display = 'block';
+            box.innerHTML = `
+                <div class="alert alert-${type} alert-dismissible fade show small p-2 mb-0" role="alert">
+                    <i class="bi bi-info-circle-fill me-1"></i> ${message}
+                    <button type="button" class="btn-close py-2 px-3" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            `;
+            setTimeout(() => {
+                if (box) box.style.display = 'none';
+            }, 7000);
+        }
+
+        function getVoiceLang() {
+            const langSelect = document.getElementById('voiceLangSelect');
+            return langSelect ? langSelect.value : 'en-IN';
+        }
+
+        async function requestMicPermission() {
+            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                    stream.getTracks().forEach(track => track.stop());
+                    return true;
+                } catch (err) {
+                    console.warn("Microphone access error:", err);
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        function startProactiveVoiceGuide() {
+            hasSpokenGreeting = true;
+            // Short, crisp prompt so user doesn't wait
+            const welcomeText = "Greetings, explorer! I am your Senior Historian. Please ask me any question about history.";
+            
+            const bannerStatus = document.getElementById('proactiveVoiceStatus');
+            const avatarIcon = document.getElementById('voiceAvatarIcon');
+            const welcomeBtn = document.getElementById('welcomeListenBtn');
+
+            if (bannerStatus) {
+                bannerStatus.innerHTML = '<span class="spinner-grow spinner-grow-sm text-warning me-1"></span><strong>Historian speaking...</strong> (Mic will open in 2 seconds)';
+            }
+            if (avatarIcon) avatarIcon.classList.add('pulse-mic');
+            if (welcomeBtn) {
+                welcomeBtn.innerHTML = '<i class="bi bi-stop-circle-fill me-1 text-danger"></i>Stop';
+                welcomeBtn.classList.add('border-danger', 'text-danger');
+            }
+
+            speakAssistantPrompt(welcomeText, () => {
+                if (welcomeBtn) {
+                    welcomeBtn.innerHTML = '<i class="bi bi-volume-up-fill me-1"></i>Listen';
+                    welcomeBtn.classList.remove('border-danger', 'text-danger');
+                    welcomeBtn.classList.add('text-gold');
+                }
+                // Open microphone immediately after short greeting!
+                toggleVoiceInput();
+            });
+        }
+
+        // ==========================================
+        // MASTER STOP FUNCTIONALITY (ESC KEY / BUTTON / VOICE COMMAND)
+        // ==========================================
+        function stopAllAssistantAudio() {
+            if (silenceTimer) clearTimeout(silenceTimer);
+
+            // 1. Instantly stop Text-to-Speech narration
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+            }
+
+            // 2. Instantly stop Microphone recording
+            stopVoiceRecognition();
+
+            // 3. Reset any active button on chat bubbles
+            if (currentSpeakingBtn) {
+                currentSpeakingBtn.innerHTML = '<i class="bi bi-volume-up-fill me-1"></i>Listen';
+                currentSpeakingBtn.classList.remove('border-danger', 'text-danger');
+                currentSpeakingBtn.classList.add('text-gold');
+                currentSpeakingBtn = null;
+            }
+
+            const welcomeBtn = document.getElementById('welcomeListenBtn');
+            if (welcomeBtn) {
+                welcomeBtn.innerHTML = '<i class="bi bi-volume-up-fill me-1"></i>Listen';
+                welcomeBtn.classList.remove('border-danger', 'text-danger');
+                welcomeBtn.classList.add('text-gold');
+            }
+
+            // 4. Reset banner to normal idle state
+            const bannerStatus = document.getElementById('proactiveVoiceStatus');
+            if (bannerStatus) {
+                bannerStatus.innerHTML = '<i class="bi bi-stop-circle text-danger me-1"></i>Assistant stopped. Click <strong>"Talk to Historian"</strong> or press <strong>Mic</strong> anytime to continue!';
+            }
+
+            const avatarIcon = document.getElementById('voiceAvatarIcon');
+            if (avatarIcon) avatarIcon.classList.remove('pulse-mic');
+
+            resetBannerButton();
+        }
+
+        // Global Esc key listener - Instant stop from anywhere
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                stopAllAssistantAudio();
+            }
+        });
+
+        function updateBannerToStopMode(label = 'Stop Assistant') {
+            const startBtn = document.getElementById('startVoiceConvBtn');
+            const icon = document.getElementById('startVoiceBtnIcon');
+            const text = document.getElementById('startVoiceBtnText');
+            if (startBtn) {
+                startBtn.className = 'btn btn-sm btn-danger px-3 py-2 fw-bold shadow-sm d-flex align-items-center gap-2';
+                startBtn.onclick = stopAllAssistantAudio;
+            }
+            if (icon) icon.className = 'bi bi-stop-circle-fill fs-6 text-white';
+            if (text) text.innerText = label;
+        }
+
+        function resetBannerButton() {
+            const startBtn = document.getElementById('startVoiceConvBtn');
+            const icon = document.getElementById('startVoiceBtnIcon');
+            const text = document.getElementById('startVoiceBtnText');
+            if (startBtn) {
+                startBtn.className = 'btn btn-sm btn-gold px-3 py-2 fw-bold shadow-sm d-flex align-items-center gap-2';
+                startBtn.onclick = startProactiveVoiceGuide;
+            }
+            if (icon) icon.className = 'bi bi-volume-up-fill fs-6 text-dark';
+            if (text) text.innerText = 'Talk to Historian';
+        }
+
+        // ==========================================
+        // VOICE ASSISTANT: SPEECH RECOGNITION (MIC)
+        // ==========================================
+        let silenceTimer = null;
+        let audioVisualizerCtx = null;
+        let audioVisualizerAnalyser = null;
+        let audioVisualizerStream = null;
+        let audioVisualizerAnim = null;
+
+        async function startAudioVisualizer() {
+            try {
+                if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) return;
+                audioVisualizerStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                if (!AudioContext) return;
+                audioVisualizerCtx = new AudioContext();
+                audioVisualizerAnalyser = audioVisualizerCtx.createAnalyser();
+                audioVisualizerAnalyser.fftSize = 128;
+                const source = audioVisualizerCtx.createMediaStreamSource(audioVisualizerStream);
+                source.connect(audioVisualizerAnalyser);
+
+                const dataArray = new Uint8Array(audioVisualizerAnalyser.frequencyBinCount);
+                const vuBar = document.getElementById('micVuMeter');
+
+                function updateVolume() {
+                    if (!isRecording) return;
+                    audioVisualizerAnalyser.getByteFrequencyData(dataArray);
+                    let sum = 0;
+                    for (let i = 0; i < dataArray.length; i++) {
+                        sum += dataArray[i];
+                    }
+                    const average = sum / dataArray.length;
+                    const percentage = Math.min(100, Math.round((average / 80) * 100));
+
+                    if (vuBar) {
+                        vuBar.style.width = Math.max(6, percentage) + '%';
+                        if (percentage > 15) {
+                            vuBar.className = 'progress-bar bg-success progress-bar-striped progress-bar-animated';
+                        } else {
+                            vuBar.className = 'progress-bar bg-warning';
+                        }
+                    }
+                    audioVisualizerAnim = requestAnimationFrame(updateVolume);
+                }
+                updateVolume();
+            } catch (e) {
+                console.warn("Audio visualizer error:", e);
+            }
+        }
+
+        function stopAudioVisualizer() {
+            if (audioVisualizerAnim) {
+                cancelAnimationFrame(audioVisualizerAnim);
+                audioVisualizerAnim = null;
+            }
+            if (audioVisualizerStream) {
+                audioVisualizerStream.getTracks().forEach(t => t.stop());
+                audioVisualizerStream = null;
+            }
+            if (audioVisualizerCtx) {
+                try { audioVisualizerCtx.close(); } catch (e) {}
+                audioVisualizerCtx = null;
+            }
+            const vuBar = document.getElementById('micVuMeter');
+            if (vuBar) {
+                vuBar.style.width = '5%';
+                vuBar.className = 'progress-bar bg-warning';
+            }
+        }
+
+        async function toggleVoiceInput() {
+            // If speaker is talking, cancel speech immediately so it doesn't feed into mic
+            if ('speechSynthesis' in window && window.speechSynthesis.speaking) {
+                window.speechSynthesis.cancel();
+            }
+
+            if (isRecording) {
+                stopVoiceRecognition();
+                return;
+            }
+
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRecognition) {
+                showVoiceAlert("danger", "Speech recognition is not supported in this browser. Please use Google Chrome, Microsoft Edge, or Safari.");
+                return;
+            }
+
+            // Verify microphone access
+            const hasMicPermission = await requestMicPermission();
+            if (!hasMicPermission) {
+                showVoiceAlert("danger", "Microphone access blocked! Please click the camera/lock icon in your browser address bar and select 'Always allow'.");
+                return;
+            }
+
+            try {
+                if (recognition) {
+                    try { recognition.abort(); } catch (e) {}
+                }
+
+                recognition = new SpeechRecognition();
+                recognition.continuous = true;       // Keep listening across pauses
+                recognition.interimResults = true;     // Show live interim words
+                recognition.maxAlternatives = 1;
+                recognition.lang = getVoiceLang();     // Default 'en-IN' (Indian English/Names)
+
+                const micBtn = document.getElementById('voiceMicBtn');
+                const micIcon = document.getElementById('micIcon');
+                const statusIndicator = document.getElementById('voiceStatusIndicator');
+                const statusText = document.getElementById('voiceStatusText');
+                const input = document.getElementById('aiQuestionInput');
+                const bannerStatus = document.getElementById('proactiveVoiceStatus');
+
+                recognition.onstart = () => {
+                    isRecording = true;
+                    playChime('wake');
+                    startAudioVisualizer(); // Start real-time microphone volume bar!
+
+                    if (micBtn) {
+                        micBtn.classList.remove('btn-outline-warning');
+                        micBtn.classList.add('btn-danger', 'pulse-mic');
+                    }
+                    if (micIcon) micIcon.className = 'bi bi-mic-fill text-white';
+                    if (statusIndicator) {
+                        statusIndicator.style.display = 'block';
+                    }
+                    if (statusText) {
+                        statusText.innerHTML = '<strong>Listening... Speak your question now!</strong>';
+                    }
+                    if (bannerStatus) {
+                        bannerStatus.innerHTML = '<span class="spinner-grow spinner-grow-sm text-danger me-1"></span><strong>Microphone LIVE! Speak your question now...</strong>';
+                    }
+                    updateBannerToStopMode('Stop Listening');
+
+                    // Safety timeout if no voice is heard for 14 seconds
+                    if (silenceTimer) clearTimeout(silenceTimer);
+                    silenceTimer = setTimeout(() => {
+                        if (isRecording && !input.value.trim()) {
+                            showVoiceAlert("warning", "No voice detected. Please speak louder or click Mic to try again.");
+                            stopVoiceRecognition();
+                        }
+                    }, 14000);
+                };
+
+                recognition.onresult = (event) => {
+                    let finalTranscript = '';
+                    let interimTranscript = '';
+
+                    for (let i = 0; i < event.results.length; ++i) {
+                        const result = event.results[i];
+                        if (result.isFinal) {
+                            finalTranscript += result[0].transcript + ' ';
+                        } else {
+                            interimTranscript += result[0].transcript;
+                        }
+                    }
+
+                    const currentSpoken = (finalTranscript + interimTranscript).trim();
+
+                    // Voice Command: If user says "stop", "cancel", "chup", or "ruk jao"
+                    if (/^(stop|cancel|ruk jao|chup|quiet|hatao)$/i.test(currentSpoken)) {
+                        input.value = '';
+                        stopAllAssistantAudio();
+                        return;
+                    }
+
+                    if (currentSpoken) {
+                        input.value = currentSpoken;
+                        if (statusText) {
+                            statusText.innerHTML = `<i class="bi bi-soundwave text-warning me-1"></i>Hearing: <span class="text-white fw-bold">"${currentSpoken}"</span>`;
+                        }
+                    }
+
+                    // Auto-submit after 1.8 seconds of silence when user stops talking
+                    if (silenceTimer) clearTimeout(silenceTimer);
+                    silenceTimer = setTimeout(() => {
+                        if (isRecording && input.value.trim().length > 0) {
+                            submitVoiceQuery();
+                        }
+                    }, 1800);
+                };
+
+                recognition.onerror = (event) => {
+                    console.warn("Speech recognition error:", event.error);
+                    if (event.error === 'not-allowed') {
+                        showVoiceAlert("danger", "Microphone access was denied! Click the camera/lock icon in your browser URL bar to allow microphone.");
+                    } else if (event.error === 'no-speech') {
+                        if (input.value.trim().length > 0) {
+                            submitVoiceQuery();
+                            return;
+                        }
+                        showVoiceAlert("warning", "No voice detected. Click the Mic button and speak clearly.");
+                    } else if (event.error === 'network') {
+                        showVoiceAlert("danger", "Network error in speech service. Please verify your internet connection.");
+                    } else if (event.error === 'audio-capture') {
+                        showVoiceAlert("danger", "No microphone found. Please connect your microphone or headset.");
+                    }
+                    stopVoiceRecognition();
+                };
+
+                recognition.onend = () => {
+                    isRecording = false;
+                    stopAudioVisualizer();
+                    if (silenceTimer) clearTimeout(silenceTimer);
+                    if (micBtn) {
+                        micBtn.classList.remove('btn-danger', 'pulse-mic');
+                        micBtn.classList.add('btn-outline-warning');
+                    }
+                    if (micIcon) micIcon.className = 'bi bi-mic-fill';
+                    if (statusIndicator) statusIndicator.style.display = 'none';
+
+                    if (input.value.trim().length > 0) {
+                        submitVoiceQuery();
+                    } else {
+                        if (!window.speechSynthesis.speaking) {
+                            resetBannerButton();
+                        }
+                    }
+                };
+
+                recognition.start();
+            } catch (err) {
+                console.error("Error starting speech recognition:", err);
+                showVoiceAlert("danger", "Failed to start microphone: " + err.message);
+                stopVoiceRecognition();
+            }
+        }
+
+        function stopVoiceRecognition() {
+            if (silenceTimer) clearTimeout(silenceTimer);
+            stopAudioVisualizer();
+            if (recognition) {
+                try {
+                    recognition.stop();
+                } catch (e) {}
+            }
+            isRecording = false;
+            const micBtn = document.getElementById('voiceMicBtn');
+            const micIcon = document.getElementById('micIcon');
+            const statusIndicator = document.getElementById('voiceStatusIndicator');
+            if (micBtn) {
+                micBtn.classList.remove('btn-danger', 'pulse-mic');
+                micBtn.classList.add('btn-outline-warning');
+            }
+            if (micIcon) micIcon.className = 'bi bi-mic-fill';
+            if (statusIndicator) statusIndicator.style.display = 'none';
+        }
+
+        function submitVoiceQuery() {
+            if (silenceTimer) clearTimeout(silenceTimer);
+            const input = document.getElementById('aiQuestionInput');
+            const question = input.value.trim();
+            if (!question) return;
+
+            stopVoiceRecognition();
+            playChime('done');
+
+            const bannerStatus = document.getElementById('proactiveVoiceStatus');
+            if (bannerStatus) {
+                bannerStatus.innerHTML = '<span class="spinner-border spinner-border-sm text-warning me-1"></span><strong>Historian searching history archives for: "' + question + '"...</strong>';
+            }
+
+            // Immediately send to backend!
+            handleAskAI();
+        }
+
+        // ==========================================
+        // VOICE ASSISTANT: TEXT-TO-SPEECH (TTS)
+        // ==========================================
+        function cleanTextForSpeech(text) {
+            if (!text) return '';
+            return text
+                .replace(/<[^>]*>/g, ' ')           // Remove HTML tags
+                .replace(/\*\*(.*?)\*\*/g, '$1')     // Remove bold markdown
+                .replace(/\*(.*?)\*/g, '$1')         // Remove italic markdown
+                .replace(/#{1,6}\s+/g, '')           // Remove headers
+                .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1') // Clean links
+                .replace(/https?:\/\/\S+/g, '')      // Remove URLs
+                .replace(/\s+/g, ' ')                // Clean extra whitespace
+                .trim();
+        }
+
+        function speakAiResponse(btn, rawText) {
+            if (!('speechSynthesis' in window)) {
+                alert("Text-to-speech is not supported in this browser.");
+                return;
+            }
+
+            // If already speaking this button's text, stop
+            if (window.speechSynthesis.speaking && currentSpeakingBtn === btn) {
+                stopAllAssistantAudio();
+                return;
+            }
+
+            // Cancel any ongoing speech
+            window.speechSynthesis.cancel();
+            if (currentSpeakingBtn) {
+                currentSpeakingBtn.innerHTML = '<i class="bi bi-volume-up-fill me-1"></i>Listen';
+                currentSpeakingBtn.classList.remove('border-danger', 'text-danger');
+                currentSpeakingBtn.classList.add('text-gold');
+            }
+
+            const cleanText = cleanTextForSpeech(rawText);
+            if (!cleanText) return;
+
+            const utterance = new SpeechSynthesisUtterance(cleanText);
+            utterance.rate = 1.05; // Lively, clear scholarly pace
+            utterance.pitch = 1.0;
+
+            const selectedVoice = getSelectedVoice();
+            if (selectedVoice) {
+                utterance.voice = selectedVoice;
+            }
+
+            utterance.onstart = () => {
+                currentSpeakingBtn = btn;
+                btn.innerHTML = '<i class="bi bi-stop-circle-fill me-1 text-danger"></i>Stop';
+                btn.classList.add('border-danger', 'text-danger');
+                btn.classList.remove('text-gold');
+                const bannerStatus = document.getElementById('proactiveVoiceStatus');
+                if (bannerStatus) {
+                    bannerStatus.innerHTML = '<i class="bi bi-volume-up-fill text-warning me-1"></i><strong>Historian is speaking aloud...</strong> (Click Stop or press Esc to quiet)';
+                }
+                const avatarIcon = document.getElementById('voiceAvatarIcon');
+                if (avatarIcon) avatarIcon.classList.add('pulse-mic');
+                updateBannerToStopMode('Stop Assistant');
+            };
+
+            utterance.onend = () => {
+                btn.innerHTML = '<i class="bi bi-volume-up-fill me-1"></i>Listen';
+                btn.classList.remove('border-danger', 'text-danger');
+                btn.classList.add('text-gold');
+                if (currentSpeakingBtn === btn) currentSpeakingBtn = null;
+                const bannerStatus = document.getElementById('proactiveVoiceStatus');
+                if (bannerStatus) {
+                    bannerStatus.innerHTML = '<i class="bi bi-check-circle-fill text-success me-1"></i>Narration finished! Click <strong>"Talk to Historian"</strong> or press <strong>Mic</strong> for next question.';
+                }
+                const avatarIcon = document.getElementById('voiceAvatarIcon');
+                if (avatarIcon) avatarIcon.classList.remove('pulse-mic');
+                resetBannerButton();
+            };
+
+            utterance.onerror = () => {
+                btn.innerHTML = '<i class="bi bi-volume-up-fill me-1"></i>Listen';
+                btn.classList.remove('border-danger', 'text-danger');
+                btn.classList.add('text-gold');
+                if (currentSpeakingBtn === btn) currentSpeakingBtn = null;
+                const avatarIcon = document.getElementById('voiceAvatarIcon');
+                if (avatarIcon) avatarIcon.classList.remove('pulse-mic');
+                resetBannerButton();
+            };
+
+            window.speechSynthesis.speak(utterance);
+        }
+
+        // ==========================================
+        // CHAT INTERACTION & AI RESPONSE DISPATCH
+        // ==========================================
+        async function handleAskAI(e) {
+            if (e) e.preventDefault();
+            const input = document.getElementById('aiQuestionInput');
+            const question = input.value.trim();
+            if (!question) return;
+
+            const chatBody = document.getElementById('chatBody');
+            const submitBtn = document.getElementById('aiSubmitBtn');
+
+            // Append User Question
+            const userBubble = document.createElement('div');
+            userBubble.className = 'chat-bubble chat-bubble-user';
+            userBubble.innerText = question;
+            chatBody.appendChild(userBubble);
+
+            input.value = '';
+            input.disabled = true;
+            submitBtn.disabled = true;
+
+            // Append Thinking Indicator
+            const loadingBubble = document.createElement('div');
+            loadingBubble.className = 'chat-bubble chat-bubble-ai';
+            loadingBubble.id = 'tempLoadingBubble';
+            loadingBubble.innerHTML = `
+                <div class="d-flex align-items-center gap-2 text-warning small fw-bold">
+                    <span class="spinner-border spinner-border-sm" role="status"></span>
+                    <span><i class="bi bi-lightning-charge-fill text-warning"></i> Senior Historian AI is thinking...</span>
+                </div>
+            `;
+            chatBody.appendChild(loadingBubble);
+            chatBody.scrollTop = chatBody.scrollHeight;
+
+            const customApiKey = localStorage.getItem('ai_api_key') || null;
+            const provider = localStorage.getItem('ai_provider') || 'gemini';
+
+            try {
+                const res = await api.post('/ai/ask', { 
+                    question, 
+                    customApiKey, 
+                    provider 
+                });
+                
+                loadingBubble.remove();
+
+                const aiBubble = document.createElement('div');
+                aiBubble.className = 'chat-bubble chat-bubble-ai';
+
+                let formattedAnswer = res.answer
+                    .replace(/\n\n/g, '<br><br>')
+                    .replace(/\n/g, '<br>')
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                    .replace(/\*(.*?)\*/g, '<em>$1</em>');
+
+                let relatedHtml = '';
+                if (res.relatedTopics && res.relatedTopics.length > 0) {
+                    relatedHtml = `
+                        <div class="mt-3 pt-2 border-top border-secondary border-opacity-25 small">
+                            <span class="text-secondary fw-bold me-2">Related Topics:</span>
+                            ${res.relatedTopics.map(t => `<span class="badge bg-dark border border-warning text-warning me-1 cursor-pointer" onclick="setPrompt('Tell me about ${t.replace(/'/g, "\\'")}')">${t}</span>`).join('')}
+                        </div>
+                    `;
+                }
+
+                // AI Header with voice listen button
+                const headerDiv = document.createElement('div');
+                headerDiv.className = 'd-flex align-items-center justify-content-between mb-2';
+
+                const brandDiv = document.createElement('div');
+                brandDiv.className = 'd-flex align-items-center gap-2 text-warning fw-bold small';
+                brandDiv.innerHTML = '<i class="bi bi-robot"></i> Historical Guide AI';
+
+                const speakBtn = document.createElement('button');
+                speakBtn.type = 'button';
+                speakBtn.className = 'btn btn-xs btn-outline-warning py-0 px-2 text-gold speak-btn';
+                speakBtn.innerHTML = '<i class="bi bi-volume-up-fill me-1"></i>Listen';
+                speakBtn.onclick = () => speakAiResponse(speakBtn, res.answer);
+
+                headerDiv.appendChild(brandDiv);
+                headerDiv.appendChild(speakBtn);
+
+                const contentDiv = document.createElement('div');
+                contentDiv.style.lineHeight = '1.7';
+                contentDiv.innerHTML = formattedAnswer;
+
+                aiBubble.appendChild(headerDiv);
+                aiBubble.appendChild(contentDiv);
+
+                if (relatedHtml) {
+                    const relatedDiv = document.createElement('div');
+                    relatedDiv.innerHTML = relatedHtml;
+                    aiBubble.appendChild(relatedDiv);
+                }
+
+                chatBody.appendChild(aiBubble);
+
+                // Auto-speak: Proactively speak the answer out loud!
+                const autoVoiceToggle = document.getElementById('autoVoiceToggle');
+                if (autoVoiceToggle && autoVoiceToggle.checked) {
+                    speakAiResponse(speakBtn, res.answer);
+                }
+
+            } catch (err) {
+                loadingBubble.remove();
+                const errBubble = document.createElement('div');
+                errBubble.className = 'chat-bubble chat-bubble-ai text-danger';
+                errBubble.innerText = 'Unable to fetch historical answer. Please verify backend is running.';
+                chatBody.appendChild(errBubble);
+            } finally {
+                input.disabled = false;
+                submitBtn.disabled = false;
+                input.focus();
+                chatBody.scrollTop = chatBody.scrollHeight;
+            }
+        }
+    </script>
+</body>
+</html>

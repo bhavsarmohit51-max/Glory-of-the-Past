@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile & Saved History | Glory of the Past</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-historical sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="bi bi-compass text-warning fs-4"></i>
+                <span>GLORY OF THE PAST</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarMain">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="events.html">Events</a></li>
+                    <li class="nav-item"><a class="nav-link" href="timeline.html">Interactive Timeline</a></li>
+                    <li class="nav-item"><a class="nav-link" href="personalities.html">Personalities</a></li>
+                    <li class="nav-item"><a class="nav-link" href="places.html">Historical Places</a></li>
+                    <li class="nav-item"><a class="nav-link" href="quiz.html">History Quiz</a></li>
+                    <li class="nav-item"><a class="nav-link" href="ai-guide.html"><i class="bi bi-robot text-warning me-1"></i>AI Guide</a></li>
+                </ul>
+                <div id="navAuthContainer"></div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container py-5">
+        <div class="row g-4">
+
+            <!-- User Info Card -->
+            <div class="col-lg-4">
+                <div class="historical-card p-4 text-center mb-4">
+                    <div class="mb-3">
+                        <i class="bi bi-person-circle display-4 text-warning"></i>
+                    </div>
+                    <h4 class="fw-bold text-white mb-1" id="profileName">Loading...</h4>
+                    <p class="text-secondary small mb-3" id="profileEmail">user@example.com</p>
+                    <div>
+                        <span class="badge bg-warning text-dark fw-bold px-3 py-1" id="profileRole">User</span>
+                    </div>
+                    <hr class="my-4 border-secondary border-opacity-25">
+                    <div class="text-secondary small">
+                        <strong>Member Since:</strong> <span id="profileDate">-</span>
+                    </div>
+                    <div class="mt-4">
+                        <button class="btn btn-outline-danger btn-sm w-100" onclick="auth.logout()">Sign Out</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabs: Favorites & Quiz History -->
+            <div class="col-lg-8">
+                <ul class="nav nav-pills mb-4 gap-2" id="profileTabs" role="tablist">
+                    <li class="nav-item">
+                        <button class="btn btn-gold active" id="fav-tab" data-bs-toggle="pill" data-bs-target="#favPane" type="button"><i class="bi bi-bookmark-star-fill me-1"></i>Saved Bookmarks</button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="btn btn-outline-gold" id="quiz-tab" data-bs-toggle="pill" data-bs-target="#quizPane" type="button"><i class="bi bi-trophy-fill me-1"></i>My Quiz Scores</button>
+                    </li>
+                </ul>
+
+                <div class="tab-content">
+                    <!-- Favorites Pane -->
+                    <div class="tab-pane fade show active" id="favPane">
+                        <div class="historical-card p-4">
+                            <h5 class="fw-bold text-white mb-4">Your Saved Historical Topics</h5>
+                            <div class="row g-3" id="favoritesContainer">
+                                <div class="col-12 text-center py-4">
+                                    <div class="spinner-border text-warning"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quiz History Pane -->
+                    <div class="tab-pane fade" id="quizPane">
+                        <div class="historical-card p-4">
+                            <h5 class="fw-bold text-white mb-4">Your Past Quiz Assessments</h5>
+                            <div class="table-responsive">
+                                <table class="table table-dark table-hover align-middle mb-0">
+                                    <thead>
+                                        <tr class="text-secondary small">
+                                            <th>Category</th>
+                                            <th>Score</th>
+                                            <th>Accuracy</th>
+                                            <th>Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="quizHistoryBody">
+                                        <tr>
+                                            <td colspan="4" class="text-center py-4">
+                                                <div class="spinner-border text-warning"></div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <footer>
+        <div class="container text-center text-secondary small">
+            © 2026 AI-Powered Historical Explorer. Final-Year College Project.
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            if (!auth.isLoggedIn()) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            await loadUserProfile();
+            loadUserFavorites();
+            loadUserQuizHistory();
+
+            // Handle Tab styling change
+            document.querySelectorAll('#profileTabs button').forEach(b => {
+                b.addEventListener('click', (e) => {
+                    document.querySelectorAll('#profileTabs button').forEach(btn => {
+                        btn.className = 'btn btn-outline-gold';
+                    });
+                    e.target.className = 'btn btn-gold active';
+                });
+            });
+        });
+
+        async function loadUserProfile() {
+            try {
+                const profile = await api.get('/auth/profile');
+                document.getElementById('profileName').innerText = profile.fullName;
+                document.getElementById('profileEmail').innerText = profile.email;
+                document.getElementById('profileRole').innerText = profile.role;
+                document.getElementById('profileDate').innerText = new Date(profile.memberSince).toLocaleDateString();
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        async function loadUserFavorites() {
+            const container = document.getElementById('favoritesContainer');
+            try {
+                const favorites = await api.get('/favorites');
+                if (!favorites || favorites.length === 0) {
+                    container.innerHTML = '<div class="col-12 text-center py-4 text-secondary">You have not bookmarked any events, figures, or places yet.</div>';
+                    return;
+                }
+
+                container.innerHTML = favorites.map(f => {
+                    let link = 'events.html';
+                    if (f.entityType === 'Event') link = `event-detail.html?id=${f.entityId}`;
+                    if (f.entityType === 'Person') link = `person-detail.html?id=${f.entityId}`;
+                    if (f.entityType === 'Place') link = `place-detail.html?id=${f.entityId}`;
+
+                    return `
+                        <div class="col-md-6" id="fav-card-${f.id}">
+                            <div class="p-3 rounded bg-dark border border-secondary border-opacity-25 d-flex gap-3 align-items-center">
+                                <img src="${f.imageUrl || 'https://images.unsplash.com/photo-1461360370896-922624d12aa1?w=100'}" class="rounded" style="width: 60px; height: 60px; object-fit: cover;" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1461360370896-922624d12aa1?w=100';">
+                                <div class="flex-grow-1 overflow-hidden">
+                                    <span class="badge bg-warning text-dark small mb-1">${f.entityType}</span>
+                                    <h6 class="text-white fw-bold mb-1 text-truncate">${f.title}</h6>
+                                    <div class="d-flex gap-2">
+                                        <a href="${link}" class="btn btn-sm btn-outline-gold py-0 px-2 small">View</a>
+                                        <button class="btn btn-sm btn-outline-danger py-0 px-2 small" onclick="removeFav(${f.id})">Remove</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            } catch (err) {
+                container.innerHTML = '<div class="col-12 text-center text-danger">Error loading favorites.</div>';
+            }
+        }
+
+        async function removeFav(id) {
+            try {
+                await api.delete(`/favorites/${id}`);
+                const el = document.getElementById(`fav-card-${id}`);
+                if (el) el.remove();
+            } catch (err) {
+                alert('Failed to remove bookmark.');
+            }
+        }
+
+        async function loadUserQuizHistory() {
+            const tbody = document.getElementById('quizHistoryBody');
+            try {
+                const history = await api.get('/quiz/my-history');
+                if (!history || history.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="4" class="text-center py-4 text-secondary">No quiz history yet. Take a quiz to record your achievements!</td></tr>';
+                    return;
+                }
+
+                tbody.innerHTML = history.map(h => `
+                    <tr>
+                        <td class="fw-bold text-white">${h.categoryName}</td>
+                        <td class="text-warning fw-bold">${h.score}/${h.totalQuestions}</td>
+                        <td><span class="badge bg-dark border border-success text-success">${h.percentage}%</span></td>
+                        <td class="text-secondary small">${new Date(h.completedAt).toLocaleDateString()}</td>
+                    </tr>
+                `).join('');
+            } catch (err) {
+                tbody.innerHTML = '<tr><td colspan="4" class="text-center text-danger">Error loading quiz history.</td></tr>';
+            }
+        }
+    </script>
+</body>
+</html>

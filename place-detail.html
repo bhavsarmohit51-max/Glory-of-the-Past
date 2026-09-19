@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monument Details | Glory of the Past</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-historical sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="bi bi-compass text-warning fs-4"></i>
+                <span>GLORY OF THE PAST</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarMain">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="events.html">Events</a></li>
+                    <li class="nav-item"><a class="nav-link" href="timeline.html">Interactive Timeline</a></li>
+                    <li class="nav-item"><a class="nav-link" href="personalities.html">Personalities</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="places.html">Historical Places</a></li>
+                    <li class="nav-item"><a class="nav-link" href="quiz.html">History Quiz</a></li>
+                    <li class="nav-item"><a class="nav-link" href="ai-guide.html"><i class="bi bi-robot text-warning me-1"></i>AI Guide</a></li>
+                </ul>
+                <div id="navAuthContainer"></div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container py-5" id="placeDetailContainer">
+        <div class="text-center py-5">
+            <div class="spinner-border text-warning"></div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container text-center text-secondary small">
+            © 2026 AI-Powered Historical Explorer. Final-Year College Project.
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+
+    <script>
+        let currentPlace = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const id = urlParams.get('id');
+            if (id) {
+                loadPlaceDetail(id);
+            } else {
+                window.location.href = 'places.html';
+            }
+        });
+
+        async function loadPlaceDetail(id) {
+            const container = document.getElementById('placeDetailContainer');
+            try {
+                const pl = await api.get(`/places/${id}`);
+                currentPlace = pl;
+
+                let isFav = false;
+                if (auth.isLoggedIn()) {
+                    try {
+                        isFav = await api.get(`/favorites/check?type=Place&id=${pl.id}`);
+                    } catch (e) {}
+                }
+
+                container.innerHTML = `
+                    <nav aria-label="breadcrumb" class="mb-4">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="index.html" class="text-warning text-decoration-none">Home</a></li>
+                            <li class="breadcrumb-item"><a href="places.html" class="text-warning text-decoration-none">Places</a></li>
+                            <li class="breadcrumb-item active text-secondary">${pl.name}</li>
+                        </ol>
+                    </nav>
+
+                    <div class="row g-4">
+                        <div class="col-lg-8">
+                            <div class="historical-card overflow-hidden mb-4">
+                                <img src="${pl.imageUrl || 'https://images.unsplash.com/photo-1564507592333-c60657eea523?w=1200'}" class="w-100" style="max-height: 440px; object-fit: cover;" alt="${pl.name}" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1564507592333-c60657eea523?w=1200';">
+                                <div class="p-4 p-md-5">
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <span class="badge bg-warning text-dark px-3 py-1 fw-bold">${pl.country}</span>
+                                        <button class="btn btn-sm ${isFav ? 'btn-warning' : 'btn-outline-gold'}" id="favPlaceBtn" onclick="togglePlaceBookmark()">
+                                            <i class="bi ${isFav ? 'bi-bookmark-check-fill' : 'bi-bookmark-plus'} me-1"></i> ${isFav ? 'Bookmarked' : 'Save Place'}
+                                        </button>
+                                    </div>
+                                    <h1 class="display-6 fw-bold text-white mb-2">${pl.name}</h1>
+                                    <div class="text-warning mb-4"><i class="bi bi-geo-alt me-1"></i>${pl.cityOrRegion}, ${pl.country} | <strong>Built:</strong> ${pl.builtYear || 'Ancient'}</div>
+
+                                    <div class="alert alert-dark border-secondary mb-4">
+                                        <div class="text-warning fw-bold small text-uppercase mb-1"><i class="bi bi-bank me-1"></i>Historical Significance</div>
+                                        <div class="text-light">${pl.historicalSignificance}</div>
+                                    </div>
+
+                                    <h4 class="text-white fw-bold mb-3">Architectural & Historical Overview</h4>
+                                    <div class="text-light leading-relaxed mb-4" style="line-height: 1.8; font-size: 1.05rem;">
+                                        ${pl.description}
+                                    </div>
+
+                                    <!-- Live Wikipedia Deep Dive Section -->
+                                    <div class="p-4 rounded bg-dark border border-warning border-opacity-50 mb-4 shadow-sm">
+                                        <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+                                            <h5 class="text-white fw-bold mb-0">
+                                                <i class="bi bi-book-half text-warning me-2"></i>Live Wikipedia Heritage Archive
+                                            </h5>
+                                            <span class="badge bg-secondary text-light"><i class="bi bi-broadcast me-1"></i>Wikimedia REST API</span>
+                                        </div>
+                                        <div id="wikiContent" class="text-light">
+                                            <div class="spinner-border spinner-border-sm text-warning me-2" role="status"></div> Fetching live heritage records...
+                                        </div>
+                                    </div>
+
+                                    <a href="ai-guide.html?q=${encodeURIComponent('Tell me the architectural secrets and history of ' + pl.name)}" class="btn btn-gold">
+                                        <i class="bi bi-robot me-2"></i>Ask AI Guide About This Monument
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div class="historical-card p-4 mb-4">
+                                <h5 class="fw-bold text-white mb-3"><i class="bi bi-calendar-check text-warning me-2"></i>Associated Events</h5>
+                                ${pl.relatedEvents && pl.relatedEvents.length > 0 ? `
+                                    <div class="row g-3">
+                                        ${pl.relatedEvents.map(e => `
+                                            <div class="col-12">
+                                                <div class="p-3 rounded bg-dark border border-secondary border-opacity-25">
+                                                    <span class="badge bg-warning text-dark mb-1">${e.formattedDate}</span>
+                                                    <h6 class="text-white fw-bold mb-1">${e.title}</h6>
+                                                    <p class="text-secondary small mb-2">${e.summary}</p>
+                                                    <a href="event-detail.html?id=${e.id}" class="btn btn-sm btn-outline-gold">View Event</a>
+                                                </div>
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                ` : '<p class="text-secondary small mb-0">No recorded battles or events directly attached in database.</p>'}
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                // Load Wikipedia live extract
+                loadWikipediaArchive(pl.name);
+            } catch (err) {
+                container.innerHTML = '<div class="text-center text-danger py-5">Error loading monument details.</div>';
+            }
+        }
+
+        async function togglePlaceBookmark() {
+            if (!auth.isLoggedIn()) {
+                alert('Please sign in to save historical places!');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            try {
+                await api.post('/favorites', {
+                    entityType: 'Place',
+                    entityId: currentPlace.id,
+                    title: currentPlace.name,
+                    imageUrl: currentPlace.imageUrl
+                });
+
+                const btn = document.getElementById('favPlaceBtn');
+                btn.className = 'btn btn-sm btn-warning';
+                btn.innerHTML = '<i class="bi bi-bookmark-check-fill me-1"></i> Bookmarked';
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        async function loadWikipediaArchive(name) {
+            const wikiContainer = document.getElementById('wikiContent');
+            if (!wikiContainer) return;
+            try {
+                let wikiQuery = name;
+                if (name.includes('Taj Mahal')) wikiQuery = 'Taj_Mahal';
+                else if (name.includes('Red Fort')) wikiQuery = 'Red_Fort';
+                else if (name.includes('Raigad')) wikiQuery = 'Raigad_Fort';
+                else if (name.includes('Ajanta')) wikiQuery = 'Ajanta_Caves';
+                else if (name.includes('Konark')) wikiQuery = 'Konark_Sun_Temple';
+                else if (name.includes('Qutub')) wikiQuery = 'Qutb_Minar';
+                else if (name.includes('Pyramid')) wikiQuery = 'Great_Pyramid_of_Giza';
+                else if (name.includes('Colosseum')) wikiQuery = 'Colosseum';
+                else if (name.includes('Great Wall')) wikiQuery = 'Great_Wall_of_China';
+                else if (name.includes('Machu Picchu')) wikiQuery = 'Machu_Picchu';
+                else wikiQuery = encodeURIComponent(name.replace(/\s+/g, '_'));
+
+                const res = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${wikiQuery}`);
+                if (!res.ok) throw new Error('Live Wikipedia data unavailable');
+                const data = await res.json();
+
+                wikiContainer.innerHTML = `
+                    <div class="d-flex flex-column gap-3">
+                        <p class="mb-2 text-light" style="line-height: 1.8; font-size: 0.98rem;">
+                            ${data.extract || 'No architectural extract available.'}
+                        </p>
+                        <div class="d-flex justify-content-between align-items-center pt-2 border-top border-secondary border-opacity-25 flex-wrap gap-2">
+                            <span class="text-secondary small"><i class="bi bi-info-circle me-1"></i>Official Wikimedia Foundation Archive (CC BY-SA 4.0)</span>
+                            <a href="${data.content_urls ? data.content_urls.desktop.page : `https://en.wikipedia.org/wiki/${wikiQuery}`}" target="_blank" class="btn btn-sm btn-outline-warning text-gold px-3">
+                                <i class="bi bi-box-arrow-up-right me-1"></i> Read Full Wikipedia Article
+                            </a>
+                        </div>
+                    </div>
+                `;
+            } catch (err) {
+                wikiContainer.innerHTML = `
+                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                        <span class="text-secondary small">Live Wikimedia sync resting. Comprehensive offline architectural records available above.</span>
+                        <a href="https://en.wikipedia.org/wiki/Special:Search?search=${encodeURIComponent(name)}" target="_blank" class="btn btn-sm btn-outline-secondary">
+                            <i class="bi bi-search me-1"></i> Search on Wikipedia
+                        </a>
+                    </div>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>

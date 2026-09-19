@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History Quiz Challenge | Glory of the Past</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-historical sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="bi bi-compass text-warning fs-4"></i>
+                <span>GLORY OF THE PAST</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarMain">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="events.html">Events</a></li>
+                    <li class="nav-item"><a class="nav-link" href="timeline.html">Interactive Timeline</a></li>
+                    <li class="nav-item"><a class="nav-link" href="personalities.html">Personalities</a></li>
+                    <li class="nav-item"><a class="nav-link" href="places.html">Historical Places</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="quiz.html">History Quiz</a></li>
+                    <li class="nav-item"><a class="nav-link" href="ai-guide.html"><i class="bi bi-robot text-warning me-1"></i>AI Guide</a></li>
+                </ul>
+                <div id="navAuthContainer"></div>
+            </div>
+        </div>
+    </nav>
+
+    <header class="py-5 text-center" style="background: radial-gradient(circle at center, #1b2640 0%, #0a0e17 80%); border-bottom: 1px solid var(--border-color);">
+        <div class="container">
+            <span class="text-warning text-uppercase small fw-bold"><i class="bi bi-trophy me-1"></i>Challenge Your Historical IQ</span>
+            <h1 class="display-5 fw-bold text-white mb-2">History Quiz Arena</h1>
+            <p class="text-secondary mx-auto mb-3" style="max-width: 650px;">
+                Test your mastery of ancient empires, global revolutions, and iconic figures. Compete for the top spot on the worldwide leaderboard!
+            </p>
+            <a href="leaderboard.html" class="btn btn-sm btn-outline-gold"><i class="bi bi-award me-1"></i>View Top Leaderboard</a>
+        </div>
+    </header>
+
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8" id="quizContainer">
+                
+                <!-- Category Selection View (Default) -->
+                <div id="categorySelectionView">
+                    <h4 class="fw-bold text-white mb-4 text-center">Select a Quiz Category to Begin</h4>
+                    <div class="row g-4" id="quizCategoriesContainer">
+                        <div class="col-12 text-center py-4">
+                            <div class="spinner-border text-warning"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Active Question View (Hidden initially) -->
+                <div id="activeQuizView" class="d-none">
+                    <div class="historical-card p-4 p-md-5 shadow-lg">
+                        <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom border-secondary border-opacity-25">
+                            <div>
+                                <span class="badge bg-warning text-dark fw-bold px-3 py-1" id="quizCategoryBadge">Ancient History</span>
+                                <span class="text-secondary small ms-2" id="questionProgressText">Question 1 of 5</span>
+                            </div>
+                            <div class="text-warning fw-bold">
+                                <i class="bi bi-stopwatch me-1"></i><span id="quizTimer">00:30</span>
+                            </div>
+                        </div>
+
+                        <h4 class="text-white fw-bold mb-4" id="quizQuestionText">Loading Question...</h4>
+
+                        <!-- Options Container -->
+                        <div id="quizOptionsContainer" class="mb-4"></div>
+
+                        <div class="d-flex justify-content-between align-items-center pt-3 border-top border-secondary border-opacity-25">
+                            <button class="btn btn-outline-secondary btn-sm" onclick="quitQuiz()">Exit Quiz</button>
+                            <button class="btn btn-gold px-4" id="nextQuestionBtn" onclick="handleNextQuestion()">Next Question</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Results View (Hidden initially) -->
+                <div id="quizResultsView" class="d-none">
+                    <div class="historical-card p-4 p-md-5 text-center shadow-lg">
+                        <div class="mb-3">
+                            <i class="bi bi-award text-warning display-3"></i>
+                        </div>
+                        <h2 class="display-6 fw-bold text-white mb-2">Quiz Completed!</h2>
+                        <p class="text-secondary mb-4" id="resultSubtitle">Your historical knowledge score:</p>
+
+                        <div class="d-inline-block p-4 rounded-circle border border-warning bg-dark mb-4 shadow" style="width: 140px; height: 140px;">
+                            <div class="display-5 fw-bold text-warning" id="finalScoreText">0/0</div>
+                            <div class="text-secondary small" id="finalPercentageText">0%</div>
+                        </div>
+
+                        <!-- Review of Answers -->
+                        <div class="text-start mt-4 mb-4" id="feedbackContainer"></div>
+
+                        <div class="d-flex justify-content-center gap-3">
+                            <button class="btn btn-gold" onclick="resetToCategories()">Try Another Quiz</button>
+                            <a href="leaderboard.html" class="btn btn-outline-gold">View Leaderboard</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container text-center text-secondary small">
+            © 2026 AI-Powered Historical Explorer. Final-Year College Project.
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+
+    <script>
+        let currentQuestions = [];
+        let currentQuestionIndex = 0;
+        let selectedAnswers = {}; // questionId -> optionId
+        let currentCategoryId = 0;
+        let timerInterval = null;
+        let timeLeft = 30;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadQuizCategories();
+        });
+
+        async function loadQuizCategories() {
+            const container = document.getElementById('quizCategoriesContainer');
+            try {
+                const categories = await api.get('/quiz/categories');
+                if (!categories || categories.length === 0) {
+                    container.innerHTML = '<div class="col-12 text-center text-secondary">No quizzes currently available.</div>';
+                    return;
+                }
+
+                container.innerHTML = categories.map(cat => `
+                    <div class="col-md-6">
+                        <div class="historical-card p-4 text-center h-100 d-flex flex-column">
+                            <div class="mb-3">
+                                <i class="bi bi-lightbulb text-warning display-6"></i>
+                            </div>
+                            <h4 class="text-white fw-bold mb-2">${cat.name}</h4>
+                            <p class="text-secondary small mb-3 flex-grow-1">${cat.description}</p>
+                            <div class="mb-3">
+                                <span class="badge bg-dark border border-secondary text-secondary">${cat.questionCount} Questions</span>
+                            </div>
+                            <button class="btn btn-gold w-100" onclick="startQuiz(${cat.id}, '${cat.name}')">Start Quiz</button>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (err) {
+                container.innerHTML = '<div class="col-12 text-center text-danger">Error loading quiz categories.</div>';
+            }
+        }
+
+        async function startQuiz(categoryId, categoryName) {
+            currentCategoryId = categoryId;
+            document.getElementById('quizCategoryBadge').innerText = categoryName;
+
+            try {
+                const questions = await api.get(`/quiz/questions/${categoryId}`);
+                if (!questions || questions.length === 0) {
+                    alert('No questions configured for this category yet.');
+                    return;
+                }
+
+                currentQuestions = questions;
+                currentQuestionIndex = 0;
+                selectedAnswers = {};
+
+                document.getElementById('categorySelectionView').classList.add('d-none');
+                document.getElementById('quizResultsView').classList.add('d-none');
+                document.getElementById('activeQuizView').classList.remove('d-none');
+
+                showQuestion(0);
+            } catch (err) {
+                alert('Error loading questions: ' + err.message);
+            }
+        }
+
+        function showQuestion(index) {
+            if (index >= currentQuestions.length) {
+                submitQuiz();
+                return;
+            }
+
+            const q = currentQuestions[index];
+            document.getElementById('questionProgressText').innerText = `Question ${index + 1} of ${currentQuestions.length}`;
+            document.getElementById('quizQuestionText').innerText = q.questionText;
+
+            const optsContainer = document.getElementById('quizOptionsContainer');
+            optsContainer.innerHTML = q.options.map(opt => `
+                <button type="button" class="quiz-option-btn ${selectedAnswers[q.id] === opt.id ? 'selected' : ''}" onclick="selectOption(${q.id}, ${opt.id}, this)">
+                    ${opt.optionText}
+                </button>
+            `).join('');
+
+            // Reset timer
+            clearInterval(timerInterval);
+            timeLeft = 30;
+            updateTimerDisplay();
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                updateTimerDisplay();
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    handleNextQuestion();
+                }
+            }, 1000);
+
+            // Button label
+            const nextBtn = document.getElementById('nextQuestionBtn');
+            nextBtn.innerText = (index === currentQuestions.length - 1) ? 'Submit Quiz' : 'Next Question';
+        }
+
+        function updateTimerDisplay() {
+            const timerEl = document.getElementById('quizTimer');
+            timerEl.innerText = `00:${timeLeft < 10 ? '0' : ''}${timeLeft}`;
+        }
+
+        function selectOption(qId, optId, btn) {
+            selectedAnswers[qId] = optId;
+            const buttons = document.querySelectorAll('#quizOptionsContainer .quiz-option-btn');
+            buttons.forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+        }
+
+        function handleNextQuestion() {
+            currentQuestionIndex++;
+            showQuestion(currentQuestionIndex);
+        }
+
+        async function submitQuiz() {
+            clearInterval(timerInterval);
+
+            const activeView = document.getElementById('activeQuizView');
+            const resultsView = document.getElementById('quizResultsView');
+
+            activeView.classList.add('d-none');
+            resultsView.classList.remove('d-none');
+
+            const scoreText = document.getElementById('finalScoreText');
+            scoreText.innerText = 'Evaluating...';
+
+            try {
+                const result = await api.post('/quiz/submit', {
+                    quizCategoryId: currentCategoryId,
+                    answers: selectedAnswers
+                });
+
+                scoreText.innerText = `${result.score}/${result.totalQuestions}`;
+                document.getElementById('finalPercentageText').innerText = `${result.percentage}% Accuracy`;
+
+                // Render Feedback list
+                const feedbackContainer = document.getElementById('feedbackContainer');
+                feedbackContainer.innerHTML = `
+                    <h5 class="fw-bold text-white mb-3">Answer Review & Explanations:</h5>
+                    ${result.feedback.map((f, i) => `
+                        <div class="p-3 mb-3 rounded bg-dark border ${f.isCorrect ? 'border-success' : 'border-danger'}">
+                            <div class="d-flex align-items-center gap-2 mb-1">
+                                <i class="bi ${f.isCorrect ? 'bi-check-circle-fill text-success' : 'bi-x-circle-fill text-danger'} fs-5"></i>
+                                <span class="fw-bold text-white">Q${i + 1}: ${f.questionText}</span>
+                            </div>
+                            ${f.explanation ? `<div class="text-secondary small mt-1"><i class="bi bi-info-circle text-warning me-1"></i>${f.explanation}</div>` : ''}
+                        </div>
+                    `).join('')}
+                `;
+            } catch (err) {
+                alert('Error submitting quiz: ' + err.message);
+            }
+        }
+
+        function quitQuiz() {
+            if (confirm('Are you sure you want to quit this quiz?')) {
+                clearInterval(timerInterval);
+                resetToCategories();
+            }
+        }
+
+        function resetToCategories() {
+            document.getElementById('activeQuizView').classList.add('d-none');
+            document.getElementById('quizResultsView').classList.add('d-none');
+            document.getElementById('categorySelectionView').classList.remove('d-none');
+        }
+    </script>
+</body>
+</html>
