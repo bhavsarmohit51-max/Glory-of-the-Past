@@ -1,4 +1,4 @@
-// Authentication & User State Management
+﻿// Authentication & User State Management
 const auth = {
     // Check if user is currently logged in
     isLoggedIn() {
@@ -43,7 +43,7 @@ const auth = {
         if (this.isLoggedIn()) {
             const user = this.getUser();
             const adminLink = this.isAdmin() ? `
-                <li><a class="dropdown-item text-warning" href="admin/dashboard.html"><i class="bi bi-shield-lock me-2"></i>Admin Panel</a></li>
+                <li><a class="dropdown-item text-warning" href="admin-dashboard.html"><i class="bi bi-shield-lock me-2"></i>Admin Panel</a></li>
                 <li><hr class="dropdown-divider bg-secondary"></li>
             ` : '';
 
@@ -81,3 +81,4 @@ const auth = {
 document.addEventListener('DOMContentLoaded', () => {
     auth.renderNavAuth();
 });
+

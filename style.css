@@ -1,4 +1,4 @@
-/* AI-Powered Historical Explorer - Custom Historical Stylesheet */
+﻿/* AI-Powered Historical Explorer - Custom Historical Stylesheet */
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
 
 :root {
@@ -96,7 +96,7 @@ h1, h2, h3, h4, h5, .brand-font {
     position: relative;
     padding: 7rem 0 6rem 0;
     background: linear-gradient(180deg, rgba(10, 14, 23, 0.72) 0%, rgba(10, 14, 23, 0.82) 65%, rgba(10, 14, 23, 0.98) 100%),
-                url('../images/hero-banner.jpg') center center / cover no-repeat;
+                url('hero-banner.jpg') center center / cover no-repeat;
     border-bottom: 1px solid var(--border-color);
     box-shadow: inset 0 -60px 80px -20px #0a0e17;
 }
@@ -396,3 +396,4 @@ footer {
     padding: 3rem 0 2rem 0;
     color: var(--text-muted);
 }
+
