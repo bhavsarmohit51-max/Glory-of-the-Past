@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -52,9 +52,19 @@
 
                     <!-- Default credentials helper for students/evaluators -->
                     <div class="mt-4 p-3 rounded bg-dark border border-secondary border-opacity-25 small">
-                        <div class="text-warning fw-bold mb-1"><i class="bi bi-info-circle me-1"></i>Demo Accounts:</div>
-                        <div class="text-secondary"><strong>Admin:</strong> admin@historicalexplorer.com / Admin@123</div>
-                        <div class="text-secondary"><strong>User:</strong> explorer@history.com / User@123</div>
+                        <div class="text-warning fw-bold mb-2"><i class="bi bi-info-circle me-1"></i>Demo Accounts (Click to Auto-Fill):</div>
+                        <div class="d-flex gap-2 flex-wrap mb-2">
+                            <button type="button" class="btn btn-sm btn-outline-warning py-1 px-2" onclick="quickFill('admin@historicalexplorer.com', 'Admin@123')">
+                                <i class="bi bi-shield-lock-fill me-1"></i>Auto-Fill Admin
+                            </button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary py-1 px-2 text-light" onclick="quickFill('explorer@history.com', 'User@123')">
+                                <i class="bi bi-person-fill me-1"></i>Auto-Fill User
+                            </button>
+                        </div>
+                        <div class="text-secondary small">
+                            <strong>Admin:</strong> admin@historicalexplorer.com / Admin@123<br>
+                            <strong>User:</strong> explorer@history.com / User@123
+                        </div>
                     </div>
 
                     <div class="text-center mt-4 text-secondary small">
@@ -69,6 +79,11 @@
     <script src="api.js"></script>
     <script src="auth.js"></script>
     <script>
+        function quickFill(email, password) {
+            document.getElementById('loginEmail').value = email;
+            document.getElementById('loginPassword').value = password;
+        }
+
         async function handleLogin(e) {
             e.preventDefault();
             const email = document.getElementById('loginEmail').value.trim();

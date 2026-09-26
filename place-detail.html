@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -25,7 +25,8 @@
                     <li class="nav-item"><a class="nav-link" href="events.html">Events</a></li>
                     <li class="nav-item"><a class="nav-link" href="timeline.html">Interactive Timeline</a></li>
                     <li class="nav-item"><a class="nav-link" href="personalities.html">Personalities</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="places.html">Historical Places</a></li>
+                    <li class="nav-item"><a class="nav-link" href="places.html">Historical Places</a></li>
+                    <li class="nav-item"><a class="nav-link" href="map.html"><i class="bi bi-geo-alt-fill text-warning me-1"></i>Historical Map</a></li>
                     <li class="nav-item"><a class="nav-link" href="quiz.html">History Quiz</a></li>
                     <li class="nav-item"><a class="nav-link" href="ai-guide.html"><i class="bi bi-robot text-warning me-1"></i>AI Guide</a></li>
                 </ul>
@@ -90,14 +91,21 @@
                             <div class="historical-card overflow-hidden mb-4">
                                 <img src="${pl.imageUrl || 'https://images.unsplash.com/photo-1564507592333-c60657eea523?w=1200'}" class="w-100" style="max-height: 440px; object-fit: cover;" alt="${pl.name}" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1564507592333-c60657eea523?w=1200';">
                                 <div class="p-4 p-md-5">
-                                    <div class="d-flex justify-content-between align-items-center mb-3">
-                                        <span class="badge bg-warning text-dark px-3 py-1 fw-bold">${pl.country}</span>
-                                        <button class="btn btn-sm ${isFav ? 'btn-warning' : 'btn-outline-gold'}" id="favPlaceBtn" onclick="togglePlaceBookmark()">
-                                            <i class="bi ${isFav ? 'bi-bookmark-check-fill' : 'bi-bookmark-plus'} me-1"></i> ${isFav ? 'Bookmarked' : 'Save Place'}
-                                        </button>
+                                    <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+                                        <div class="d-flex gap-2 align-items-center">
+                                            <span class="badge bg-warning text-dark px-3 py-1 fw-bold">${pl.country}</span>
+                                            ${pl.category ? `<span class="badge bg-secondary px-3 py-1">${pl.category}</span>` : ''}
+                                            ${pl.historicalPeriod ? `<span class="badge bg-dark border border-warning text-warning px-2 py-1">${pl.historicalPeriod}</span>` : ''}
+                                        </div>
+                                        <div class="d-flex gap-2">
+                                            <a href="map.html?placeId=${pl.id}" class="btn btn-sm btn-gold" title="Explore on Historical Map"><i class="bi bi-geo-alt-fill me-1"></i>View on Map</a>
+                                            <button class="btn btn-sm ${isFav ? 'btn-warning' : 'btn-outline-gold'}" id="favPlaceBtn" onclick="togglePlaceBookmark()">
+                                                <i class="bi ${isFav ? 'bi-bookmark-check-fill' : 'bi-bookmark-plus'} me-1"></i> ${isFav ? 'Bookmarked' : 'Save Place'}
+                                            </button>
+                                        </div>
                                     </div>
                                     <h1 class="display-6 fw-bold text-white mb-2">${pl.name}</h1>
-                                    <div class="text-warning mb-4"><i class="bi bi-geo-alt me-1"></i>${pl.cityOrRegion}, ${pl.country} | <strong>Built:</strong> ${pl.builtYear || 'Ancient'}</div>
+                                    <div class="text-warning mb-4"><i class="bi bi-geo-alt me-1"></i>${pl.cityOrRegion || (pl.city ? pl.city + (pl.state ? ', ' + pl.state : '') : pl.country)}, ${pl.country} | <strong>Built:</strong> ${pl.builtYear || pl.yearEstablished || 'Ancient'}</div>
 
                                     <div class="alert alert-dark border-secondary mb-4">
                                         <div class="text-warning fw-bold small text-uppercase mb-1"><i class="bi bi-bank me-1"></i>Historical Significance</div>

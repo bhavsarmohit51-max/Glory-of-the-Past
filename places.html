@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -24,6 +24,7 @@
                     <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="events.html">Events</a></li>
                     <li class="nav-item"><a class="nav-link" href="timeline.html">Interactive Timeline</a></li>
+                    <li class="nav-item"><a class="nav-link" href="map.html"><i class="bi bi-geo-alt-fill text-warning me-1"></i>Historical Map</a></li>
                     <li class="nav-item"><a class="nav-link" href="personalities.html">Personalities</a></li>
                     <li class="nav-item"><a class="nav-link active" href="places.html">Historical Places</a></li>
                     <li class="nav-item"><a class="nav-link" href="quiz.html">History Quiz</a></li>
@@ -45,6 +46,27 @@
     </header>
 
     <div class="container py-5">
+        <!-- Interactive Map Promotional Banner -->
+        <div class="card border-warning border-opacity-50 text-white mb-4 shadow-lg" style="background: radial-gradient(circle at 10% 20%, rgba(212, 175, 55, 0.18) 0%, rgba(15, 23, 42, 0.95) 100%);">
+            <div class="card-body p-4 d-flex align-items-center justify-content-between flex-wrap gap-3">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="rounded-circle bg-warning text-dark p-3 d-flex align-items-center justify-content-center shadow" style="width: 56px; height: 56px; min-width: 56px;">
+                        <i class="bi bi-geo-alt-fill fs-2"></i>
+                    </div>
+                    <div>
+                        <span class="badge bg-warning text-dark fw-bold mb-1"><i class="bi bi-stars me-1"></i>Full-Screen Geospatial Experience</span>
+                        <h4 class="text-white fw-bold mb-1">Explore Landmarks on the Interactive Historical Map</h4>
+                        <p class="text-secondary small mb-0">Navigate forts, ancient port cities, battlegrounds, and temples with satellite imagery, period sliders, and turn-by-turn directions.</p>
+                    </div>
+                </div>
+                <div>
+                    <a href="map.html" class="btn btn-gold px-4 py-2 fw-bold shadow d-flex align-items-center gap-2">
+                        <i class="bi bi-map-fill text-dark"></i>
+                        <span>Launch Fullscreen Map</span>
+                    </a>
+                </div>
+            </div>
+        </div>
         <div class="row g-4 mb-4 align-items-center">
             <div class="col-md-6">
                 <div class="input-group">
@@ -108,7 +130,10 @@
                                 <h4 class="text-white fw-bold mb-1">${pl.name}</h4>
                                 <div class="text-warning small mb-3"><i class="bi bi-geo-alt me-1"></i>${pl.cityOrRegion}, ${pl.country}</div>
                                 <p class="text-secondary small mb-3 flex-grow-1">${pl.historicalSignificance}</p>
-                                <a href="place-detail.html?id=${pl.id}" class="btn btn-sm btn-outline-gold w-100">Explore Monument</a>
+                                <div class="d-flex gap-2">
+                                    <a href="place-detail.html?id=${pl.id}" class="btn btn-sm btn-outline-gold flex-grow-1">Explore Details</a>
+                                    <a href="map.html?placeId=${pl.id}" class="btn btn-sm btn-gold px-3" title="View on Interactive Map"><i class="bi bi-geo-alt-fill"></i></a>
+                                </div>
                             </div>
                         </div>
                     </div>

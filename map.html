@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Historical Map | Glory of the Past</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
+    <!-- Leaflet & MarkerCluster CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="d-flex flex-column vh-100 overflow-hidden">
+
+    <!-- Global Historical Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-historical sticky-top flex-shrink-0">
+        <div class="container-fluid px-3 px-lg-4">
+            <a class="navbar-brand" href="index.html">
+                <i class="bi bi-compass text-warning fs-4"></i>
+                <span>GLORY OF THE PAST</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarMain">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="events.html">Events</a></li>
+                    <li class="nav-item"><a class="nav-link" href="timeline.html">Interactive Timeline</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="map.html"><i class="bi bi-geo-alt-fill text-warning me-1"></i>Historical Map</a></li>
+                    <li class="nav-item"><a class="nav-link" href="personalities.html">Personalities</a></li>
+                    <li class="nav-item"><a class="nav-link" href="places.html">Historical Places</a></li>
+                    <li class="nav-item"><a class="nav-link" href="quiz.html">History Quiz</a></li>
+                    <li class="nav-item"><a class="nav-link" href="ai-guide.html"><i class="bi bi-robot text-warning me-1"></i>AI Guide</a></li>
+                </ul>
+                <div id="navAuthContainer"></div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Full-Screen Map Container -->
+    <div class="map-page-wrapper flex-grow-1 position-relative">
+        
+        <!-- Leaflet Map Canvas -->
+        <div id="historicalMap"></div>
+
+        <!-- Floating Glassmorphic Top Controls -->
+        <div class="map-floating-top">
+            
+            <!-- Search & Quick Stats Bar -->
+            <div class="map-control-glass p-2 px-3 d-flex align-items-center justify-content-between gap-2">
+                <div class="d-flex align-items-center gap-2 flex-grow-1" style="max-width: 520px;">
+                    <i class="bi bi-search text-warning fs-5"></i>
+                    <input type="text" id="mapSearchInput" class="form-control map-search-input py-1" 
+                           placeholder="Search places, dynasties, cities, or periods..." 
+                           oninput="handleMapSearch()" autocomplete="off">
+                    <button class="btn btn-sm btn-link text-secondary p-0" id="clearSearchBtn" onclick="clearMapSearch()" style="display: none;">
+                        <i class="bi bi-x-circle-fill fs-6 text-secondary"></i>
+                    </button>
+                </div>
+                <div class="d-flex align-items-center gap-2">
+                    <span class="badge bg-dark border border-warning text-warning px-3 py-2 rounded-pill small" id="mapPlacesCountBadge">
+                        <i class="bi bi-pin-map-fill me-1"></i>Loading places...
+                    </span>
+                </div>
+            </div>
+
+            <!-- Category Filter Pills Bar -->
+            <div class="map-categories-scroll" id="mapCategoryPills">
+                <button type="button" class="cat-pill active" data-cat="all" onclick="filterByCategory('all', this)">
+                    <i class="bi bi-globe-central-south"></i> All Landmarks
+                </button>
+                <button type="button" class="cat-pill" data-cat="Forts" onclick="filterByCategory('Forts', this)">
+                    <i class="bi bi-shield-shaded text-warning"></i> Forts
+                </button>
+                <button type="button" class="cat-pill" data-cat="Temples" onclick="filterByCategory('Temples', this)">
+                    <i class="bi bi-sun-fill text-warning"></i> Temples
+                </button>
+                <button type="button" class="cat-pill" data-cat="Palaces" onclick="filterByCategory('Palaces', this)">
+                    <i class="bi bi-building text-info"></i> Palaces
+                </button>
+                <button type="button" class="cat-pill" data-cat="Ancient Cities" onclick="filterByCategory('Ancient Cities', this)">
+                    <i class="bi bi-compass text-info"></i> Ancient Cities
+                </button>
+                <button type="button" class="cat-pill" data-cat="Monuments" onclick="filterByCategory('Monuments', this)">
+                    <i class="bi bi-trophy text-warning"></i> Monuments
+                </button>
+                <button type="button" class="cat-pill" data-cat="Museums" onclick="filterByCategory('Museums', this)">
+                    <i class="bi bi-collection text-light"></i> Museums
+                </button>
+                <button type="button" class="cat-pill" data-cat="Battle Sites" onclick="filterByCategory('Battle Sites', this)">
+                    <i class="bi bi-crosshair text-danger"></i> Battle Sites
+                </button>
+                <button type="button" class="cat-pill" data-cat="UNESCO" onclick="filterByCategory('UNESCO', this)">
+                    <i class="bi bi-award-fill text-success"></i> UNESCO Heritage
+                </button>
+            </div>
+
+        </div>
+
+        <!-- Floating Map Utility Action Buttons (Right) -->
+        <div class="map-action-tools">
+            <button type="button" class="map-tool-btn" onclick="toggleMapLayer()" id="layerToggleBtn" title="Switch Map View (Historical / Satellite / Street)">
+                <i class="bi bi-layers-fill" id="layerIcon"></i>
+            </button>
+            <button type="button" class="map-tool-btn" onclick="locateUserPosition()" title="Show My Location (GPS)">
+                <i class="bi bi-crosshair2"></i>
+            </button>
+            <button type="button" class="map-tool-btn" onclick="resetMapSubcontinentView()" title="Reset to Subcontinent Overview">
+                <i class="bi bi-arrow-counterclockwise"></i>
+            </button>
+            <button type="button" class="map-tool-btn" onclick="toggleMapFullscreen()" title="Toggle Fullscreen">
+                <i class="bi bi-fullscreen" id="fullscreenIcon"></i>
+            </button>
+        </div>
+
+        <!-- Bottom Historical Timeline Dock -->
+        <div class="map-timeline-dock">
+            <div class="timeline-pill-container" id="mapTimelineSelector">
+                <span class="text-secondary small fw-bold d-flex align-items-center px-2 d-none d-md-flex">
+                    <i class="bi bi-clock-history text-warning me-1"></i>Era:
+                </span>
+                <button type="button" class="period-chip active" data-period="all" onclick="filterByPeriod('all', this)">
+                    All Eras
+                </button>
+                <button type="button" class="period-chip" data-period="Ancient" onclick="filterByPeriod('Ancient', this)">
+                    🏺 Ancient (&lt; 500 CE)
+                </button>
+                <button type="button" class="period-chip" data-period="Medieval" onclick="filterByPeriod('Medieval', this)">
+                    ⚔️ Medieval (500 - 1500)
+                </button>
+                <button type="button" class="period-chip" data-period="Mughal" onclick="filterByPeriod('Mughal', this)">
+                    👑 Mughal (1526 - 1707)
+                </button>
+                <button type="button" class="period-chip" data-period="Colonial" onclick="filterByPeriod('Colonial', this)">
+                    ⚓ Colonial (1757 - 1947)
+                </button>
+                <button type="button" class="period-chip" data-period="Modern" onclick="filterByPeriod('Modern', this)">
+                    🇮🇳 Modern (1947+)
+                </button>
+            </div>
+        </div>
+
+        <!-- Sliding Glassmorphic Location Information Drawer -->
+        <div class="map-info-drawer" id="mapLocationDrawer">
+            <!-- Hero Image Banner with Close Button -->
+            <div class="drawer-hero-img-box">
+                <img src="" alt="" class="drawer-hero-img" id="drawerHeroImg">
+                <div class="drawer-hero-gradient"></div>
+                <button type="button" class="drawer-close-btn" onclick="closeLocationDrawer()" title="Close details (Esc)">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+                <div class="position-absolute bottom-0 start-0 p-3 w-100">
+                    <div class="d-flex align-items-center gap-2 mb-1 flex-wrap">
+                        <span class="badge bg-warning text-dark fw-bold" id="drawerCatBadge">Fort</span>
+                        <span class="badge bg-black border border-warning text-warning" id="drawerPeriodBadge">Medieval</span>
+                    </div>
+                    <h4 class="text-white fw-bold mb-0 text-truncate" id="drawerTitle">Place Name</h4>
+                </div>
+            </div>
+
+            <!-- Drawer Body Content -->
+            <div class="p-3 p-md-4 text-light">
+                
+                <!-- Location & Coordinates -->
+                <div class="d-flex align-items-center justify-content-between mb-3 text-secondary small">
+                    <div>
+                        <i class="bi bi-geo-alt-fill text-warning me-1"></i>
+                        <span id="drawerLocationText" class="text-light">City, State</span>
+                    </div>
+                    <div class="text-end">
+                        <i class="bi bi-calendar3 text-warning me-1"></i>
+                        <span id="drawerYearText" class="text-light">1674 CE</span>
+                    </div>
+                </div>
+
+                <!-- Significance Quote Box -->
+                <div class="drawer-quote-card mb-3" id="drawerSignificance">
+                    "Historical significance overview..."
+                </div>
+
+                <!-- Quick Specs Grid -->
+                <div class="row g-2 mb-3">
+                    <div class="col-6">
+                        <div class="drawer-spec-badge">
+                            <div class="text-secondary small">Dynasty / Empire</div>
+                            <div class="fw-bold text-white small text-truncate" id="drawerDynasty">Maratha Empire</div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="drawer-spec-badge">
+                            <div class="text-secondary small">Founder / Builder</div>
+                            <div class="fw-bold text-white small text-truncate" id="drawerFounder">Shivaji Maharaj</div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="drawer-spec-badge">
+                            <div class="text-secondary small">Architecture Style</div>
+                            <div class="fw-bold text-white small text-truncate" id="drawerArchitectureStyle">Deccan Rock-cut</div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="drawer-spec-badge">
+                            <div class="text-secondary small">Current Status</div>
+                            <div class="fw-bold text-white small text-truncate" id="drawerCurrentStatus">ASI Protected</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Short Overview & History -->
+                <div class="mb-3">
+                    <h6 class="text-warning fw-bold d-flex align-items-center gap-1 mb-2">
+                        <i class="bi bi-book-half"></i> Historical Overview
+                    </h6>
+                    <p class="small text-secondary mb-2" id="drawerDescription" style="line-height: 1.6;"></p>
+                    <p class="small text-light mb-0" id="drawerDetailedHistory" style="line-height: 1.6;"></p>
+                </div>
+
+                <!-- Key Important Events -->
+                <div class="mb-3" id="drawerEventsContainer" style="display: none;">
+                    <h6 class="text-warning fw-bold d-flex align-items-center gap-1 mb-2">
+                        <i class="bi bi-lightning-charge-fill"></i> Historic Milestones
+                    </h6>
+                    <div class="p-2 rounded bg-black bg-opacity-40 border border-secondary border-opacity-25 small text-secondary" id="drawerEventsText"></div>
+                </div>
+
+                <!-- Interesting Facts -->
+                <div class="mb-3">
+                    <h6 class="text-warning fw-bold d-flex align-items-center gap-1 mb-2">
+                        <i class="bi bi-lightbulb-fill"></i> Fascinating Historical Facts
+                    </h6>
+                    <div id="drawerFactsList"></div>
+                </div>
+
+                <!-- Visiting Information -->
+                <div class="mb-4 p-3 rounded bg-dark border border-secondary border-opacity-25">
+                    <h6 class="text-gold fw-bold small mb-2"><i class="bi bi-ticket-perforated-fill me-1"></i>Visitor Information</h6>
+                    <div class="small text-secondary" id="drawerVisitingInfo">
+                        Open daily 08:00 AM - 06:00 PM.
+                    </div>
+                </div>
+
+                <!-- Action Buttons: Directions & View Details -->
+                <div class="d-flex gap-2">
+                    <a href="#" target="_blank" id="drawerDirectionsBtn" class="btn btn-gold flex-grow-1 fw-bold d-flex align-items-center justify-content-center gap-2 py-2">
+                        <i class="bi bi-send-fill text-dark"></i>
+                        <span>Get Directions</span>
+                    </a>
+                    <button type="button" class="btn btn-outline-warning fw-bold px-3 py-2 d-flex align-items-center justify-content-center gap-1" onclick="openPlaceDetailsModal()">
+                        <i class="bi bi-info-circle-fill"></i>
+                        <span>Full Dossier</span>
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary px-3 py-2" id="drawerFavoriteBtn" onclick="toggleFavoriteCurrentPlace()" title="Save to Favorites">
+                        <i class="bi bi-heart" id="drawerFavIcon"></i>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Dedicated Full Place Details Modal -->
+    <div class="modal fade" id="placeDetailsModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl modal-dialog-scrollable">
+            <div class="modal-content bg-dark text-white border-warning">
+                <div class="modal-header border-secondary border-opacity-50">
+                    <div>
+                        <span class="badge bg-warning text-dark fw-bold me-2" id="modalCategoryBadge">Category</span>
+                        <span class="badge bg-black border border-warning text-warning" id="modalPeriodBadge">Era</span>
+                        <h4 class="modal-title fw-bold text-gold d-inline-block ms-2" id="modalPlaceTitle">Place Title</h4>
+                    </div>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    
+                    <!-- Modal Hero Image -->
+                    <div class="mb-4 rounded overflow-hidden shadow-lg position-relative" style="height: 340px; background: #000;">
+                        <img src="" alt="" class="w-100 h-100 object-fit-cover" id="modalHeroImg">
+                        <div class="position-absolute bottom-0 start-0 w-100 p-3" style="background: linear-gradient(180deg, transparent 0%, rgba(10,14,23,0.9) 100%);">
+                            <h3 class="fw-bold text-white mb-1" id="modalPlaceBannerTitle">Place Title</h3>
+                            <div class="text-warning small" id="modalPlaceLocation">City, State, Country</div>
+                        </div>
+                    </div>
+
+                    <div class="row g-4">
+                        <div class="col-lg-8">
+                            
+                            <!-- Detailed Historical Story -->
+                            <div class="mb-4">
+                                <h5 class="text-warning fw-bold mb-3"><i class="bi bi-book-half me-2"></i>Comprehensive Historical Chronicle</h5>
+                                <div class="text-light" style="line-height: 1.8;" id="modalDetailedHistory"></div>
+                            </div>
+
+                            <!-- Architecture & Engineering -->
+                            <div class="mb-4">
+                                <h5 class="text-warning fw-bold mb-3"><i class="bi bi-bank me-2"></i>Architectural & Engineering Marvels</h5>
+                                <div class="p-3 rounded bg-black bg-opacity-40 border border-secondary border-opacity-25 text-light" style="line-height: 1.7;" id="modalArchitecture"></div>
+                            </div>
+
+                            <!-- Historic Events Timeline -->
+                            <div class="mb-4">
+                                <h5 class="text-warning fw-bold mb-3"><i class="bi bi-hourglass-split me-2"></i>Key Historical Events</h5>
+                                <div class="p-3 rounded bg-dark border border-secondary border-opacity-25 text-secondary" id="modalEvents"></div>
+                            </div>
+
+                            <!-- Photo Gallery -->
+                            <div class="mb-4">
+                                <h5 class="text-warning fw-bold mb-3"><i class="bi bi-images me-2"></i>Visual Archives & Gallery</h5>
+                                <div class="row g-3" id="modalGalleryGrid"></div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-lg-4">
+                            
+                            <!-- Key Facts Card -->
+                            <div class="p-3 rounded bg-dark border border-warning border-opacity-50 mb-4 shadow">
+                                <h6 class="text-gold fw-bold mb-3"><i class="bi bi-lightbulb-fill me-2"></i>Fascinating Facts & Trivia</h6>
+                                <div id="modalFactsList"></div>
+                            </div>
+
+                            <!-- Historical Specifications -->
+                            <div class="p-3 rounded bg-black bg-opacity-50 border border-secondary border-opacity-25 mb-4">
+                                <h6 class="text-warning fw-bold mb-3"><i class="bi bi-card-checklist me-2"></i>Monument Metadata</h6>
+                                <table class="table table-dark table-sm table-borderless small mb-0">
+                                    <tbody>
+                                        <tr><td class="text-secondary">Year Built:</td><td class="text-end fw-bold text-white" id="modalYear"></td></tr>
+                                        <tr><td class="text-secondary">Dynasty:</td><td class="text-end fw-bold text-white" id="modalDynasty"></td></tr>
+                                        <tr><td class="text-secondary">Founder:</td><td class="text-end fw-bold text-white" id="modalFounder"></td></tr>
+                                        <tr><td class="text-secondary">Coordinates:</td><td class="text-end fw-bold text-warning" id="modalCoordinates"></td></tr>
+                                        <tr><td class="text-secondary">Status:</td><td class="text-end fw-bold text-success" id="modalStatus"></td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- Directions CTA -->
+                            <div class="text-center p-3 rounded bg-gradient border border-secondary" style="background: rgba(212, 175, 55, 0.08);">
+                                <i class="bi bi-compass text-warning fs-1 mb-2 d-block"></i>
+                                <h6 class="fw-bold text-white mb-2">Visit This Historical Landmark</h6>
+                                <p class="text-secondary small mb-3">Navigate directly with live turn-by-turn satellite GPS directions.</p>
+                                <a href="#" target="_blank" id="modalDirectionsLink" class="btn btn-gold w-100 fw-bold py-2">
+                                    <i class="bi bi-geo-alt-fill me-1"></i> Get Live GPS Directions
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer border-secondary border-opacity-50">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                    <a href="places.html" class="btn btn-outline-gold"><i class="bi bi-grid-fill me-1"></i>View All Places</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Leaflet & MarkerCluster JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+    
+    <script src="api.js"></script>
+    <script src="auth.js"></script>
+    
+    <script>
+        // ============================================================
+        // INTERACTIVE HISTORICAL MAP ENGINE
+        // ============================================================
+        let map = null;
+        let markerClusterGroup = null;
+        let allPlacesData = [];
+        let currentFilteredPlaces = [];
+        let activeCategory = 'all';
+        let activePeriod = 'all';
+        let currentTileLayerName = 'dark';
+        let tileLayers = {};
+        let activeSelectedPlace = null;
+        let userLocationMarker = null;
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            initLeafletMap();
+            await loadMapPlacesData();
+
+            // Keyboard shortcut: Esc to close info drawer
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') closeLocationDrawer();
+            });
+        });
+
+        // 1. Initialize Leaflet Map with Custom Layers
+        function initLeafletMap() {
+            // Default center: India overview [21.8, 79.5]
+            map = L.map('historicalMap', {
+                center: [22.0, 78.9],
+                zoom: 5,
+                minZoom: 3,
+                maxZoom: 18,
+                zoomControl: true
+            });
+
+            // Reposition zoom control to bottom right so it doesn't clash with floating header
+            map.zoomControl.setPosition('bottomright');
+
+            // 1.1 Dark Historical CartoDB (Primary aesthetic matching Glory of the Past)
+            tileLayers.dark = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+                attribution: '&copy; <a href="https://carto.com/">CARTO</a> | Glory of the Past',
+                subdomains: 'abcd',
+                maxZoom: 19
+            });
+
+            // 1.2 Satellite Imagery (Esri World Imagery)
+            tileLayers.satellite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+                attribution: '&copy; Esri World Imagery | Glory of the Past',
+                maxZoom: 18
+            });
+
+            // 1.3 Standard Street Map (OpenStreetMap)
+            tileLayers.streets = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap contributors | Glory of the Past',
+                maxZoom: 19
+            });
+
+            // Add default layer
+            tileLayers.dark.addTo(map);
+
+            // 1.4 Setup Marker Cluster Group with Gold Badge Styling
+            markerClusterGroup = L.markerClusterGroup({
+                showCoverageOnHover: false,
+                maxClusterRadius: 50,
+                spiderfyOnMaxZoom: true,
+                iconCreateFunction: function(cluster) {
+                    const count = cluster.getChildCount();
+                    return L.divIcon({
+                        html: `<div class="marker-cluster-custom" style="width: 44px; height: 44px;"><span>${count}</span></div>`,
+                        className: 'custom-cluster-icon',
+                        iconSize: L.point(44, 44)
+                    });
+                }
+            });
+
+            map.addLayer(markerClusterGroup);
+
+            // Clicking on empty map area closes the drawer
+            map.on('click', () => {
+                closeLocationDrawer();
+            });
+        }
+
+        // 2. Load Places Data from API or Smart Fallback Store
+        async function loadMapPlacesData() {
+            try {
+                const res = await api.get('/places/map');
+                allPlacesData = Array.isArray(res) ? res : (res.places || []);
+                currentFilteredPlaces = [...allPlacesData];
+
+                renderMapMarkers(currentFilteredPlaces);
+                updatePlacesCountBadge();
+            } catch (err) {
+                console.error("Failed to load map places:", err);
+                const badge = document.getElementById('mapPlacesCountBadge');
+                if (badge) badge.innerText = "Error loading places";
+            }
+        }
+
+        // 3. Render Custom Historical Markers onto Map
+        function renderMapMarkers(places) {
+            markerClusterGroup.clearLayers();
+
+            places.forEach(place => {
+                if (!place.latitude || !place.longitude) return;
+
+                const catClass = getCategoryMarkerClass(place.category);
+                const iconName = getCategoryIconName(place.category);
+
+                const customIcon = L.divIcon({
+                    className: 'custom-hist-marker',
+                    html: `
+                        <div class="marker-pin-outer ${catClass}" title="${place.name}">
+                            <div class="marker-badge-circle">
+                                <i class="bi ${iconName}"></i>
+                            </div>
+                            <div class="marker-pointer-triangle"></div>
+                        </div>
+                    `,
+                    iconSize: [40, 48],
+                    iconAnchor: [20, 48],
+                    popupAnchor: [0, -48]
+                });
+
+                const marker = L.marker([place.latitude, place.longitude], {
+                    icon: customIcon,
+                    title: place.name
+                });
+
+                // Marker Tooltip on Hover
+                marker.bindTooltip(`
+                    <div style="background: rgba(10,14,23,0.95); border: 1px solid #d4af37; padding: 4px 8px; border-radius: 6px; color: #fff; font-size: 12px; font-weight: 600;">
+                        <span style="color: #f0c952;">${place.name}</span>
+                        <div style="font-size: 10px; color: #cbd5e1;">${place.city || ''}, ${place.state || place.country}</div>
+                    </div>
+                `, {
+                    direction: 'top',
+                    opacity: 1,
+                    className: 'historical-map-tooltip'
+                });
+
+                // Marker Click Handler: Open Rich Information Drawer
+                marker.on('click', (e) => {
+                    L.DomEvent.stopPropagation(e);
+                    openLocationDrawer(place);
+                    
+                    // Smoothly pan map so marker is centered with space for drawer
+                    const targetZoom = Math.max(map.getZoom(), 9);
+                    map.flyTo([place.latitude, place.longitude], targetZoom, {
+                        duration: 0.8
+                    });
+                });
+
+                markerClusterGroup.addLayer(marker);
+            });
+        }
+
+        // 4. Category and Icon Mapping Helpers
+        function getCategoryMarkerClass(category) {
+            const cat = (category || '').toLowerCase();
+            if (cat.includes('fort')) return 'marker-cat-fort';
+            if (cat.includes('temple')) return 'marker-cat-temple';
+            if (cat.includes('palace')) return 'marker-cat-palace';
+            if (cat.includes('cit') || cat.includes('ancient')) return 'marker-cat-city';
+            if (cat.includes('battle')) return 'marker-cat-battle';
+            if (cat.includes('unesco') || cat.includes('heritage')) return 'marker-cat-unesco';
+            return 'marker-cat-fort';
+        }
+
+        function getCategoryIconName(category) {
+            const cat = (category || '').toLowerCase();
+            if (cat.includes('fort')) return 'bi-shield-shaded';
+            if (cat.includes('temple')) return 'bi-sun-fill';
+            if (cat.includes('palace')) return 'bi-building';
+            if (cat.includes('cit') || cat.includes('ancient')) return 'bi-compass';
+            if (cat.includes('battle')) return 'bi-crosshair';
+            if (cat.includes('unesco') || cat.includes('heritage')) return 'bi-award-fill';
+            if (cat.includes('museum')) return 'bi-collection';
+            return 'bi-trophy';
+        }
+
+        // 5. Filtering Engine: Category, Period, and Search Query
+        function applyAllFilters() {
+            const searchVal = document.getElementById('mapSearchInput').value.trim().toLowerCase();
+
+            currentFilteredPlaces = allPlacesData.filter(place => {
+                // 1. Category check
+                let matchCat = true;
+                if (activeCategory !== 'all') {
+                    if (activeCategory === 'UNESCO') {
+                        matchCat = (place.historicalSignificance || '').includes('UNESCO') || (place.currentStatus || '').includes('UNESCO');
+                    } else {
+                        matchCat = (place.category || '').toLowerCase().includes(activeCategory.toLowerCase());
+                    }
+                }
+
+                // 2. Period check
+                let matchPeriod = true;
+                if (activePeriod !== 'all') {
+                    matchPeriod = (place.historicalPeriod || '').toLowerCase() === activePeriod.toLowerCase();
+                }
+
+                // 3. Search query check (name, city, state, country, dynasty, founder, category, period)
+                let matchSearch = true;
+                if (searchVal) {
+                    const searchCorpus = [
+                        place.name,
+                        place.city,
+                        place.state,
+                        place.country,
+                        place.cityOrRegion,
+                        place.dynasty,
+                        place.founder,
+                        place.category,
+                        place.historicalPeriod,
+                        place.architecture
+                    ].filter(Boolean).join(' ').toLowerCase();
+
+                    matchSearch = searchCorpus.includes(searchVal);
+                }
+
+                return matchCat && matchPeriod && matchSearch;
+            });
+
+            renderMapMarkers(currentFilteredPlaces);
+            updatePlacesCountBadge();
+
+            // Auto-fit bounds if matching places exist
+            if (currentFilteredPlaces.length > 0 && (searchVal || activeCategory !== 'all' || activePeriod !== 'all')) {
+                const group = L.featureGroup(currentFilteredPlaces.map(p => L.marker([p.latitude, p.longitude])));
+                map.fitBounds(group.getBounds().pad(0.2), { maxZoom: 10, animate: true });
+            }
+        }
+
+        function filterByCategory(category, btnEl) {
+            activeCategory = category;
+            document.querySelectorAll('#mapCategoryPills .cat-pill').forEach(btn => btn.classList.remove('active'));
+            if (btnEl) btnEl.classList.add('active');
+            applyAllFilters();
+        }
+
+        function filterByPeriod(period, btnEl) {
+            activePeriod = period;
+            document.querySelectorAll('#mapTimelineSelector .period-chip').forEach(btn => btn.classList.remove('active'));
+            if (btnEl) btnEl.classList.add('active');
+            applyAllFilters();
+        }
+
+        function handleMapSearch() {
+            const input = document.getElementById('mapSearchInput');
+            const clearBtn = document.getElementById('clearSearchBtn');
+            if (clearBtn) clearBtn.style.display = input.value.trim().length > 0 ? 'inline-block' : 'none';
+            applyAllFilters();
+        }
+
+        function clearMapSearch() {
+            const input = document.getElementById('mapSearchInput');
+            const clearBtn = document.getElementById('clearSearchBtn');
+            if (input) input.value = '';
+            if (clearBtn) clearBtn.style.display = 'none';
+            applyAllFilters();
+        }
+
+        function updatePlacesCountBadge() {
+            const badge = document.getElementById('mapPlacesCountBadge');
+            if (!badge) return;
+            badge.innerHTML = `<i class="bi bi-pin-map-fill me-1"></i>${currentFilteredPlaces.length} Landmark${currentFilteredPlaces.length !== 1 ? 's' : ''}`;
+        }
+
+        // 6. Sliding Location Information Drawer Logic
+        function openLocationDrawer(place) {
+            activeSelectedPlace = place;
+            const drawer = document.getElementById('mapLocationDrawer');
+            if (!drawer) return;
+
+            // Populate Hero Image & Badges
+            const heroImg = document.getElementById('drawerHeroImg');
+            heroImg.src = place.imageUrl || place.fallbackImageUrl || 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=800';
+            heroImg.alt = place.name;
+
+            document.getElementById('drawerCatBadge').innerText = place.category || 'Historical Site';
+            document.getElementById('drawerPeriodBadge').innerText = (place.historicalPeriod || 'Ancient') + ' Era';
+            document.getElementById('drawerTitle').innerText = place.name;
+            
+            // Location and Date
+            const locationStr = [place.city, place.state, place.country].filter(Boolean).join(', ') || place.cityOrRegion || 'India';
+            document.getElementById('drawerLocationText').innerText = locationStr;
+            document.getElementById('drawerYearText').innerText = place.yearEstablished || place.builtYear || 'Ancient';
+
+            // Significance
+            document.getElementById('drawerSignificance').innerText = `"${place.historicalSignificance || place.description}"`;
+
+            // Specs
+            document.getElementById('drawerDynasty').innerText = place.dynasty || 'Historical';
+            document.getElementById('drawerFounder').innerText = place.founder || 'Ancient Rulers';
+            document.getElementById('drawerArchitectureStyle').innerText = place.architecture ? place.architecture.split(',')[0] : 'Stone Heritage';
+            document.getElementById('drawerCurrentStatus').innerText = place.currentStatus ? place.currentStatus.split(';')[0] : 'National Heritage';
+
+            // Description & History
+            document.getElementById('drawerDescription').innerText = place.description || '';
+            document.getElementById('drawerDetailedHistory').innerText = place.detailedHistory || '';
+
+            // Important Events
+            const eventsBox = document.getElementById('drawerEventsContainer');
+            const eventsText = document.getElementById('drawerEventsText');
+            if (place.importantEvents) {
+                eventsBox.style.display = 'block';
+                eventsText.innerText = place.importantEvents;
+            } else {
+                eventsBox.style.display = 'none';
+            }
+
+            // Facts List
+            const factsContainer = document.getElementById('drawerFactsList');
+            factsContainer.innerHTML = '';
+            const facts = Array.isArray(place.interestingFacts) 
+                ? place.interestingFacts 
+                : (typeof place.interestingFacts === 'string' ? place.interestingFacts.split(';') : []);
+
+            if (facts.length > 0) {
+                facts.forEach(fact => {
+                    if (fact && fact.trim()) {
+                        const factDiv = document.createElement('div');
+                        factDiv.className = 'drawer-fact-item';
+                        factDiv.innerText = fact.trim();
+                        factsContainer.appendChild(factDiv);
+                    }
+                });
+            } else {
+                factsContainer.innerHTML = '<div class="small text-secondary italic">Ancient architectural wonder preserved through the centuries.</div>';
+            }
+
+            // Visiting Information
+            document.getElementById('drawerVisitingInfo').innerText = place.openingInformation || 'Open daily for visitors. Guided historical audio tours available.';
+
+            // Directions Button
+            const dirBtn = document.getElementById('drawerDirectionsBtn');
+            dirBtn.href = `https://www.google.com/maps/dir/?api=1&destination=${place.latitude},${place.longitude}`;
+
+            // Favorite Button state
+            updateDrawerFavIcon();
+
+            // Slide open
+            drawer.classList.add('open');
+        }
+
+        function closeLocationDrawer() {
+            const drawer = document.getElementById('mapLocationDrawer');
+            if (drawer) drawer.classList.remove('open');
+        }
+
+        // 7. Dedicated Full Place Details Modal
+        function openPlaceDetailsModal() {
+            if (!activeSelectedPlace) return;
+            const p = activeSelectedPlace;
+
+            document.getElementById('modalCategoryBadge').innerText = p.category || 'Historical Monument';
+            document.getElementById('modalPeriodBadge').innerText = (p.historicalPeriod || 'Ancient') + ' Era';
+            document.getElementById('modalPlaceTitle').innerText = p.name;
+            document.getElementById('modalPlaceBannerTitle').innerText = p.name;
+            
+            const locationStr = [p.city, p.state, p.country].filter(Boolean).join(', ') || p.cityOrRegion || 'India';
+            document.getElementById('modalPlaceLocation').innerHTML = `<i class="bi bi-geo-alt-fill me-1"></i>${locationStr}`;
+
+            const heroImg = document.getElementById('modalHeroImg');
+            heroImg.src = p.imageUrl || p.fallbackImageUrl || 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=1000';
+            heroImg.alt = p.name;
+
+            document.getElementById('modalDetailedHistory').innerHTML = `
+                <p class="lead text-warning" style="font-size: 1.05rem;">${p.description || ''}</p>
+                <p>${p.detailedHistory || p.historicalSignificance || ''}</p>
+            `;
+
+            document.getElementById('modalArchitecture').innerText = p.architecture || 'Exemplary regional stone architecture reflecting classical geometric symmetry and master rock craftsmanship.';
+
+            document.getElementById('modalEvents').innerText = p.importantEvents || 'Key milestone in Indian subcontinent chronicle.';
+
+            document.getElementById('modalYear').innerText = p.yearEstablished || p.builtYear || 'Antiquity';
+            document.getElementById('modalDynasty').innerText = p.dynasty || 'Historical';
+            document.getElementById('modalFounder').innerText = p.founder || 'Ancient Sovereigns';
+            document.getElementById('modalCoordinates').innerText = `${p.latitude?.toFixed(4)}, ${p.longitude?.toFixed(4)}`;
+            document.getElementById('modalStatus').innerText = p.currentStatus || 'National Monument';
+
+            // Facts list
+            const factsEl = document.getElementById('modalFactsList');
+            factsEl.innerHTML = '';
+            const facts = Array.isArray(p.interestingFacts) 
+                ? p.interestingFacts 
+                : (typeof p.interestingFacts === 'string' ? p.interestingFacts.split(';') : []);
+
+            facts.forEach(f => {
+                if (f && f.trim()) {
+                    const d = document.createElement('div');
+                    d.className = 'drawer-fact-item';
+                    d.innerText = f.trim();
+                    factsEl.appendChild(d);
+                }
+            });
+
+            // Gallery Grid
+            const galleryEl = document.getElementById('modalGalleryGrid');
+            galleryEl.innerHTML = '';
+            const imgList = (p.images && p.images.length > 0) ? p.images : [p.imageUrl, p.fallbackImageUrl].filter(Boolean);
+
+            imgList.forEach(imgUrl => {
+                const col = document.createElement('div');
+                col.className = 'col-sm-6 col-md-4';
+                col.innerHTML = `
+                    <div class="rounded overflow-hidden shadow-sm" style="height: 140px; background: #000;">
+                        <img src="${imgUrl}" alt="${p.name}" class="w-100 h-100 object-fit-cover" style="transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
+                    </div>
+                `;
+                galleryEl.appendChild(col);
+            });
+
+            // Directions Link in Modal
+            document.getElementById('modalDirectionsLink').href = `https://www.google.com/maps/dir/?api=1&destination=${p.latitude},${p.longitude}`;
+
+            const modal = new bootstrap.Modal(document.getElementById('placeDetailsModal'));
+            modal.show();
+        }
+
+        // 8. Map Utility Tools (Layers, User GPS, Reset View, Fullscreen)
+        function toggleMapLayer() {
+            if (currentTileLayerName === 'dark') {
+                map.removeLayer(tileLayers.dark);
+                tileLayers.satellite.addTo(map);
+                currentTileLayerName = 'satellite';
+                document.getElementById('layerIcon').className = 'bi bi-globe-americas';
+            } else if (currentTileLayerName === 'satellite') {
+                map.removeLayer(tileLayers.satellite);
+                tileLayers.streets.addTo(map);
+                currentTileLayerName = 'streets';
+                document.getElementById('layerIcon').className = 'bi bi-map';
+            } else {
+                map.removeLayer(tileLayers.streets);
+                tileLayers.dark.addTo(map);
+                currentTileLayerName = 'dark';
+                document.getElementById('layerIcon').className = 'bi bi-layers-fill';
+            }
+        }
+
+        function resetMapSubcontinentView() {
+            map.flyTo([22.0, 78.9], 5, { duration: 1.2 });
+            closeLocationDrawer();
+        }
+
+        function locateUserPosition() {
+            if (!navigator.geolocation) {
+                alert("Geolocation is not supported by your browser.");
+                return;
+            }
+
+            navigator.geolocation.getCurrentPosition(
+                (pos) => {
+                    const lat = pos.coords.latitude;
+                    const lng = pos.coords.longitude;
+
+                    if (userLocationMarker) map.removeLayer(userLocationMarker);
+
+                    userLocationMarker = L.circleMarker([lat, lng], {
+                        radius: 9,
+                        fillColor: '#3b82f6',
+                        color: '#ffffff',
+                        weight: 3,
+                        opacity: 1,
+                        fillOpacity: 0.9
+                    }).addTo(map);
+
+                    userLocationMarker.bindPopup("<b>You are here!</b><br>Explore historical monuments nearby.").openPopup();
+                    map.flyTo([lat, lng], 10, { duration: 1.2 });
+                },
+                (err) => {
+                    console.warn("Geolocation error:", err);
+                    alert("Could not access your location. Please check browser permissions.");
+                },
+                { enableHighAccuracy: true, timeout: 7000 }
+            );
+        }
+
+        function toggleMapFullscreen() {
+            const elem = document.querySelector('.map-page-wrapper');
+            const icon = document.getElementById('fullscreenIcon');
+            if (!document.fullscreenElement) {
+                if (elem.requestFullscreen) elem.requestFullscreen();
+                if (icon) icon.className = 'bi bi-fullscreen-exit';
+            } else {
+                if (document.exitFullscreen) document.exitFullscreen();
+                if (icon) icon.className = 'bi bi-fullscreen';
+            }
+        }
+
+        // 9. Favorites Bookmark Handling
+        function toggleFavoriteCurrentPlace() {
+            if (!activeSelectedPlace) return;
+            const favKey = 'hist_fav_place_' + activeSelectedPlace.id;
+            const isFav = localStorage.getItem(favKey) === 'true';
+
+            if (isFav) {
+                localStorage.removeItem(favKey);
+            } else {
+                localStorage.setItem(favKey, 'true');
+            }
+            updateDrawerFavIcon();
+        }
+
+        function updateDrawerFavIcon() {
+            if (!activeSelectedPlace) return;
+            const favKey = 'hist_fav_place_' + activeSelectedPlace.id;
+            const isFav = localStorage.getItem(favKey) === 'true';
+            const icon = document.getElementById('drawerFavIcon');
+            if (icon) {
+                icon.className = isFav ? 'bi bi-heart-fill text-danger' : 'bi bi-heart';
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -6,18 +6,19 @@
     <title>Admin Dashboard | Glory of the Past</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <!-- Admin Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom border-warning border-opacity-25 sticky-top">
         <div class="container-fluid px-4">
-            <a class="navbar-brand text-warning brand-font fw-bold" href="../index.html">
+            <a class="navbar-brand text-warning brand-font fw-bold" href="index.html">
                 <i class="bi bi-shield-lock-fill me-2"></i>GLORY OF THE PAST - ADMIN CONSOLE
             </a>
-            <div class="d-flex align-items-center gap-3">
-                <a href="../index.html" class="btn btn-sm btn-outline-secondary"><i class="bi bi-globe me-1"></i>View Website</a>
+            <div class="d-flex align-items-center gap-2">
+                <a href="map.html" target="_blank" class="btn btn-sm btn-outline-warning"><i class="bi bi-geo-alt-fill me-1"></i>Interactive Map</a>
+                <a href="index.html" class="btn btn-sm btn-outline-secondary"><i class="bi bi-globe me-1"></i>View Website</a>
                 <button class="btn btn-sm btn-outline-danger" onclick="auth.logout()"><i class="bi bi-box-arrow-right me-1"></i>Logout</button>
             </div>
         </div>
@@ -223,54 +224,121 @@
                 <div class="row g-4">
                     <div class="col-lg-5">
                         <div class="historical-card p-4">
-                            <h5 class="fw-bold text-white mb-3">Add Monument or Historic Site</h5>
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h5 class="fw-bold text-white mb-0">Add Landmark / Monument</h5>
+                                <a href="map.html" target="_blank" class="btn btn-sm btn-outline-warning"><i class="bi bi-geo-alt-fill me-1"></i>Open Map</a>
+                            </div>
                             <form id="addPlaceForm" onsubmit="handleAddPlace(event)">
                                 <div class="mb-2">
-                                    <label class="form-label text-secondary small">Monument Name</label>
-                                    <input type="text" id="plName" class="form-control bg-dark text-white border-secondary" required>
+                                    <label class="form-label text-secondary small">Monument / Place Name</label>
+                                    <input type="text" id="plName" class="form-control bg-dark text-white border-secondary" placeholder="e.g. Raigad Fort" required>
+                                </div>
+                                <div class="row g-2 mb-2">
+                                    <div class="col-6">
+                                        <label class="form-label text-secondary small">Category</label>
+                                        <select id="plCategory" class="form-select bg-dark text-white border-secondary" required>
+                                            <option value="Forts">Forts</option>
+                                            <option value="Temples">Temples</option>
+                                            <option value="Palaces">Palaces</option>
+                                            <option value="Ancient Cities">Ancient Cities</option>
+                                            <option value="Monuments" selected>Monuments</option>
+                                            <option value="Museums">Museums</option>
+                                            <option value="Battle Sites">Battle Sites</option>
+                                            <option value="UNESCO / Heritage">UNESCO Heritage</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-6">
+                                        <label class="form-label text-secondary small">Historical Era</label>
+                                        <select id="plPeriod" class="form-select bg-dark text-white border-secondary" required>
+                                            <option value="Ancient">Ancient (&lt;500 CE)</option>
+                                            <option value="Medieval" selected>Medieval (500-1500)</option>
+                                            <option value="Mughal">Mughal (1526-1707)</option>
+                                            <option value="Colonial">Colonial (1757-1947)</option>
+                                            <option value="Modern">Modern (1947+)</option>
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="row g-2 mb-2">
                                     <div class="col-6">
                                         <label class="form-label text-secondary small">Country</label>
-                                        <input type="text" id="plCountry" class="form-control bg-dark text-white border-secondary" required>
+                                        <input type="text" id="plCountry" class="form-control bg-dark text-white border-secondary" value="India" required>
                                     </div>
                                     <div class="col-6">
-                                        <label class="form-label text-secondary small">City/Region</label>
-                                        <input type="text" id="plCity" class="form-control bg-dark text-white border-secondary" required>
+                                        <label class="form-label text-secondary small">City / Region</label>
+                                        <input type="text" id="plCity" class="form-control bg-dark text-white border-secondary" placeholder="e.g. Mahad" required>
                                     </div>
                                 </div>
                                 <div class="row g-2 mb-2">
                                     <div class="col-6">
-                                        <label class="form-label text-secondary small">Built Year</label>
-                                        <input type="text" id="plBuilt" class="form-control bg-dark text-white border-secondary" placeholder="e.g. 1632 CE">
+                                        <label class="form-label text-secondary small">State / Province</label>
+                                        <input type="text" id="plState" class="form-control bg-dark text-white border-secondary" placeholder="e.g. Maharashtra">
                                     </div>
                                     <div class="col-6">
-                                        <label class="form-label text-secondary small">Image URL</label>
-                                        <input type="url" id="plImageUrl" class="form-control bg-dark text-white border-secondary">
+                                        <label class="form-label text-secondary small">Dynasty / Builder</label>
+                                        <input type="text" id="plDynasty" class="form-control bg-dark text-white border-secondary" placeholder="e.g. Maratha Empire">
+                                    </div>
+                                </div>
+                                <div class="p-2 mb-2 rounded border border-secondary" style="background: rgba(212,175,55,0.06);">
+                                    <div class="d-flex justify-content-between">
+                                        <span class="text-warning small fw-bold"><i class="bi bi-pin-map-fill me-1"></i>Map Coordinates (GPS)</span>
+                                        <span class="text-secondary small" style="font-size: 0.72rem;">Required for Map marker</span>
+                                    </div>
+                                    <div class="row g-2 mt-1">
+                                        <div class="col-6">
+                                            <label class="form-label text-secondary small mb-0" style="font-size:0.75rem;">Latitude</label>
+                                            <input type="number" step="any" id="plLat" class="form-control form-control-sm bg-dark text-white border-secondary" placeholder="e.g. 18.2354">
+                                        </div>
+                                        <div class="col-6">
+                                            <label class="form-label text-secondary small mb-0" style="font-size:0.75rem;">Longitude</label>
+                                            <input type="number" step="any" id="plLng" class="form-control form-control-sm bg-dark text-white border-secondary" placeholder="e.g. 73.4426">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row g-2 mb-2">
+                                    <div class="col-6">
+                                        <label class="form-label text-secondary small">Built / Established Year</label>
+                                        <input type="text" id="plBuilt" class="form-control bg-dark text-white border-secondary" placeholder="e.g. 1674 CE">
+                                    </div>
+                                    <div class="col-6">
+                                        <label class="form-label text-secondary small">Architectural Style</label>
+                                        <input type="text" id="plArchitecture" class="form-control bg-dark text-white border-secondary" placeholder="e.g. Deccan Hill Fort">
                                     </div>
                                 </div>
                                 <div class="mb-2">
-                                    <label class="form-label text-secondary small">Significance</label>
-                                    <textarea id="plSignificance" class="form-control bg-dark text-white border-secondary" rows="2" required></textarea>
+                                    <label class="form-label text-secondary small">Visiting Hours & Tickets</label>
+                                    <input type="text" id="plVisiting" class="form-control bg-dark text-white border-secondary" placeholder="e.g. Open daily 6:00 AM - 6:00 PM; Ropeway available.">
+                                </div>
+                                <div class="mb-2">
+                                    <label class="form-label text-secondary small">Image URL or Local Asset Name</label>
+                                    <input type="text" id="plImageUrl" class="form-control bg-dark text-white border-secondary" placeholder="e.g. raigad_fort.jpg or https://...">
+                                </div>
+                                <div class="mb-2">
+                                    <label class="form-label text-secondary small">Historical Significance</label>
+                                    <textarea id="plSignificance" class="form-control bg-dark text-white border-secondary" rows="2" placeholder="Key historical importance of the monument..." required></textarea>
                                 </div>
                                 <div class="mb-3">
-                                    <label class="form-label text-secondary small">Full Architectural Description</label>
-                                    <textarea id="plDescription" class="form-control bg-dark text-white border-secondary" rows="3" required></textarea>
+                                    <label class="form-label text-secondary small">Full Description & History</label>
+                                    <textarea id="plDescription" class="form-control bg-dark text-white border-secondary" rows="3" placeholder="Detailed architectural and historical description..." required></textarea>
                                 </div>
-                                <button type="submit" class="btn btn-gold w-100">Save Monument</button>
+                                <button type="submit" class="btn btn-gold w-100"><i class="bi bi-plus-circle me-1"></i>Save Monument & Publish to Map</button>
                             </form>
                         </div>
                     </div>
                     <div class="col-lg-7">
                         <div class="historical-card p-4">
-                            <h5 class="fw-bold text-white mb-3">Existing Historical Monuments</h5>
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h5 class="fw-bold text-white mb-0">Existing Historical Monuments</h5>
+                                <span class="badge bg-secondary" id="placesCountBadge">0 Places</span>
+                            </div>
                             <div class="table-responsive">
-                                <table class="table table-dark table-hover small">
+                                <table class="table table-dark table-hover small align-middle">
                                     <thead>
                                         <tr>
                                             <th>Name</th>
+                                            <th>Category</th>
                                             <th>Location</th>
-                                            <th>Action</th>
+                                            <th>Map Pin</th>
+                                            <th class="text-end">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody id="adminPlacesTable"></tbody>
@@ -352,14 +420,14 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../js/api.js"></script>
-    <script src="../js/auth.js"></script>
+    <script src="api.js"></script>
+    <script src="auth.js"></script>
 
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
             if (!auth.isLoggedIn() || !auth.isAdmin()) {
                 alert('Access Denied: Admin privileges required. Please sign in as Admin.');
-                window.location.href = '../login.html';
+                window.location.href = 'login.html';
                 return;
             }
 
@@ -502,22 +570,51 @@
 
         async function loadPlacesTable() {
             const tbody = document.getElementById('adminPlacesTable');
+            const countBadge = document.getElementById('placesCountBadge');
             try {
                 const places = await api.get('/places');
-                tbody.innerHTML = places.map(pl => `
+                if (countBadge) countBadge.textContent = `${places.length} Places`;
+                tbody.innerHTML = places.map(pl => {
+                    const loc = [pl.city || pl.cityOrRegion, pl.state, pl.country].filter(Boolean).join(', ');
+                    const hasCoords = pl.latitude != null && pl.longitude != null;
+                    const coordsDisplay = hasCoords ? `${Number(pl.latitude).toFixed(2)}, ${Number(pl.longitude).toFixed(2)}` : '<span class="text-secondary opacity-50">No GPS</span>';
+                    const categoryColors = {
+                        'Forts': 'bg-danger text-white',
+                        'Temples': 'bg-warning text-dark',
+                        'Palaces': 'bg-info text-dark',
+                        'Ancient Cities': 'bg-primary text-white',
+                        'Monuments': 'bg-secondary text-white',
+                        'Museums': 'bg-success text-white',
+                        'Battle Sites': 'bg-dark text-warning border border-warning',
+                        'UNESCO / Heritage': 'bg-warning text-dark'
+                    };
+                    const catBadgeClass = categoryColors[pl.category] || 'bg-secondary text-white';
+
+                    return `
                     <tr>
-                        <td class="fw-bold text-white">${pl.name}</td>
-                        <td>${pl.cityOrRegion}, ${pl.country}</td>
-                        <td><button class="btn btn-sm btn-outline-danger py-0 px-2" onclick="deletePlace(${pl.id})">Delete</button></td>
+                        <td>
+                            <div class="fw-bold text-white">${pl.name}</div>
+                            <small class="text-secondary">${pl.builtYear || pl.yearEstablished || pl.historicalPeriod || ''}</small>
+                        </td>
+                        <td><span class="badge ${catBadgeClass}">${pl.category || 'Monument'}</span></td>
+                        <td><span class="text-white-50">${loc}</span></td>
+                        <td>
+                            ${hasCoords ? `<a href="map.html?placeId=${pl.id}" target="_blank" class="badge bg-dark border border-warning text-warning text-decoration-none" title="Locate on Map"><i class="bi bi-geo-alt-fill me-1"></i>${coordsDisplay}</a>` : coordsDisplay}
+                        </td>
+                        <td class="text-end text-nowrap">
+                            ${hasCoords ? `<a href="map.html?placeId=${pl.id}" target="_blank" class="btn btn-sm btn-outline-warning py-0 px-2 me-1" title="View on Historical Map"><i class="bi bi-eye"></i> Map</a>` : ''}
+                            <button class="btn btn-sm btn-outline-danger py-0 px-2" onclick="deletePlace(${pl.id})" title="Delete Site"><i class="bi bi-trash"></i></button>
+                        </td>
                     </tr>
-                `).join('');
+                    `;
+                }).join('');
             } catch (err) {
-                tbody.innerHTML = '<tr><td colspan="3">Error loading places.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="5" class="text-danger">Error loading places.</td></tr>';
             }
         }
 
         async function deletePlace(id) {
-            if (confirm('Delete this monument?')) {
+            if (confirm('Are you sure you want to delete this historical site/monument?')) {
                 await api.delete(`/places/${id}`);
                 loadPlacesTable();
                 loadStats();
@@ -526,12 +623,25 @@
 
         async function handleAddPlace(e) {
             e.preventDefault();
+            const latVal = document.getElementById('plLat').value;
+            const lngVal = document.getElementById('plLng').value;
+
             const body = {
                 name: document.getElementById('plName').value,
+                category: document.getElementById('plCategory').value,
+                historicalPeriod: document.getElementById('plPeriod').value,
                 country: document.getElementById('plCountry').value,
-                cityOrRegion: document.getElementById('plCity').value,
-                builtYear: document.getElementById('plBuilt').value,
-                imageUrl: document.getElementById('plImageUrl').value,
+                cityOrRegion: document.getElementById('plCity').value + (document.getElementById('plState').value ? ', ' + document.getElementById('plState').value : ''),
+                city: document.getElementById('plCity').value,
+                state: document.getElementById('plState').value || '',
+                latitude: latVal ? parseFloat(latVal) : null,
+                longitude: lngVal ? parseFloat(lngVal) : null,
+                builtYear: document.getElementById('plBuilt').value || '',
+                yearEstablished: document.getElementById('plBuilt').value || '',
+                dynasty: document.getElementById('plDynasty').value || '',
+                architecture: document.getElementById('plArchitecture').value || '',
+                openingInformation: document.getElementById('plVisiting').value || '',
+                imageUrl: document.getElementById('plImageUrl').value || '',
                 historicalSignificance: document.getElementById('plSignificance').value,
                 description: document.getElementById('plDescription').value,
                 isFeatured: true
@@ -539,7 +649,7 @@
 
             try {
                 await api.post('/places', body);
-                alert('Monument added successfully!');
+                alert('Historical landmark saved successfully! It is now published to the Interactive Historical Map and Places explorer.');
                 document.getElementById('addPlaceForm').reset();
                 loadPlacesTable();
                 loadStats();
