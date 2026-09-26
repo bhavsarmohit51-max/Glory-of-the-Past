@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -89,10 +89,12 @@
             const container = document.getElementById('timelineEventsContainer');
             try {
                 const events = await api.get('/events/timeline');
-                allTimelineEvents = events;
-                renderTimelineNodes(events);
+                allTimelineEvents = Array.isArray(events) ? events : (FALLBACK_DATA ? FALLBACK_DATA.events : []);
+                renderTimelineNodes(allTimelineEvents);
             } catch (err) {
-                container.innerHTML = '<div class="text-center text-danger py-5">Failed to load timeline.</div>';
+                console.warn('Timeline load error, activating fallback:', err);
+                allTimelineEvents = (typeof FALLBACK_DATA !== 'undefined') ? FALLBACK_DATA.events : [];
+                renderTimelineNodes(allTimelineEvents);
             }
         }
 

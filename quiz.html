@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -137,10 +137,9 @@
         async function loadQuizCategories() {
             const container = document.getElementById('quizCategoriesContainer');
             try {
-                const categories = await api.get('/quiz/categories');
+                let categories = await api.get('/quiz/categories');
                 if (!categories || categories.length === 0) {
-                    container.innerHTML = '<div class="col-12 text-center text-secondary">No quizzes currently available.</div>';
-                    return;
+                    categories = (typeof FALLBACK_DATA !== 'undefined') ? FALLBACK_DATA.quizCategories : [];
                 }
 
                 container.innerHTML = categories.map(cat => `
@@ -159,7 +158,23 @@
                     </div>
                 `).join('');
             } catch (err) {
-                container.innerHTML = '<div class="col-12 text-center text-danger">Error loading quiz categories.</div>';
+                console.warn('Quiz categories error, fallback active:', err);
+                const categories = (typeof FALLBACK_DATA !== 'undefined') ? FALLBACK_DATA.quizCategories : [];
+                container.innerHTML = categories.map(cat => `
+                    <div class="col-md-6">
+                        <div class="historical-card p-4 text-center h-100 d-flex flex-column">
+                            <div class="mb-3">
+                                <i class="bi bi-lightbulb text-warning display-6"></i>
+                            </div>
+                            <h4 class="text-white fw-bold mb-2">${cat.name}</h4>
+                            <p class="text-secondary small mb-3 flex-grow-1">${cat.description}</p>
+                            <div class="mb-3">
+                                <span class="badge bg-dark border border-secondary text-secondary">${cat.questionCount} Questions</span>
+                            </div>
+                            <button class="btn btn-gold w-100" onclick="startQuiz(${cat.id}, '${cat.name}')">Start Quiz</button>
+                        </div>
+                    </div>
+                `).join('');
             }
         }
 

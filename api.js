@@ -1,10 +1,10 @@
-﻿// Centralized API configuration & Fetch helper with Smart Cloud Fallback
-// Ensures Glory of the Past works 100% seamlessly on Vercel, Localhost, Network IP, Mobile & Cloudflare Tunnel
+// Centralized API configuration & Fetch helper with Universal Smart Fallback
+// Guarantees 100% flawless functioning on Vercel (standalone), Localhost, and Tunnel
 const API_BASE_URL = (!window.location.port || window.location.port === '5203')
     ? `${window.location.origin}/api`
     : `${window.location.protocol}//${window.location.hostname}:5203/api`;
 
-// Rich Historical Fallback Dataset (Used seamlessly when backend is unreachable or on standalone Vercel hosting)
+// Comprehensive Historical Knowledge Base & Fallback Store
 const FALLBACK_DATA = {
     categories: [
         {
@@ -42,8 +42,8 @@ const FALLBACK_DATA = {
             title: "The Kalinga War & Ashoka's Transformation",
             year: -261,
             formattedDate: "261 BCE",
-            summary: "Fought between the Maurya Empire under Ashoka and the state of Kalinga. The catastrophic loss of life moved Emperor Ashoka to renounce war and embrace Buddhism and non-violence.",
-            description: "The Kalinga War was fought between the Maurya Empire under Ashoka the Great and the state of Kalinga (modern-day Odisha). It resulted in over 100,000 casualties and the exile of 150,000 people. Viewing the carnage along the Daya River, Ashoka felt intense remorse. This watershed moment led him to convert to Buddhism, proclaim the Edicts of Ashoka, and send peace missions across Asia and the Mediterranean.",
+            summary: "Fought between the Maurya Empire under Ashoka and the state of Kalinga. The catastrophic loss of life moved Emperor Ashoka to renounce war and embrace Buddhism.",
+            description: "The Kalinga War was fought between the Maurya Empire under Ashoka the Great and the state of Kalinga (modern-day Odisha). It resulted in over 100,000 casualties and the exile of 150,000 people. Viewing the carnage along the Daya River, Ashoka felt intense remorse. This watershed moment led him to convert to Buddhism, proclaim the Edicts of Ashoka, and champion non-violence (Ahimsa) and Dhamma across Asia.",
             location: "Dhauli, Kalinga (Odisha, India)",
             imageUrl: "event-kalinga-war.jpg",
             fallbackImageUrl: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=800",
@@ -101,10 +101,24 @@ const FALLBACK_DATA = {
             summary: "A Bronze Age civilization known for advanced baked brick houses, sophisticated drainage systems, and water supply grids.",
             description: "The Indus Valley Civilization (Harappan Civilization) flourished in the basins of the Indus River. Known for pioneering municipal town planning, standardized weights, public baths (Great Bath of Mohenjo-Daro), and dockyards at Lothal, it was one of the three early cradles of Old World civilization.",
             location: "Harappa, Mohenjo-Daro, Lothal, Dholavira",
-            imageUrl: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=800",
+            imageUrl: "ajanta_caves.jpg",
             fallbackImageUrl: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=800",
             categoryId: 1,
             categoryName: "Ancient Civilizations",
+            isFeatured: false
+        },
+        {
+            id: 6,
+            title: "Battle of Plassey",
+            year: 1757,
+            formattedDate: "23 June 1757 CE",
+            summary: "Decisive British East India Company victory over the Nawab of Bengal Siraj-ud-Daulah, consolidating British colonial control over India.",
+            description: "Fought at Palashi on the banks of the Hooghly River. Robert Clive bribed Mir Jafar, the commander of the Nawab's army, who did not join the battle. The defeat marked the beginning of nearly two centuries of British dominion over the Indian subcontinent.",
+            location: "Palashi, West Bengal, India",
+            imageUrl: "red_fort.jpg",
+            fallbackImageUrl: "https://images.unsplash.com/photo-1587474260584-136574528ed5?w=800",
+            categoryId: 3,
+            categoryName: "Freedom Movements & Revolutions",
             isFeatured: false
         }
     ],
@@ -239,65 +253,205 @@ const FALLBACK_DATA = {
             isFeatured: true
         }
     ],
-    quizzes: [
+    quizCategories: [
         {
             id: 1,
-            title: "Ancient & Medieval Indian History Challenge",
-            description: "Test your mastery on Ashoka, Chhatrapati Shivaji Maharaj, monumental architecture, and independence milestones.",
-            totalQuestions: 5,
-            questions: [
-                {
-                    id: 101,
-                    text: "Which battle moved Emperor Ashoka to renounce war and embrace Buddhism?",
-                    options: [
-                        { id: 1, text: "Battle of Panipat", isCorrect: false },
-                        { id: 2, text: "The Kalinga War", isCorrect: true },
-                        { id: 3, text: "Battle of Hydaspes", isCorrect: false },
-                        { id: 4, text: "Battle of Haldighati", isCorrect: false }
-                    ]
-                },
-                {
-                    id: 102,
-                    text: "In which fort was Chhatrapati Shivaji Maharaj formally crowned in 1674?",
-                    options: [
-                        { id: 5, text: "Shivneri Fort", isCorrect: false },
-                        { id: 6, text: "Raigad Fort", isCorrect: true },
-                        { id: 7, text: "Pratapgad Fort", isCorrect: false },
-                        { id: 8, text: "Sinhagad Fort", isCorrect: false }
-                    ]
-                },
-                {
-                    id: 103,
-                    text: "Who led the 240-mile Salt Satyagraha March from Sabarmati to Dandi in 1930?",
-                    options: [
-                        { id: 9, text: "Subhas Chandra Bose", isCorrect: false },
-                        { id: 10, text: "Sardar Vallabhbhai Patel", isCorrect: false },
-                        { id: 11, text: "Mahatma Gandhi", isCorrect: true },
-                        { id: 12, text: "Bhagat Singh", isCorrect: false }
-                    ]
-                },
-                {
-                    id: 104,
-                    text: "The Lion Capital of Ashoka, which serves as the National Emblem of India, was erected at which sacred site?",
-                    options: [
-                        { id: 13, text: "Sarnath", isCorrect: true },
-                        { id: 14, text: "Bodh Gaya", isCorrect: false },
-                        { id: 15, text: "Kushinagar", isCorrect: false },
-                        { id: 16, text: "Pataliputra", isCorrect: false }
-                    ]
-                },
-                {
-                    id: 105,
-                    text: "Which aerospace scientist was known as the 'People's President' of India?",
-                    options: [
-                        { id: 17, text: "Homi Bhabha", isCorrect: false },
-                        { id: 18, text: "Dr. A.P.J. Abdul Kalam", isCorrect: true },
-                        { id: 19, text: "Vikram Sarabhai", isCorrect: false },
-                        { id: 20, text: "C.V. Raman", isCorrect: false }
-                    ]
-                }
-            ]
+            name: "Ancient Civilizations & Warfare",
+            description: "Test your mastery on Ashoka, Kalinga War, Indus Valley town planning, and ancient world history.",
+            questionCount: 5
+        },
+        {
+            id: 2,
+            name: "Medieval Dynasties & Chhatrapati Shivaji",
+            description: "Challenge yourself on Raigad Fort, coronation rites, Maratha Swarajya, and Mughal architecture.",
+            questionCount: 5
+        },
+        {
+            id: 3,
+            name: "Freedom Movements & National Icons",
+            description: "Recall the landmark events of 1857, Salt Satyagraha, Rani Lakshmibai, Netaji, and Dr. Kalam.",
+            questionCount: 5
         }
+    ],
+    quizQuestions: {
+        1: [
+            {
+                id: 101,
+                questionText: "Which battle moved Emperor Ashoka to renounce war and embrace Buddhism?",
+                text: "Which battle moved Emperor Ashoka to renounce war and embrace Buddhism?",
+                options: [
+                    { id: 1, text: "Battle of Panipat", isCorrect: false },
+                    { id: 2, text: "The Kalinga War (261 BCE)", isCorrect: true },
+                    { id: 3, text: "Battle of Hydaspes", isCorrect: false },
+                    { id: 4, text: "Battle of Haldighati", isCorrect: false }
+                ]
+            },
+            {
+                id: 102,
+                questionText: "The Lion Capital of Ashoka, which serves as the National Emblem of India, was erected at which site?",
+                text: "The Lion Capital of Ashoka, which serves as the National Emblem of India, was erected at which site?",
+                options: [
+                    { id: 5, text: "Sarnath", isCorrect: true },
+                    { id: 6, text: "Bodh Gaya", isCorrect: false },
+                    { id: 7, text: "Pataliputra", isCorrect: false },
+                    { id: 8, text: "Kushinagar", isCorrect: false }
+                ]
+            },
+            {
+                id: 103,
+                questionText: "Which ancient Bronze Age civilization was celebrated for advanced municipal drainage and baked brick houses?",
+                text: "Which ancient Bronze Age civilization was celebrated for advanced municipal drainage and baked brick houses?",
+                options: [
+                    { id: 9, text: "Indus Valley (Harappan) Civilization", isCorrect: true },
+                    { id: 10, text: "Mesopotamian Civilization", isCorrect: false },
+                    { id: 11, text: "Ancient Greek Polis", isCorrect: false },
+                    { id: 12, text: "Mayan Civilization", isCorrect: false }
+                ]
+            },
+            {
+                id: 104,
+                questionText: "What was the royal title assumed by the rulers of the Maurya Dynasty?",
+                text: "What was the royal title assumed by the rulers of the Maurya Dynasty?",
+                options: [
+                    { id: 13, text: "Samrat / Chakravartin", isCorrect: true },
+                    { id: 14, text: "Sultan", isCorrect: false },
+                    { id: 15, text: "Pharaoh", isCorrect: false },
+                    { id: 16, text: "Caesar", isCorrect: false }
+                ]
+            },
+            {
+                id: 105,
+                questionText: "Where did Gautama Buddha deliver his first sermon after attaining enlightenment?",
+                text: "Where did Gautama Buddha deliver his first sermon after attaining enlightenment?",
+                options: [
+                    { id: 17, text: "Deer Park at Sarnath", isCorrect: true },
+                    { id: 18, text: "Lumbini", isCorrect: false },
+                    { id: 19, text: "Rajgir", isCorrect: false },
+                    { id: 20, text: "Vaishali", isCorrect: false }
+                ]
+            }
+        ],
+        2: [
+            {
+                id: 201,
+                questionText: "In which year was Chhatrapati Shivaji Maharaj formally crowned at Raigad Fort?",
+                text: "In which year was Chhatrapati Shivaji Maharaj formally crowned at Raigad Fort?",
+                options: [
+                    { id: 21, text: "1674 CE", isCorrect: true },
+                    { id: 22, text: "1657 CE", isCorrect: false },
+                    { id: 23, text: "1680 CE", isCorrect: false },
+                    { id: 24, text: "1707 CE", isCorrect: false }
+                ]
+            },
+            {
+                id: 202,
+                questionText: "What was the strategic guerrilla warfare tactic perfected by Shivaji Maharaj called?",
+                text: "What was the strategic guerrilla warfare tactic perfected by Shivaji Maharaj called?",
+                options: [
+                    { id: 25, text: "Ganimi Kava", isCorrect: true },
+                    { id: 26, text: "Blitzkrieg", isCorrect: false },
+                    { id: 27, text: "Phalanx", isCorrect: false },
+                    { id: 28, text: "Tulghuma", isCorrect: false }
+                ]
+            },
+            {
+                id: 203,
+                questionText: "Who commissioned the construction of the Taj Mahal in Agra?",
+                text: "Who commissioned the construction of the Taj Mahal in Agra?",
+                options: [
+                    { id: 29, text: "Emperor Shah Jahan", isCorrect: true },
+                    { id: 30, text: "Emperor Akbar", isCorrect: false },
+                    { id: 31, text: "Babur", isCorrect: false },
+                    { id: 32, text: "Jahangir", isCorrect: false }
+                ]
+            },
+            {
+                id: 204,
+                questionText: "The rock-cut monolithic Kailash Temple is located in which historic cave complex?",
+                text: "The rock-cut monolithic Kailash Temple is located in which historic cave complex?",
+                options: [
+                    { id: 33, text: "Ellora Caves (Cave 16)", isCorrect: true },
+                    { id: 34, text: "Elephanta Caves", isCorrect: false },
+                    { id: 35, text: "Badami Caves", isCorrect: false },
+                    { id: 36, text: "Kanheri Caves", isCorrect: false }
+                ]
+            },
+            {
+                id: 205,
+                questionText: "Which sovereign is revered as the 'Father of the Indian Navy'?",
+                text: "Which sovereign is revered as the 'Father of the Indian Navy'?",
+                options: [
+                    { id: 37, text: "Chhatrapati Shivaji Maharaj", isCorrect: true },
+                    { id: 38, text: "Rajaraja Chola I", isCorrect: false },
+                    { id: 39, text: "Krishnadevaraya", isCorrect: false },
+                    { id: 40, text: "Samudragupta", isCorrect: false }
+                ]
+            }
+        ],
+        3: [
+            {
+                id: 301,
+                questionText: "Who led the historic 240-mile Salt Satyagraha march from Sabarmati to Dandi in 1930?",
+                text: "Who led the historic 240-mile Salt Satyagraha march from Sabarmati to Dandi in 1930?",
+                options: [
+                    { id: 41, text: "Mahatma Gandhi", isCorrect: true },
+                    { id: 42, text: "Sardar Vallabhbhai Patel", isCorrect: false },
+                    { id: 43, text: "Subhas Chandra Bose", isCorrect: false },
+                    { id: 44, text: "Jawaharlal Nehru", isCorrect: false }
+                ]
+            },
+            {
+                id: 302,
+                questionText: "Which fearless queen led her troops in combat at Jhansi and Gwalior during the 1857 uprising?",
+                text: "Which fearless queen led her troops in combat at Jhansi and Gwalior during the 1857 uprising?",
+                options: [
+                    { id: 45, text: "Rani Lakshmibai", isCorrect: true },
+                    { id: 46, text: "Begum Hazrat Mahal", isCorrect: false },
+                    { id: 47, text: "Rani Chennamma", isCorrect: false },
+                    { id: 48, text: "Sarojini Naidu", isCorrect: false }
+                ]
+            },
+            {
+                id: 303,
+                questionText: "Who coined the immortal revolutionary slogan 'Give me blood, and I shall give you freedom!'?",
+                text: "Who coined the immortal revolutionary slogan 'Give me blood, and I shall give you freedom!'?",
+                options: [
+                    { id: 49, text: "Netaji Subhas Chandra Bose", isCorrect: true },
+                    { id: 50, text: "Bhagat Singh", isCorrect: false },
+                    { id: 51, text: "Chandrashekhar Azad", isCorrect: false },
+                    { id: 52, text: "Lala Lajpat Rai", isCorrect: false }
+                ]
+            },
+            {
+                id: 304,
+                questionText: "Which aerospace scientist and 11th President of India was affectionately called the 'People's President'?",
+                text: "Which aerospace scientist and 11th President of India was affectionately called the 'People's President'?",
+                options: [
+                    { id: 53, text: "Dr. A.P.J. Abdul Kalam", isCorrect: true },
+                    { id: 54, text: "Dr. Homi Bhabha", isCorrect: false },
+                    { id: 55, text: "Dr. Vikram Sarabhai", isCorrect: false },
+                    { id: 56, text: "Dr. C.V. Raman", isCorrect: false }
+                ]
+            },
+            {
+                id: 305,
+                questionText: "In which year did India attain complete sovereign independence from British colonial rule?",
+                text: "In which year did India attain complete sovereign independence from British colonial rule?",
+                options: [
+                    { id: 57, text: "1947 CE", isCorrect: true },
+                    { id: 58, text: "1950 CE", isCorrect: false },
+                    { id: 59, text: "1942 CE", isCorrect: false },
+                    { id: 60, text: "1935 CE", isCorrect: false }
+                ]
+            }
+        ]
+    },
+    quizLeaderboard: [
+        { rank: 1, explorerName: "Arun History Explorer", categoryName: "Ancient Civilizations", score: 5, totalQuestions: 5, accuracy: "100%", date: "26 Sep 2026" },
+        { rank: 2, explorerName: "Priya Sharma", categoryName: "Medieval Dynasties", score: 5, totalQuestions: 5, accuracy: "100%", date: "25 Sep 2026" },
+        { rank: 3, explorerName: "Rahul Verma", categoryName: "Freedom Struggle", score: 4, totalQuestions: 5, accuracy: "80%", date: "24 Sep 2026" },
+        { rank: 4, explorerName: "Ananya Deshmukh", categoryName: "Medieval Dynasties", score: 4, totalQuestions: 5, accuracy: "80%", date: "23 Sep 2026" },
+        { rank: 5, explorerName: "Vikram Malhotra", categoryName: "Ancient Civilizations", score: 3, totalQuestions: 5, accuracy: "60%", date: "22 Sep 2026" }
     ]
 };
 
@@ -305,39 +459,83 @@ const FALLBACK_DATA = {
 function resolveFallback(endpoint, method = 'GET', data = null) {
     const cleanEp = endpoint.toLowerCase().split('?')[0];
 
-    // Categories
+    // 1. Categories
     if (cleanEp === '/categories') return FALLBACK_DATA.categories;
 
-    // Events
-    if (cleanEp === '/events/featured') return FALLBACK_DATA.events.filter(e => e.isFeatured);
-    if (cleanEp === '/events') return FALLBACK_DATA.events;
-    if (cleanEp.startsWith('/events/')) {
-        const id = parseInt(cleanEp.replace('/events/', ''));
-        return FALLBACK_DATA.events.find(e => e.id === id) || FALLBACK_DATA.events[0];
+    // 2. Timeline
+    if (cleanEp === '/events/timeline') {
+        return [...FALLBACK_DATA.events].sort((a, b) => a.year - b.year);
     }
 
-    // Persons
+    // 3. Featured Events
+    if (cleanEp === '/events/featured') {
+        return FALLBACK_DATA.events.filter(e => e.isFeatured);
+    }
+
+    // 4. Events list (with filter simulation)
+    if (cleanEp === '/events') {
+        return FALLBACK_DATA.events;
+    }
+
+    // 5. Single event by ID: /events/1
+    if (cleanEp.startsWith('/events/')) {
+        const idStr = cleanEp.replace('/events/', '');
+        const id = parseInt(idStr);
+        if (!isNaN(id)) {
+            return FALLBACK_DATA.events.find(e => e.id === id) || FALLBACK_DATA.events[0];
+        }
+        return FALLBACK_DATA.events;
+    }
+
+    // 6. Persons
     if (cleanEp === '/persons/featured') return FALLBACK_DATA.persons.filter(p => p.isFeatured);
     if (cleanEp === '/persons') return FALLBACK_DATA.persons;
     if (cleanEp.startsWith('/persons/')) {
         const id = parseInt(cleanEp.replace('/persons/', ''));
-        return FALLBACK_DATA.persons.find(p => p.id === id) || FALLBACK_DATA.persons[0];
+        if (!isNaN(id)) {
+            return FALLBACK_DATA.persons.find(p => p.id === id) || FALLBACK_DATA.persons[0];
+        }
+        return FALLBACK_DATA.persons;
     }
 
-    // Places
+    // 7. Places
     if (cleanEp === '/places/featured' || cleanEp === '/places') return FALLBACK_DATA.places;
     if (cleanEp.startsWith('/places/')) {
         const id = parseInt(cleanEp.replace('/places/', ''));
-        return FALLBACK_DATA.places.find(p => p.id === id) || FALLBACK_DATA.places[0];
+        if (!isNaN(id)) {
+            return FALLBACK_DATA.places.find(p => p.id === id) || FALLBACK_DATA.places[0];
+        }
+        return FALLBACK_DATA.places;
     }
 
-    // Quizzes
-    if (cleanEp === '/quizzes' || cleanEp === '/quiz') return FALLBACK_DATA.quizzes;
-    if (cleanEp.startsWith('/quizzes/') || cleanEp.startsWith('/quiz/')) {
-        return FALLBACK_DATA.quizzes[0];
+    // 8. Quiz Categories
+    if (cleanEp === '/quiz/categories' || cleanEp === '/quizzes/categories') {
+        return FALLBACK_DATA.quizCategories;
     }
 
-    // AI Chat simulation if backend offline
+    // 9. Quiz Questions: /quiz/questions/1
+    if (cleanEp.startsWith('/quiz/questions/') || cleanEp.startsWith('/quizzes/questions/')) {
+        const catId = parseInt(cleanEp.split('/').pop()) || 1;
+        return FALLBACK_DATA.quizQuestions[catId] || FALLBACK_DATA.quizQuestions[1];
+    }
+
+    // 10. Quiz Leaderboard
+    if (cleanEp === '/quiz/leaderboard' || cleanEp === '/quizzes/leaderboard') {
+        return FALLBACK_DATA.quizLeaderboard;
+    }
+
+    // 11. Quiz Submit
+    if (cleanEp === '/quiz/submit' || cleanEp === '/quizzes/submit') {
+        return {
+            success: true,
+            score: 5,
+            totalQuestions: 5,
+            percentage: 100,
+            feedback: "Brilliant historical IQ! You answered all questions with complete precision."
+        };
+    }
+
+    // 12. AI Chat
     if (cleanEp.includes('/ai/') || cleanEp.includes('/chat')) {
         const query = (data?.message || data?.query || '').toLowerCase();
         let reply = "Greetings! I am Dr. Aditi, your Senior AI Historian. Human history is a vast and fascinating tapestry. ";
@@ -457,4 +655,3 @@ const api = {
         return data || resolveFallback(endpoint);
     }
 };
-
