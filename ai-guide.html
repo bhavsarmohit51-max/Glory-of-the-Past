@@ -81,51 +81,76 @@
                     </div>
                 </div>
 
-                <!-- Interactive Voice Assistant Banner (Proactive Speaking / Aage Se Bolna) -->
-                <div class="card bg-gradient border-warning border-opacity-50 text-white mb-3 shadow-sm" style="background: linear-gradient(135deg, rgba(212, 160, 23, 0.15) 0%, rgba(15, 23, 42, 0.95) 100%);">
-                    <div class="card-body p-3 d-flex align-items-center justify-content-between flex-wrap gap-3">
+                <!-- Aesthetic AI Voice Assistant Card -->
+                <div class="aesthetic-voice-card mb-4 p-3 p-md-4 shadow-lg">
+                    <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-3">
                         <div class="d-flex align-items-center gap-3">
-                            <div class="rounded-circle bg-warning text-dark p-2 d-flex align-items-center justify-content-center shadow" style="width: 48px; height: 48px; min-width: 48px;" id="voiceAvatarIcon">
-                                <i class="bi bi-person-fill fs-3 text-dark" id="avatarIconInside"></i>
+                            <div class="persona-avatar-box" id="voiceAvatarIcon">
+                                <div class="persona-avatar-inner">
+                                    <i class="bi bi-person-fill fs-3" id="avatarIconInside"></i>
+                                </div>
                             </div>
                             <div>
-                                <div class="fw-bold text-warning d-flex align-items-center gap-2">
-                                    <span id="voiceAssistantPersonaName">ðŸ‘© Dr. Aditi (Senior Historian)</span>
-                                    <span class="badge bg-danger text-white rounded-pill px-2 py-0" style="font-size: 0.7rem;">Interactive Voice</span>
+                                <div class="d-flex align-items-center gap-2 flex-wrap">
+                                    <h5 class="fw-bold text-gold mb-0" id="voiceAssistantPersonaName" style="letter-spacing: 0.5px;">Dr. Aditi (Senior Historian)</h5>
+                                    <span class="badge rounded-pill bg-dark border border-warning text-warning px-2 py-1 small" id="personaEraBadge">
+                                        <i class="bi bi-award-fill me-1"></i>Vedic & Global History
+                                    </span>
+                                    <div class="sound-wave-bars ms-1" id="soundWaveVisualizer" title="Speech Active Visualizer">
+                                        <div class="sound-bar"></div>
+                                        <div class="sound-bar"></div>
+                                        <div class="sound-bar"></div>
+                                        <div class="sound-bar"></div>
+                                    </div>
                                 </div>
-                                <div class="text-light small" id="proactiveVoiceStatus">
-                                    Click <strong>"Talk to Historian"</strong> â€” Assistant pehle khud aapse bolegi aur aapse sawal sunegi!
+                                <div class="text-light small mt-1 opacity-75" id="proactiveVoiceStatus">
+                                    Click <strong>"Talk to Historian"</strong> — Assistant pehle khud bolegi aur aapse sawal sunegi!
                                 </div>
                             </div>
                         </div>
+
                         <div class="d-flex align-items-center gap-2">
-                            <button type="button" class="btn btn-sm btn-gold px-3 py-2 fw-bold shadow-sm d-flex align-items-center gap-2" id="startVoiceConvBtn" onclick="startProactiveVoiceGuide()">
+                            <button type="button" class="btn btn-gold px-3 py-2 fw-bold shadow d-flex align-items-center gap-2 rounded-pill" id="startVoiceConvBtn" onclick="startProactiveVoiceGuide()">
                                 <i class="bi bi-volume-up-fill fs-6 text-dark" id="startVoiceBtnIcon"></i>
                                 <span id="startVoiceBtnText">Talk to Historian</span>
                             </button>
-                            <button type="button" class="btn btn-sm btn-outline-danger px-3 py-2 fw-bold shadow-sm d-flex align-items-center gap-2" id="globalStopVoiceBtn" onclick="stopAllAssistantAudio()" title="Stop Voice & Assistant (Or Press Esc key)">
+                            <button type="button" class="btn btn-outline-danger px-3 py-2 fw-bold shadow d-flex align-items-center gap-2 rounded-pill" id="globalStopVoiceBtn" onclick="stopAllAssistantAudio()" title="Stop Voice & Assistant (Or Press Esc key)">
                                 <i class="bi bi-stop-circle-fill fs-6"></i>
                                 <span>Stop (Esc)</span>
+                            </button>
+                            <button type="button" class="btn btn-outline-warning px-3 py-2 fw-bold d-flex align-items-center gap-2 rounded-pill" onclick="testCurrentVoice()" title="Preview Voice Audio">
+                                <i class="bi bi-play-circle-fill"></i>
+                                <span class="d-none d-sm-inline">Test</span>
                             </button>
                         </div>
                     </div>
 
-                    <!-- Voice Selector & Persona Switcher Toolbar -->
-                    <div class="card-footer bg-black bg-opacity-40 border-top border-warning border-opacity-25 px-3 py-2 d-flex align-items-center justify-content-between flex-wrap gap-2">
+                    <!-- 5 Curated Historical Languages -->
+                    <div class="pt-3 border-top border-warning border-opacity-25 d-flex align-items-center justify-content-between flex-wrap gap-2">
                         <div class="d-flex align-items-center gap-2 flex-wrap">
-                            <label for="assistantVoiceSelect" class="small fw-bold text-warning d-flex align-items-center gap-1 mb-0">
-                                <i class="bi bi-person-lines-fill"></i> Change Voice:
-                            </label>
-                            <select id="assistantVoiceSelect" class="form-select form-select-sm bg-dark text-warning border-warning border-opacity-50" style="min-width: 280px; max-width: 440px;" onchange="handleVoiceChange()" title="Choose your preferred voice assistant">
-                                <option value="">Loading voices...</option>
-                            </select>
-                            <button type="button" class="btn btn-sm btn-outline-warning py-1 px-3 d-flex align-items-center gap-1" onclick="testCurrentVoice()" title="Click to preview this voice">
-                                <i class="bi bi-play-circle-fill"></i> Test Voice
-                            </button>
+                            <span class="small fw-bold text-gold d-flex align-items-center gap-1 me-1">
+                                <i class="bi bi-translate"></i> Choose Language:
+                            </span>
+                            <div class="lang-pill-container" id="curatedLangPills">
+                                <button type="button" class="lang-pill active" data-lang="en" onclick="setAssistantLanguage('en', this)">
+                                    <span>🇬🇧</span> English
+                                </button>
+                                <button type="button" class="lang-pill" data-lang="hi" onclick="setAssistantLanguage('hi', this)">
+                                    <span>🇮🇳</span> हिंदी (Hindi)
+                                </button>
+                                <button type="button" class="lang-pill" data-lang="mr" onclick="setAssistantLanguage('mr', this)">
+                                    <span>🚩</span> मराठी (Marathi)
+                                </button>
+                                <button type="button" class="lang-pill" data-lang="gu" onclick="setAssistantLanguage('gu', this)">
+                                    <span>🏛️</span> ગુજરાતી (Gujarati)
+                                </button>
+                                <button type="button" class="lang-pill" data-lang="ta" onclick="setAssistantLanguage('ta', this)">
+                                    <span>🛕</span> தமிழ் (Tamil)
+                                </button>
+                            </div>
                         </div>
-                        <div class="d-flex align-items-center gap-2 small text-light">
-                            <span class="badge bg-warning text-dark fw-bold"><i class="bi bi-soundwave me-1"></i>Speed: 1.05x</span>
-                            <span class="text-secondary small">(Auto-saves preference)</span>
+                        <div class="text-secondary small d-flex align-items-center gap-2">
+                            <span class="badge bg-black border border-secondary text-warning px-2 py-1"><i class="bi bi-lightning-charge-fill me-1"></i>Curated 5 Voices</span>
                         </div>
                     </div>
                 </div>
@@ -189,10 +214,12 @@
                         <div id="voiceAlertBox" class="mb-2" style="display: none;"></div>
 
                         <form id="aiForm" onsubmit="handleAskAI(event)" class="d-flex gap-2 align-items-center">
-                            <select id="voiceLangSelect" class="form-select form-select-sm bg-dark text-warning border-secondary" style="width: 140px;" title="Select Voice Recognition Language">
-                                <option value="en-IN" selected>🇮🇳 English (India)</option>
-                                <option value="hi-IN">🇮🇳 Hindi (हिंदी)</option>
-                                <option value="en-US">🇺🇸 English (US)</option>
+                            <select id="voiceLangSelect" class="form-select form-select-sm bg-dark text-warning border-secondary" style="width: 145px;" title="Select Voice Recognition Language" onchange="syncSelectToLangPill(this.value)">
+                                <option value="en-IN" selected>🇬🇧 English</option>
+                                <option value="hi-IN">🇮🇳 हिंदी</option>
+                                <option value="mr-IN">🚩 मराठी</option>
+                                <option value="gu-IN">🏛️ ગુજરાતી</option>
+                                <option value="ta-IN">🛕 தமிழ்</option>
                             </select>
                             <button type="button" id="voiceMicBtn" class="btn btn-outline-warning px-3 d-flex align-items-center justify-content-center" onclick="toggleVoiceInput()" title="Voice Assistant: Speak Your Query (Click to Start/Stop)">
                                 <i class="bi bi-mic-fill fs-5" id="micIcon"></i>
@@ -260,7 +287,7 @@
     <!-- Footer -->
     <footer>
         <div class="container text-center text-secondary small">
-            Â© 2026 Glory of the Past. Final-Year College Project.
+            &copy; 2026 Glory of the Past. Final-Year College Project.
         </div>
     </footer>
 
@@ -459,156 +486,164 @@
         }
 
         // ==========================================
-        // VOICE ASSISTANT SELECTION & PERSONA MANAGEMENT
+        // 5 CURATED HISTORICAL LANGUAGES & PERSONAS
         // ==========================================
-        function getSelectedVoice() {
+        const HISTORICAL_LANGUAGES = {
+            'en': {
+                code: 'en-IN',
+                altCodes: ['en-US', 'en-GB', 'en-AU', 'en'],
+                name: 'Dr. Aditi (Senior Historian)',
+                era: 'Vedic & Global History',
+                icon: 'bi-person-fill',
+                sampleText: 'Namaste! I am Dr. Aditi, your AI Historian. Ask me any question about world history.',
+                welcomeText: 'Greetings, explorer! I am Dr. Aditi. Ask me anything about historical battles, empires, or heroes.'
+            },
+            'hi': {
+                code: 'hi-IN',
+                altCodes: ['hi'],
+                name: 'डॉ. अदिति (वरिष्ठ इतिहासकार)',
+                era: 'भारतीय इतिहास एवं स्वतंत्रता संग्राम',
+                icon: 'bi-feather',
+                sampleText: 'नमस्ते! मैं आपकी ऐतिहासिक मार्गदर्शक डॉ. अदिति हूँ। आप मुझसे इतिहास के बारे में कुछ भी पूछ सकते हैं।',
+                welcomeText: 'नमस्कार! मैं आपकी एआई इतिहासकार हूँ। कृपया इतिहास से जुड़ा कोई भी प्रश्न पूछें।'
+            },
+            'mr': {
+                code: 'mr-IN',
+                altCodes: ['mr', 'hi-IN', 'hi'],
+                name: 'इतिहास मित्र (शिवकालीन इतिहास)',
+                era: 'छत्रपती शिवाजी महाराज व मराठा साम्राज्य',
+                icon: 'bi-shield-shaded',
+                sampleText: 'जय शिवराय! मी आपला इतिहास मार्गदर्शक आहे. स्वराज्य आणि मराठा साम्राज्याबद्दल मला प्रश्न विचारा.',
+                welcomeText: 'जय शिवराय! मी आपला इतिहासकार आहे. स्वराज्य, किल्ले किंवा इतिहासाबद्दल मला विचारा.'
+            },
+            'gu': {
+                code: 'gu-IN',
+                altCodes: ['gu', 'hi-IN', 'hi'],
+                name: 'ઇતિહાસ સાથી (આઝાદી સંગ્રામ)',
+                era: 'દાંડી કૂચ, સરદાર પટેલ અને પ્રાચીન સંસ્કૃતિ',
+                icon: 'bi-building-columns',
+                sampleText: 'નમસ્તે! હું તમારો ઇતિહાસ માર્ગદર્શક છું. ભારતીય ઇતિહાસ અને સરદાર પટેલ વિશે મને પૂછો.',
+                welcomeText: 'નમસ્તે! હું તમારો ઇતિહાસ સાથી છું. ઇતિહાસ વિશે તમારો પ્રશ્ન પૂછો.'
+            },
+            'ta': {
+                code: 'ta-IN',
+                altCodes: ['ta', 'en-IN', 'en'],
+                name: 'வரலாற்று வழிகாட்டி (சோழர் வரலாறு)',
+                era: 'சோழப் பேரரசு & சங்க காலம்',
+                icon: 'bi-bank',
+                sampleText: 'வணக்கம்! நான் உங்கள் வரலாற்று வழிகாட்டி. சோழர்கள் மற்றும் இந்திய வரலாறு பற்றி கேளுங்கள்.',
+                welcomeText: 'வணக்கம்! நான் உங்கள் வரலாற்று வழிகாட்டி. ஏதேனும் வரலாற்று கேள்வி கேட்கவும்.'
+            }
+        };
+
+        let currentLangKey = localStorage.getItem('selected_history_lang') || 'en';
+
+        function getActiveHistoricalLang() {
+            return HISTORICAL_LANGUAGES[currentLangKey] || HISTORICAL_LANGUAGES['en'];
+        }
+
+        function getBestVoiceForLang(langKey) {
             if (!('speechSynthesis' in window)) return null;
             const voices = window.speechSynthesis.getVoices();
             if (!voices || voices.length === 0) return null;
 
-            const savedVoiceName = localStorage.getItem('selected_voice_name');
-            if (savedVoiceName) {
-                const found = voices.find(v => v.name === savedVoiceName);
-                if (found) return found;
+            const config = HISTORICAL_LANGUAGES[langKey] || HISTORICAL_LANGUAGES['en'];
+
+            // 1. Exact match by BCP-47 tag (e.g., mr-IN, hi-IN, gu-IN, ta-IN, en-IN)
+            let matched = voices.find(v => v.lang.toLowerCase() === config.code.toLowerCase());
+            if (matched) return matched;
+
+            // 2. Check alternate codes
+            if (config.altCodes) {
+                for (const alt of config.altCodes) {
+                    matched = voices.find(v => v.lang.toLowerCase().startsWith(alt.toLowerCase()));
+                    if (matched) return matched;
+                }
             }
 
-            // Default: Prefer Warm, Expressive Female Voices (Zira, Jenny, Aria, Sonia, Google US Female) over robotic David!
-            const femaleVoice = voices.find(v => 
-                (v.name.includes('Zira') || v.name.includes('Jenny') || v.name.includes('Aria') || v.name.includes('Samantha') || v.name.includes('Sonia') || (v.name.includes('Google') && !v.name.toLowerCase().includes('male')) || v.name.toLowerCase().includes('female')) && v.lang.startsWith('en')
+            // 3. Name hints for Indian languages
+            if (langKey === 'hi' || langKey === 'mr' || langKey === 'gu') {
+                const indicVoice = voices.find(v => {
+                    const n = v.name.toLowerCase();
+                    return n.includes('hindi') || n.includes('india') || n.includes('swara') || n.includes('kalpana') || n.includes('hemant') || n.includes('manohar') || n.includes('neerja');
+                });
+                if (indicVoice) return indicVoice;
+            }
+
+            // 4. Tamil voice hints
+            if (langKey === 'ta') {
+                const tamilVoice = voices.find(v => {
+                    const n = v.name.toLowerCase();
+                    return n.includes('tamil') || n.includes('pallavi') || n.includes('valluvar');
+                });
+                if (tamilVoice) return tamilVoice;
+            }
+
+            // 5. Default natural female English
+            const naturalVoice = voices.find(v => 
+                (v.name.includes('Zira') || v.name.includes('Jenny') || v.name.includes('Aria') || v.name.includes('Samantha') || (v.name.includes('Google') && !v.name.toLowerCase().includes('male'))) && v.lang.startsWith('en')
             );
-            if (femaleVoice) return femaleVoice;
-
-            // Natural / Online voices
-            const naturalVoice = voices.find(v => (v.name.includes('Natural') || v.name.includes('Google')) && v.lang.startsWith('en'));
             if (naturalVoice) return naturalVoice;
-
-            // Any English voice that is NOT David or Mark
-            const nonDavidVoice = voices.find(v => v.lang.startsWith('en') && !v.name.includes('David') && !v.name.includes('Mark'));
-            if (nonDavidVoice) return nonDavidVoice;
-
-            // Any English voice
-            const anyEnglish = voices.find(v => v.lang.startsWith('en'));
-            if (anyEnglish) return anyEnglish;
 
             return voices[0];
         }
 
-        function populateVoiceSelector() {
-            const selector = document.getElementById('assistantVoiceSelect');
-            if (!selector || !('speechSynthesis' in window)) return;
-
-            const voices = window.speechSynthesis.getVoices();
-            if (!voices || voices.length === 0) return;
-
-            const currentSelected = getSelectedVoice();
-            const savedVoiceName = localStorage.getItem('selected_voice_name') || (currentSelected ? currentSelected.name : '');
-
-            selector.innerHTML = '';
-
-            const recommendedGroup = document.createElement('optgroup');
-            recommendedGroup.label = 'â­ Recommended (Warm, Clear Female Voices)';
-
-            const indianGroup = document.createElement('optgroup');
-            indianGroup.label = 'ðŸ‡®ðŸ‡³ Indian English & Hindi Voices';
-
-            const maleGroup = document.createElement('optgroup');
-            maleGroup.label = 'ðŸ›ï¸ Senior Historian (Male Voices)';
-
-            const otherGroup = document.createElement('optgroup');
-            otherGroup.label = 'ðŸŒ Other System Voices';
-
-            voices.forEach(voice => {
-                const opt = document.createElement('option');
-                opt.value = voice.name;
-
-                const nameLower = voice.name.toLowerCase();
-                const isFemale = nameLower.includes('zira') || nameLower.includes('jenny') || nameLower.includes('aria') || nameLower.includes('female') || nameLower.includes('samantha') || nameLower.includes('sonia') || (voice.name.includes('Google') && !nameLower.includes('male'));
-                const isIndian = voice.lang.includes('IN') || voice.lang.includes('hi') || nameLower.includes('india') || nameLower.includes('hindi') || nameLower.includes('neerja') || nameLower.includes('prabhat') || nameLower.includes('swara') || nameLower.includes('kalpana') || nameLower.includes('hemant');
-                const isMale = nameLower.includes('david') || nameLower.includes('mark') || nameLower.includes('george') || nameLower.includes('male') || nameLower.includes('guy');
-
-                let label = voice.name;
-                if (voice.name.includes('Zira')) label = 'ðŸ‘© Dr. Aditi (Warm Female - Microsoft Zira)';
-                else if (voice.name.includes('Jenny')) label = 'ðŸ‘© Dr. Aditi (Natural Expressive - Microsoft Jenny)';
-                else if (voice.name.includes('Aria')) label = 'ðŸ‘© Dr. Aditi (Clear Professional - Microsoft Aria)';
-                else if (voice.name.includes('David')) label = 'ðŸ‘¨ Prof. Vikram (Scholarly Male - Microsoft David)';
-                else if (voice.name.includes('Mark')) label = 'ðŸ‘¨ Prof. Vikram (Classic Male - Microsoft Mark)';
-                else if (voice.name.includes('Neerja')) label = 'ðŸ‡®ðŸ‡³ Ananya (Indian English - Microsoft Neerja)';
-                else if (voice.name.includes('Prabhat')) label = 'ðŸ‡®ðŸ‡³ Prof. Aryan (Indian English Male - Microsoft Prabhat)';
-                else if (voice.name.includes('Swara') || voice.name.includes('à¤¹à¤¿à¤¨à¥à¤¦à¥€') || voice.name.includes('Kalpana')) label = 'ðŸ‡®ðŸ‡³ Pooja (Hindi - à¤®à¤§à¥à¤° à¤¹à¤¿à¤‚à¤¦à¥€ à¤¸à¥à¤µà¤°)';
-                else if (voice.name === 'Google US English') label = 'ðŸ‘© Google US English (Clear Female)';
-                else if (voice.name === 'Google UK English Female') label = 'ðŸ‡¬ðŸ‡§ Victoria (British Female Historian)';
-                else {
-                    label = `${isFemale ? 'ðŸ‘©' : isMale ? 'ðŸ‘¨' : 'ðŸŽ™ï¸'} ${voice.name} (${voice.lang})`;
-                }
-
-                opt.text = label;
-
-                if (isIndian) {
-                    indianGroup.appendChild(opt);
-                } else if (isFemale || voice.name.includes('Natural') || voice.name.includes('Google')) {
-                    recommendedGroup.appendChild(opt);
-                } else if (isMale) {
-                    maleGroup.appendChild(opt);
-                } else {
-                    otherGroup.appendChild(opt);
-                }
-            });
-
-            if (recommendedGroup.children.length > 0) selector.appendChild(recommendedGroup);
-            if (indianGroup.children.length > 0) selector.appendChild(indianGroup);
-            if (maleGroup.children.length > 0) selector.appendChild(maleGroup);
-            if (otherGroup.children.length > 0) selector.appendChild(otherGroup);
-
-            if (savedVoiceName) {
-                selector.value = savedVoiceName;
-            } else if (currentSelected) {
-                selector.value = currentSelected.name;
-                localStorage.setItem('selected_voice_name', currentSelected.name);
-            }
-
-            updateVoicePersonaBadge();
+        function getSelectedVoice() {
+            return getBestVoiceForLang(currentLangKey);
         }
 
-        function handleVoiceChange() {
-            const selector = document.getElementById('assistantVoiceSelect');
-            if (!selector) return;
-            const voiceName = selector.value;
-            localStorage.setItem('selected_voice_name', voiceName);
-            updateVoicePersonaBadge();
-            
+        function setAssistantLanguage(langKey, btnEl) {
+            if (!HISTORICAL_LANGUAGES[langKey]) return;
+            currentLangKey = langKey;
+            localStorage.setItem('selected_history_lang', langKey);
+
+            // Update active state on language pills
+            document.querySelectorAll('#curatedLangPills .lang-pill').forEach(pill => {
+                pill.classList.toggle('active', pill.getAttribute('data-lang') === langKey);
+            });
+
+            // Sync mic dropdown
+            const voiceLangSelect = document.getElementById('voiceLangSelect');
+            if (voiceLangSelect) {
+                voiceLangSelect.value = HISTORICAL_LANGUAGES[langKey].code;
+            }
+
+            updateVoicePersonaDisplay();
+
+            // Announce language change briefly in status banner
+            const bannerStatus = document.getElementById('proactiveVoiceStatus');
+            const persona = HISTORICAL_LANGUAGES[langKey];
+            if (bannerStatus) {
+                bannerStatus.innerHTML = `Language switched to <strong>${persona.name}</strong> (${persona.era}). Click <strong>"Talk to Historian"</strong> to speak!`;
+            }
+
+            // Stop any ongoing speech
             if ('speechSynthesis' in window) {
                 window.speechSynthesis.cancel();
             }
-
-            testCurrentVoice();
         }
 
-        function updateVoicePersonaBadge() {
-            const voice = getSelectedVoice();
-            const personaNameEl = document.getElementById('voiceAssistantPersonaName');
-            const avatarIconInside = document.getElementById('avatarIconInside');
-            const voiceAvatarIcon = document.getElementById('voiceAvatarIcon');
-
-            if (!personaNameEl) return;
-
-            if (!voice) {
-                personaNameEl.innerText = "ðŸ‘© Dr. Aditi (Senior Historian)";
-                return;
+        function syncSelectToLangPill(selectValue) {
+            for (const [key, cfg] of Object.entries(HISTORICAL_LANGUAGES)) {
+                if (cfg.code === selectValue) {
+                    setAssistantLanguage(key);
+                    return;
+                }
             }
+        }
 
-            const nameLower = voice.name.toLowerCase();
-            if (nameLower.includes('david') || nameLower.includes('mark') || nameLower.includes('george') || (nameLower.includes('male') && !nameLower.includes('female'))) {
-                personaNameEl.innerText = "ðŸ‘¨ Prof. Vikram (Senior Historian)";
-                if (avatarIconInside) avatarIconInside.className = "bi bi-person-workspace fs-3 text-dark";
-                if (voiceAvatarIcon) voiceAvatarIcon.className = "rounded-circle bg-info text-dark p-2 d-flex align-items-center justify-content-center shadow";
-            } else if (voice.lang.includes('IN') || voice.lang.includes('hi') || nameLower.includes('india') || nameLower.includes('hindi') || nameLower.includes('swara') || nameLower.includes('neerja')) {
-                personaNameEl.innerText = "ðŸ‡®ðŸ‡³ Ananya (Indian Heritage Guide)";
-                if (avatarIconInside) avatarIconInside.className = "bi bi-compass-fill fs-3 text-dark";
-                if (voiceAvatarIcon) voiceAvatarIcon.className = "rounded-circle bg-warning text-dark p-2 d-flex align-items-center justify-content-center shadow";
-            } else {
-                personaNameEl.innerText = "ðŸ‘© Dr. Aditi (Senior Historian)";
-                if (avatarIconInside) avatarIconInside.className = "bi bi-person-fill fs-3 text-dark";
-                if (voiceAvatarIcon) voiceAvatarIcon.className = "rounded-circle bg-warning text-dark p-2 d-flex align-items-center justify-content-center shadow";
+        function updateVoicePersonaDisplay() {
+            const persona = getActiveHistoricalLang();
+            const personaNameEl = document.getElementById('voiceAssistantPersonaName');
+            const personaEraBadge = document.getElementById('personaEraBadge');
+            const avatarIconInside = document.getElementById('avatarIconInside');
+
+            if (personaNameEl) personaNameEl.innerText = persona.name;
+            if (personaEraBadge) {
+                personaEraBadge.innerHTML = `<i class="bi bi-award-fill me-1"></i>${persona.era}`;
+            }
+            if (avatarIconInside) {
+                avatarIconInside.className = `bi ${persona.icon} fs-3`;
             }
         }
 
@@ -619,30 +654,50 @@
             }
             window.speechSynthesis.cancel();
             const voice = getSelectedVoice();
-            const sampleText = "Namaste! I am your AI Historian for Glory of the Past. How does my voice sound?";
+            const persona = getActiveHistoricalLang();
+            const sampleText = persona.sampleText;
             const utterance = new SpeechSynthesisUtterance(sampleText);
             utterance.rate = 1.05;
             utterance.pitch = 1.0;
-            if (voice) utterance.voice = voice;
-
-            const bannerStatus = document.getElementById('proactiveVoiceStatus');
-            if (bannerStatus) {
-                bannerStatus.innerHTML = `<span class="spinner-grow spinner-grow-sm text-warning me-1"></span>Testing voice: <strong>${voice ? voice.name : 'Default'}</strong>...`;
+            if (voice) {
+                utterance.voice = voice;
+                utterance.lang = voice.lang || persona.code;
+            } else {
+                utterance.lang = persona.code;
             }
 
+            const visualizer = document.getElementById('soundWaveVisualizer');
+            const bannerStatus = document.getElementById('proactiveVoiceStatus');
+            if (bannerStatus) {
+                bannerStatus.innerHTML = `<span class="spinner-grow spinner-grow-sm text-warning me-1"></span>Testing voice: <strong>${persona.name}</strong>...`;
+            }
+
+            utterance.onstart = () => {
+                if (visualizer) visualizer.classList.add('active');
+            };
+
             utterance.onend = () => {
+                if (visualizer) visualizer.classList.remove('active');
                 if (bannerStatus) {
-                    bannerStatus.innerHTML = `Voice set to <strong>${voice ? voice.name : 'Current Voice'}</strong>! Click <strong>"Talk to Historian"</strong> to begin.`;
+                    bannerStatus.innerHTML = `Voice set to <strong>${persona.name}</strong>! Click <strong>"Talk to Historian"</strong> to begin.`;
                 }
             };
+            utterance.onerror = () => {
+                if (visualizer) visualizer.classList.remove('active');
+            };
+
             window.speechSynthesis.speak(utterance);
         }
 
         if ('speechSynthesis' in window) {
             window.speechSynthesis.onvoiceschanged = () => {
-                populateVoiceSelector();
+                updateVoicePersonaDisplay();
             };
         }
+        document.addEventListener('DOMContentLoaded', () => {
+            setAssistantLanguage(currentLangKey);
+        });
+        setTimeout(() => setAssistantLanguage(currentLangKey), 100);
 
         // ==========================================
         // PROACTIVE VOICE GUIDE ("AAGE SE BOLNA")
@@ -660,16 +715,27 @@
             utterance.pitch = 1.0;
 
             const voice = getSelectedVoice();
-            if (voice) utterance.voice = voice;
+            const persona = getActiveHistoricalLang();
+            if (voice) {
+                utterance.voice = voice;
+                utterance.lang = voice.lang || persona.code;
+            } else {
+                utterance.lang = persona.code;
+            }
+
+            const visualizer = document.getElementById('soundWaveVisualizer');
 
             utterance.onstart = () => {
                 updateBannerToStopMode('Historian Speaking');
+                if (visualizer) visualizer.classList.add('active');
             };
 
             utterance.onend = () => {
+                if (visualizer) visualizer.classList.remove('active');
                 if (onFinishCallback) onFinishCallback();
             };
             utterance.onerror = () => {
+                if (visualizer) visualizer.classList.remove('active');
                 if (onFinishCallback) onFinishCallback();
             };
 
@@ -693,7 +759,8 @@
 
         function getVoiceLang() {
             const langSelect = document.getElementById('voiceLangSelect');
-            return langSelect ? langSelect.value : 'en-IN';
+            const persona = getActiveHistoricalLang();
+            return langSelect ? langSelect.value : (persona ? persona.code : 'en-IN');
         }
 
         async function requestMicPermission() {
@@ -712,15 +779,15 @@
 
         function startProactiveVoiceGuide() {
             hasSpokenGreeting = true;
-            // Short, crisp prompt so user doesn't wait
-            const welcomeText = "Greetings, explorer! I am your Senior Historian. Please ask me any question about history.";
+            const persona = getActiveHistoricalLang();
+            const welcomeText = persona.welcomeText;
             
             const bannerStatus = document.getElementById('proactiveVoiceStatus');
             const avatarIcon = document.getElementById('voiceAvatarIcon');
             const welcomeBtn = document.getElementById('welcomeListenBtn');
 
             if (bannerStatus) {
-                bannerStatus.innerHTML = '<span class="spinner-grow spinner-grow-sm text-warning me-1"></span><strong>Historian speaking...</strong> (Mic will open in 2 seconds)';
+                bannerStatus.innerHTML = '<span class="spinner-grow spinner-grow-sm text-warning me-1"></span><strong>Historian speaking...</strong> (Mic will open automatically)';
             }
             if (avatarIcon) avatarIcon.classList.add('pulse-mic');
             if (welcomeBtn) {
@@ -734,7 +801,7 @@
                     welcomeBtn.classList.remove('border-danger', 'text-danger');
                     welcomeBtn.classList.add('text-gold');
                 }
-                // Open microphone immediately after short greeting!
+                // Open microphone immediately after greeting in selected language!
                 toggleVoiceInput();
             });
         }
@@ -750,10 +817,14 @@
                 window.speechSynthesis.cancel();
             }
 
-            // 2. Instantly stop Microphone recording
+            // 2. Stop visualizer
+            const visualizer = document.getElementById('soundWaveVisualizer');
+            if (visualizer) visualizer.classList.remove('active');
+
+            // 3. Instantly stop Microphone recording
             stopVoiceRecognition();
 
-            // 3. Reset any active button on chat bubbles
+            // 4. Reset any active button on chat bubbles
             if (currentSpeakingBtn) {
                 currentSpeakingBtn.innerHTML = '<i class="bi bi-volume-up-fill me-1"></i>Listen';
                 currentSpeakingBtn.classList.remove('border-danger', 'text-danger');
@@ -768,7 +839,7 @@
                 welcomeBtn.classList.add('text-gold');
             }
 
-            // 4. Reset banner to normal idle state
+            // 5. Reset banner to normal idle state
             const bannerStatus = document.getElementById('proactiveVoiceStatus');
             if (bannerStatus) {
                 bannerStatus.innerHTML = '<i class="bi bi-stop-circle text-danger me-1"></i>Assistant stopped. Click <strong>"Talk to Historian"</strong> or press <strong>Mic</strong> anytime to continue!';
@@ -1120,8 +1191,12 @@
             utterance.pitch = 1.0;
 
             const selectedVoice = getSelectedVoice();
+            const persona = getActiveHistoricalLang();
             if (selectedVoice) {
                 utterance.voice = selectedVoice;
+                utterance.lang = selectedVoice.lang || persona.code;
+            } else {
+                utterance.lang = persona.code;
             }
 
             utterance.onstart = () => {
@@ -1135,10 +1210,14 @@
                 }
                 const avatarIcon = document.getElementById('voiceAvatarIcon');
                 if (avatarIcon) avatarIcon.classList.add('pulse-mic');
+                const visualizer = document.getElementById('soundWaveVisualizer');
+                if (visualizer) visualizer.classList.add('active');
                 updateBannerToStopMode('Stop Assistant');
             };
 
             utterance.onend = () => {
+                const visualizer = document.getElementById('soundWaveVisualizer');
+                if (visualizer) visualizer.classList.remove('active');
                 btn.innerHTML = '<i class="bi bi-volume-up-fill me-1"></i>Listen';
                 btn.classList.remove('border-danger', 'text-danger');
                 btn.classList.add('text-gold');
@@ -1153,6 +1232,8 @@
             };
 
             utterance.onerror = () => {
+                const visualizer = document.getElementById('soundWaveVisualizer');
+                if (visualizer) visualizer.classList.remove('active');
                 btn.innerHTML = '<i class="bi bi-volume-up-fill me-1"></i>Listen';
                 btn.classList.remove('border-danger', 'text-danger');
                 btn.classList.add('text-gold');
