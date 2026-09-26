@@ -280,10 +280,10 @@ const FALLBACK_DATA = {
                 questionText: "Which battle moved Emperor Ashoka to renounce war and embrace Buddhism?",
                 text: "Which battle moved Emperor Ashoka to renounce war and embrace Buddhism?",
                 options: [
-                    { id: 1, text: "Battle of Panipat", isCorrect: false },
-                    { id: 2, text: "The Kalinga War (261 BCE)", isCorrect: true },
-                    { id: 3, text: "Battle of Hydaspes", isCorrect: false },
-                    { id: 4, text: "Battle of Haldighati", isCorrect: false }
+                    { id: 1, text: "Battle of Panipat", optionText: "Battle of Panipat", isCorrect: false },
+                    { id: 2, text: "The Kalinga War (261 BCE)", optionText: "The Kalinga War (261 BCE)", isCorrect: true },
+                    { id: 3, text: "Battle of Hydaspes", optionText: "Battle of Hydaspes", isCorrect: false },
+                    { id: 4, text: "Battle of Haldighati", optionText: "Battle of Haldighati", isCorrect: false }
                 ]
             },
             {
@@ -291,10 +291,10 @@ const FALLBACK_DATA = {
                 questionText: "The Lion Capital of Ashoka, which serves as the National Emblem of India, was erected at which site?",
                 text: "The Lion Capital of Ashoka, which serves as the National Emblem of India, was erected at which site?",
                 options: [
-                    { id: 5, text: "Sarnath", isCorrect: true },
-                    { id: 6, text: "Bodh Gaya", isCorrect: false },
-                    { id: 7, text: "Pataliputra", isCorrect: false },
-                    { id: 8, text: "Kushinagar", isCorrect: false }
+                    { id: 5, text: "Sarnath", optionText: "Sarnath", isCorrect: true },
+                    { id: 6, text: "Bodh Gaya", optionText: "Bodh Gaya", isCorrect: false },
+                    { id: 7, text: "Pataliputra", optionText: "Pataliputra", isCorrect: false },
+                    { id: 8, text: "Kushinagar", optionText: "Kushinagar", isCorrect: false }
                 ]
             },
             {
@@ -302,10 +302,10 @@ const FALLBACK_DATA = {
                 questionText: "Which ancient Bronze Age civilization was celebrated for advanced municipal drainage and baked brick houses?",
                 text: "Which ancient Bronze Age civilization was celebrated for advanced municipal drainage and baked brick houses?",
                 options: [
-                    { id: 9, text: "Indus Valley (Harappan) Civilization", isCorrect: true },
-                    { id: 10, text: "Mesopotamian Civilization", isCorrect: false },
-                    { id: 11, text: "Ancient Greek Polis", isCorrect: false },
-                    { id: 12, text: "Mayan Civilization", isCorrect: false }
+                    { id: 9, text: "Indus Valley (Harappan) Civilization", optionText: "Indus Valley (Harappan) Civilization", isCorrect: true },
+                    { id: 10, text: "Mesopotamian Civilization", optionText: "Mesopotamian Civilization", isCorrect: false },
+                    { id: 11, text: "Ancient Greek Polis", optionText: "Ancient Greek Polis", isCorrect: false },
+                    { id: 12, text: "Mayan Civilization", optionText: "Mayan Civilization", isCorrect: false }
                 ]
             },
             {
@@ -313,10 +313,10 @@ const FALLBACK_DATA = {
                 questionText: "What was the royal title assumed by the rulers of the Maurya Dynasty?",
                 text: "What was the royal title assumed by the rulers of the Maurya Dynasty?",
                 options: [
-                    { id: 13, text: "Samrat / Chakravartin", isCorrect: true },
-                    { id: 14, text: "Sultan", isCorrect: false },
-                    { id: 15, text: "Pharaoh", isCorrect: false },
-                    { id: 16, text: "Caesar", isCorrect: false }
+                    { id: 13, text: "Samrat / Chakravartin", optionText: "Samrat / Chakravartin", isCorrect: true },
+                    { id: 14, text: "Sultan", optionText: "Sultan", isCorrect: false },
+                    { id: 15, text: "Pharaoh", optionText: "Pharaoh", isCorrect: false },
+                    { id: 16, text: "Caesar", optionText: "Caesar", isCorrect: false }
                 ]
             },
             {
@@ -324,10 +324,10 @@ const FALLBACK_DATA = {
                 questionText: "Where did Gautama Buddha deliver his first sermon after attaining enlightenment?",
                 text: "Where did Gautama Buddha deliver his first sermon after attaining enlightenment?",
                 options: [
-                    { id: 17, text: "Deer Park at Sarnath", isCorrect: true },
-                    { id: 18, text: "Lumbini", isCorrect: false },
-                    { id: 19, text: "Rajgir", isCorrect: false },
-                    { id: 20, text: "Vaishali", isCorrect: false }
+                    { id: 17, text: "Deer Park at Sarnath", optionText: "Deer Park at Sarnath", isCorrect: true },
+                    { id: 18, text: "Lumbini", optionText: "Lumbini", isCorrect: false },
+                    { id: 19, text: "Rajgir", optionText: "Rajgir", isCorrect: false },
+                    { id: 20, text: "Vaishali", optionText: "Vaishali", isCorrect: false }
                 ]
             }
         ],
@@ -337,10 +337,10 @@ const FALLBACK_DATA = {
                 questionText: "In which year was Chhatrapati Shivaji Maharaj formally crowned at Raigad Fort?",
                 text: "In which year was Chhatrapati Shivaji Maharaj formally crowned at Raigad Fort?",
                 options: [
-                    { id: 21, text: "1674 CE", isCorrect: true },
-                    { id: 22, text: "1657 CE", isCorrect: false },
-                    { id: 23, text: "1680 CE", isCorrect: false },
-                    { id: 24, text: "1707 CE", isCorrect: false }
+                    { id: 21, text: "1674 CE", optionText: "1674 CE", isCorrect: true },
+                    { id: 22, text: "1657 CE", optionText: "1657 CE", isCorrect: false },
+                    { id: 23, text: "1680 CE", optionText: "1680 CE", isCorrect: false },
+                    { id: 24, text: "1707 CE", optionText: "1707 CE", isCorrect: false }
                 ]
             },
             {
@@ -348,10 +348,10 @@ const FALLBACK_DATA = {
                 questionText: "What was the strategic guerrilla warfare tactic perfected by Shivaji Maharaj called?",
                 text: "What was the strategic guerrilla warfare tactic perfected by Shivaji Maharaj called?",
                 options: [
-                    { id: 25, text: "Ganimi Kava", isCorrect: true },
-                    { id: 26, text: "Blitzkrieg", isCorrect: false },
-                    { id: 27, text: "Phalanx", isCorrect: false },
-                    { id: 28, text: "Tulghuma", isCorrect: false }
+                    { id: 25, text: "Ganimi Kava", optionText: "Ganimi Kava", isCorrect: true },
+                    { id: 26, text: "Blitzkrieg", optionText: "Blitzkrieg", isCorrect: false },
+                    { id: 27, text: "Phalanx", optionText: "Phalanx", isCorrect: false },
+                    { id: 28, text: "Tulghuma", optionText: "Tulghuma", isCorrect: false }
                 ]
             },
             {
@@ -359,10 +359,10 @@ const FALLBACK_DATA = {
                 questionText: "Who commissioned the construction of the Taj Mahal in Agra?",
                 text: "Who commissioned the construction of the Taj Mahal in Agra?",
                 options: [
-                    { id: 29, text: "Emperor Shah Jahan", isCorrect: true },
-                    { id: 30, text: "Emperor Akbar", isCorrect: false },
-                    { id: 31, text: "Babur", isCorrect: false },
-                    { id: 32, text: "Jahangir", isCorrect: false }
+                    { id: 29, text: "Emperor Shah Jahan", optionText: "Emperor Shah Jahan", isCorrect: true },
+                    { id: 30, text: "Emperor Akbar", optionText: "Emperor Akbar", isCorrect: false },
+                    { id: 31, text: "Babur", optionText: "Babur", isCorrect: false },
+                    { id: 32, text: "Jahangir", optionText: "Jahangir", isCorrect: false }
                 ]
             },
             {
@@ -370,10 +370,10 @@ const FALLBACK_DATA = {
                 questionText: "The rock-cut monolithic Kailash Temple is located in which historic cave complex?",
                 text: "The rock-cut monolithic Kailash Temple is located in which historic cave complex?",
                 options: [
-                    { id: 33, text: "Ellora Caves (Cave 16)", isCorrect: true },
-                    { id: 34, text: "Elephanta Caves", isCorrect: false },
-                    { id: 35, text: "Badami Caves", isCorrect: false },
-                    { id: 36, text: "Kanheri Caves", isCorrect: false }
+                    { id: 33, text: "Ellora Caves (Cave 16)", optionText: "Ellora Caves (Cave 16)", isCorrect: true },
+                    { id: 34, text: "Elephanta Caves", optionText: "Elephanta Caves", isCorrect: false },
+                    { id: 35, text: "Badami Caves", optionText: "Badami Caves", isCorrect: false },
+                    { id: 36, text: "Kanheri Caves", optionText: "Kanheri Caves", isCorrect: false }
                 ]
             },
             {
@@ -381,10 +381,10 @@ const FALLBACK_DATA = {
                 questionText: "Which sovereign is revered as the 'Father of the Indian Navy'?",
                 text: "Which sovereign is revered as the 'Father of the Indian Navy'?",
                 options: [
-                    { id: 37, text: "Chhatrapati Shivaji Maharaj", isCorrect: true },
-                    { id: 38, text: "Rajaraja Chola I", isCorrect: false },
-                    { id: 39, text: "Krishnadevaraya", isCorrect: false },
-                    { id: 40, text: "Samudragupta", isCorrect: false }
+                    { id: 37, text: "Chhatrapati Shivaji Maharaj", optionText: "Chhatrapati Shivaji Maharaj", isCorrect: true },
+                    { id: 38, text: "Rajaraja Chola I", optionText: "Rajaraja Chola I", isCorrect: false },
+                    { id: 39, text: "Krishnadevaraya", optionText: "Krishnadevaraya", isCorrect: false },
+                    { id: 40, text: "Samudragupta", optionText: "Samudragupta", isCorrect: false }
                 ]
             }
         ],
@@ -394,10 +394,10 @@ const FALLBACK_DATA = {
                 questionText: "Who led the historic 240-mile Salt Satyagraha march from Sabarmati to Dandi in 1930?",
                 text: "Who led the historic 240-mile Salt Satyagraha march from Sabarmati to Dandi in 1930?",
                 options: [
-                    { id: 41, text: "Mahatma Gandhi", isCorrect: true },
-                    { id: 42, text: "Sardar Vallabhbhai Patel", isCorrect: false },
-                    { id: 43, text: "Subhas Chandra Bose", isCorrect: false },
-                    { id: 44, text: "Jawaharlal Nehru", isCorrect: false }
+                    { id: 41, text: "Mahatma Gandhi", optionText: "Mahatma Gandhi", isCorrect: true },
+                    { id: 42, text: "Sardar Vallabhbhai Patel", optionText: "Sardar Vallabhbhai Patel", isCorrect: false },
+                    { id: 43, text: "Subhas Chandra Bose", optionText: "Subhas Chandra Bose", isCorrect: false },
+                    { id: 44, text: "Jawaharlal Nehru", optionText: "Jawaharlal Nehru", isCorrect: false }
                 ]
             },
             {
@@ -405,10 +405,10 @@ const FALLBACK_DATA = {
                 questionText: "Which fearless queen led her troops in combat at Jhansi and Gwalior during the 1857 uprising?",
                 text: "Which fearless queen led her troops in combat at Jhansi and Gwalior during the 1857 uprising?",
                 options: [
-                    { id: 45, text: "Rani Lakshmibai", isCorrect: true },
-                    { id: 46, text: "Begum Hazrat Mahal", isCorrect: false },
-                    { id: 47, text: "Rani Chennamma", isCorrect: false },
-                    { id: 48, text: "Sarojini Naidu", isCorrect: false }
+                    { id: 45, text: "Rani Lakshmibai", optionText: "Rani Lakshmibai", isCorrect: true },
+                    { id: 46, text: "Begum Hazrat Mahal", optionText: "Begum Hazrat Mahal", isCorrect: false },
+                    { id: 47, text: "Rani Chennamma", optionText: "Rani Chennamma", isCorrect: false },
+                    { id: 48, text: "Sarojini Naidu", optionText: "Sarojini Naidu", isCorrect: false }
                 ]
             },
             {
@@ -416,10 +416,10 @@ const FALLBACK_DATA = {
                 questionText: "Who coined the immortal revolutionary slogan 'Give me blood, and I shall give you freedom!'?",
                 text: "Who coined the immortal revolutionary slogan 'Give me blood, and I shall give you freedom!'?",
                 options: [
-                    { id: 49, text: "Netaji Subhas Chandra Bose", isCorrect: true },
-                    { id: 50, text: "Bhagat Singh", isCorrect: false },
-                    { id: 51, text: "Chandrashekhar Azad", isCorrect: false },
-                    { id: 52, text: "Lala Lajpat Rai", isCorrect: false }
+                    { id: 49, text: "Netaji Subhas Chandra Bose", optionText: "Netaji Subhas Chandra Bose", isCorrect: true },
+                    { id: 50, text: "Bhagat Singh", optionText: "Bhagat Singh", isCorrect: false },
+                    { id: 51, text: "Chandrashekhar Azad", optionText: "Chandrashekhar Azad", isCorrect: false },
+                    { id: 52, text: "Lala Lajpat Rai", optionText: "Lala Lajpat Rai", isCorrect: false }
                 ]
             },
             {
@@ -427,10 +427,10 @@ const FALLBACK_DATA = {
                 questionText: "Which aerospace scientist and 11th President of India was affectionately called the 'People's President'?",
                 text: "Which aerospace scientist and 11th President of India was affectionately called the 'People's President'?",
                 options: [
-                    { id: 53, text: "Dr. A.P.J. Abdul Kalam", isCorrect: true },
-                    { id: 54, text: "Dr. Homi Bhabha", isCorrect: false },
-                    { id: 55, text: "Dr. Vikram Sarabhai", isCorrect: false },
-                    { id: 56, text: "Dr. C.V. Raman", isCorrect: false }
+                    { id: 53, text: "Dr. A.P.J. Abdul Kalam", optionText: "Dr. A.P.J. Abdul Kalam", isCorrect: true },
+                    { id: 54, text: "Dr. Homi Bhabha", optionText: "Dr. Homi Bhabha", isCorrect: false },
+                    { id: 55, text: "Dr. Vikram Sarabhai", optionText: "Dr. Vikram Sarabhai", isCorrect: false },
+                    { id: 56, text: "Dr. C.V. Raman", optionText: "Dr. C.V. Raman", isCorrect: false }
                 ]
             },
             {
@@ -438,10 +438,10 @@ const FALLBACK_DATA = {
                 questionText: "In which year did India attain complete sovereign independence from British colonial rule?",
                 text: "In which year did India attain complete sovereign independence from British colonial rule?",
                 options: [
-                    { id: 57, text: "1947 CE", isCorrect: true },
-                    { id: 58, text: "1950 CE", isCorrect: false },
-                    { id: 59, text: "1942 CE", isCorrect: false },
-                    { id: 60, text: "1935 CE", isCorrect: false }
+                    { id: 57, text: "1947 CE", optionText: "1947 CE", isCorrect: true },
+                    { id: 58, text: "1950 CE", optionText: "1950 CE", isCorrect: false },
+                    { id: 59, text: "1942 CE", optionText: "1942 CE", isCorrect: false },
+                    { id: 60, text: "1935 CE", optionText: "1935 CE", isCorrect: false }
                 ]
             }
         ]
@@ -454,6 +454,141 @@ const FALLBACK_DATA = {
         { rank: 5, explorerName: "Vikram Malhotra", categoryName: "Ancient Civilizations", score: 3, totalQuestions: 5, accuracy: "60%", date: "22 Sep 2026" }
     ]
 };
+
+// Intelligent Historical AI Response Engine
+function generateAIHistoricalResponse(rawQuery) {
+    const q = (rawQuery || '').toLowerCase();
+
+    // 1. Chhatrapati Shivaji Maharaj
+    if (q.includes('shivaji') || q.includes('maratha') || q.includes('military') || q.includes('tactic') || q.includes('ganimi')) {
+        return {
+            answer: `Chhatrapati Shivaji Maharaj was a legendary military strategist and sovereign whose innovative warfare methods revolutionized medieval Indian combat.
+
+**Key Pillars of His Military Tactics:**
+
+1. **Ganimi Kava (Guerrilla Warfare):** Recognizing the numerical and artillery superiority of the Mughals and Bijapur sultanate, Shivaji pioneered asymmetric warfare. His light infantry (*Mavales*) utilized surprise dawn raids, fast ambushes in dense Sahyadri forests, and strategic feigned retreats to lure enemy divisions into fatal choke points.
+2. **Impregnable Fort Network (Gadkot):** Shivaji controlled over 300 hill and coastal forts (such as Raigad, Rajgad, Torna, Sinhagad, and Pratapgad). Each fort operated as an autonomous logistical citadel with independent water storage, armories, and grain reserves, rendering protracted enemy sieges futile.
+3. **Father of the Indian Navy:** Foreseeing European maritime power (Portuguese, British, and the Siddis of Janjira), Shivaji established India's first indigenous naval force with over 400 vessels, anchored by coastal sea forts like Sindhudurg and Vijaydurg.
+4. **Strict Code of Military Ethics:** He strictly forbade atrocities against civilians, damage to standing crops, desecration of religious monuments, and mistreatment of captured women or prisoners of war.
+5. **Decentralized Intelligence Grid:** Led by Bahirji Naik, his espionage network provided ultra-precise intelligence, enabling daring operations like the raid on Shaista Khan at Lal Mahal in Pune.`,
+            relatedTopics: ["Ganimi Kava", "Raigad Fort", "Father of Indian Navy", "Battle of Pratapgad"]
+        };
+    }
+
+    // 2. Ashoka the Great & Kalinga War
+    if (q.includes('ashoka') || q.includes('kalinga') || q.includes('maurya') || q.includes('buddhis')) {
+        return {
+            answer: `Emperor Ashoka the Great (ruled c. 268 – 232 BCE) was the third monarch of the Maurya Dynasty and one of world history's most transformative sovereigns.
+
+**The Watershed Moment: The Kalinga War (261 BCE)**
+Seeking to expand his empire to the eastern coast, Ashoka conquered Kalinga (modern Odisha). However, witnessing the devastating carnage—over 100,000 soldiers slaughtered, 150,000 exiled, and the Daya river turned crimson—plunged Ashoka into profound sorrow and spiritual crisis.
+
+**Transformation to Dhamma & Peace:**
+* Ashoka renounced imperial conquest by sword (*Bherighosha*) and adopted conquest by righteousness (*Dhammaghosha*).
+* He embraced Buddhism under the guidance of Buddhist monk Upagupta.
+* He commissioned the famous **Rock and Pillar Edicts** inscribed across India, Afghanistan, and Nepal in Prakrit, Greek, and Aramaic, advocating animal welfare, religious tolerance, and non-violence (*Ahimsa*).
+* The **Lion Capital of Ashoka** at Sarnath, featuring four lions and the Ashoka Chakra, stands today as the proud National Emblem of the Republic of India.`,
+            relatedTopics: ["Kalinga War", "Ashoka Edicts", "Lion Capital at Sarnath", "Maurya Dynasty"]
+        };
+    }
+
+    // 3. Mahatma Gandhi & Salt Satyagraha
+    if (q.includes('gandhi') || q.includes('salt') || q.includes('dandi') || q.includes('satyagraha') || q.includes('ahimsa')) {
+        return {
+            answer: `Mahatma Gandhi (Mohandas Karamchand Gandhi, 1869–1948) was the spiritual and political leader of the Indian Independence Movement, revered globally as the Apostle of Non-Violence.
+
+**The Dandi Salt March (1930):**
+* On 12 March 1930, Gandhi embarked on a 240-mile march from Sabarmati Ashram to the coastal town of Dandi with 78 volunteers.
+* On 6 April 1930, he picked up a lump of natural salt from the Arabian Sea, symbolically shattering the oppressive British salt monopoly laws.
+* This act electrified the nation, launching the nationwide Civil Disobedience Movement where millions produced salt and boycotted foreign goods without violence.
+
+**Philosophical Pillars:**
+* **Satyagraha (Truth-Force):** Active, courageous resistance against injustice without resorting to physical violence.
+* **Ahimsa (Non-violence):** The profound refusal to inflict harm in thought, word, or deed.
+* His doctrine inspired global civil rights leaders including Martin Luther King Jr., Nelson Mandela, and the Dalai Lama.`,
+            relatedTopics: ["Dandi Salt March", "Civil Disobedience", "Satyagraha", "Quit India Movement"]
+        };
+    }
+
+    // 4. Rani Lakshmibai & 1857 Revolt
+    if (q.includes('lakshmi') || q.includes('jhansi') || q.includes('1857') || q.includes('revolt') || q.includes('mutiny')) {
+        return {
+            answer: `Rani Lakshmibai (1828–1858), the Queen of Jhansi, remains an immortal symbol of Indian female valor and resistance against British colonial imperialism.
+
+**The Uprising of 1857 & Defense of Jhansi:**
+* Following the death of Maharaja Gangadhar Rao, British Governor-General Lord Dalhousie invoked the unjust **Doctrine of Lapse** to annex Jhansi, rejecting her adopted son Damodar Rao's claim.
+* Lakshmibai famously proclaimed: *"Main apni Jhansi nahi doongi!"* (I shall never surrender my Jhansi!).
+* When British forces under Sir Hugh Rose besieged Jhansi Fort in March 1858, she strapped her young son to her back, leapt over the battlements on horseback, and led her soldiers in hand-to-hand combat.
+* She joined forces with Tatya Tope and fought valiantly until her martyrdom at the Battle of Kotah-ki-Serai near Gwalior on 18 June 1858. Even British commander Hugh Rose described her as *"the bravest and best among the rebel leaders."*`,
+            relatedTopics: ["Revolt of 1857", "Doctrine of Lapse", "Tatya Tope", "Jhansi Fort"]
+        };
+    }
+
+    // 5. Bhagat Singh
+    if (q.includes('bhagat') || q.includes('singh') || q.includes('inquilab') || q.includes('revolutionary')) {
+        return {
+            answer: `Shaheed Bhagat Singh (1907–1931) was one of the most charismatic and intellectually profound revolutionaries of the Indian independence movement.
+
+**Key Historic Milestones:**
+* **Hindustan Socialist Republican Association (HSRA):** Bhagat Singh, along with Chandrashekhar Azad and Sukhdev, transformed the revolutionary movement with a clear socialist vision for free India.
+* **Central Legislative Assembly Bombing (1929):** Bhagat Singh and Batukeshwar Dutt threw non-lethal smoke bombs into the assembly in Delhi, scattering leaflets proclaiming *"To make the deaf hear"* and popularized the battle cry **"Inquilab Zindabad!"** (Long Live the Revolution).
+* **Courtroom as a Platform:** Rather than escaping, they courted arrest to use the British courtroom to broadcast the ideology of complete freedom across India.
+* **Martyrdom (23 March 1931):** At the tender age of 23, Bhagat Singh, Rajguru, and Sukhdev were hanged in Lahore Jail, inspiring millions of Indian youth.`,
+            relatedTopics: ["Inquilab Zindabad", "Central Assembly Bombing", "Chandrashekhar Azad", "Sukhdev & Rajguru"]
+        };
+    }
+
+    // 6. Taj Mahal & Mughal Architecture
+    if (q.includes('taj') || q.includes('mahal') || q.includes('shah jahan') || q.includes('agra') || q.includes('mughal')) {
+        return {
+            answer: `The Taj Mahal in Agra, India, is globally celebrated as the supreme masterpiece of Indo-Islamic Mughal architecture and one of the New 7 Wonders of the World.
+
+**Key Historical Insights:**
+* **Commission:** Built by Mughal Emperor Shah Jahan between 1632 and 1653 CE as a grand mausoleum for his beloved consort, Mumtaz Mahal.
+* **Architectural Grandeur:** Designed by master architect Ustad Ahmad Lahori, the monument combines Persian, Islamic, and Indian architectural styles.
+* **Materials & Inlay:** Constructed from radiant white Makrana marble from Rajasthan, it features exquisite *Pietra Dura* (stone inlay using 28 types of semi-precious gemstones including lapis lazuli, turquoise, and jade).
+* **Flawless Symmetry:** The central tomb, flanked by four 40-meter minarets tilted slightly outward to prevent damage in earthquakes, reflects seamlessly in the Charbagh paradise garden pools.`,
+            relatedTopics: ["Mughal Architecture", "Shah Jahan", "Agra Fort", "Pietra Dura Marble"]
+        };
+    }
+
+    // 7. Dr. A.P.J. Abdul Kalam
+    if (q.includes('kalam') || q.includes('missile') || q.includes('president') || q.includes('space') || q.includes('isro')) {
+        return {
+            answer: `Dr. Avul Pakir Jainulabdeen Abdul Kalam (1931–2015) was a revered aerospace scientist and served as the 11th President of India (2002–2007), widely known as the **"Missile Man of India"** and the **"People's President."**
+
+**Scientific Achievements:**
+* **Indigenous Missile Systems:** Project Director of India's first Satellite Launch Vehicle (SLV-III) at ISRO, and chief architect of the Integrated Guided Missile Development Programme (IGMDP) at DRDO, delivering Agni, Prithvi, Akash, and Trishul missiles.
+* **Pokhran-II Nuclear Tests (1998):** Chief scientific coordinator ensuring India's successful strategic nuclear deterrent capability.
+* **Youth Visionary:** Author of bestselling books including *Wings of Fire*, *Ignited Minds*, and *India 2020*. Awarded India's highest civilian honor, the Bharat Ratna, in 1997.`,
+            relatedTopics: ["Missile Man of India", "Pokhran-II", "ISRO & DRDO", "Wings of Fire"]
+        };
+    }
+
+    // 8. Roman Empire & Ancient World
+    if (q.includes('roman') || q.includes('rome') || q.includes('caesar') || q.includes('empire')) {
+        return {
+            answer: `The Roman Empire was one of the most powerful and enduring imperial civilizations in human history, originating along the Tiber River in Italy and expanding across Europe, North Africa, and Western Asia.
+
+**Key Historical Eras:**
+* **The Republic to Empire:** Julius Caesar's crossing of the Rubicon and subsequent assassination led to his adopted heir Octavian becoming **Augustus**, the first Emperor of Rome in 27 BCE.
+* **Pax Romana (27 BCE – 180 CE):** Two centuries of relative internal peace and unprecedented economic and architectural expansion.
+* **Engineering Innovations:** Pioneered the concrete arch, monumental aqueducts carrying fresh water across miles, 50,000 miles of paved military roads, and colossal amphitheaters like the Colosseum in Rome.
+* **Legacy:** Modern legal codes, republican ideals, Latin language roots, and civic infrastructure draw direct lineage from ancient Rome.`,
+            relatedTopics: ["Julius Caesar", "Pax Romana", "Colosseum Architecture", "Byzantine Empire"]
+        };
+    }
+
+    // Default intelligent scholarly response
+    return {
+        answer: `Greetings! As your Senior AI Historian, I have examined your inquiry about: **"${rawQuery}"**.
+
+Human civilization is an interconnected chronicle of triumph, innovation, and struggle. Whether exploring the urban sewage grids of Harappa, the strategic mountain citadels of the Marathas, the profound Dhamma edicts of Ashoka, or the non-violent satyagraha movements of the 20th century, every epoch reveals deep lessons in governance and humanity.
+
+Feel free to ask me to analyze specific emperors, military tactics, archaeological monuments, or historical timelines in detail!`,
+        relatedTopics: ["Chhatrapati Shivaji Maharaj", "Ashoka the Great", "Mahatma Gandhi", "Taj Mahal"]
+    };
+}
 
 // Dispatch helper for intelligent fallback resolution
 function resolveFallback(endpoint, method = 'GET', data = null) {
@@ -524,34 +659,36 @@ function resolveFallback(endpoint, method = 'GET', data = null) {
         return FALLBACK_DATA.quizLeaderboard;
     }
 
-    // 11. Quiz Submit
+    // 11. Quiz Submit (Dynamic score calculation)
     if (cleanEp === '/quiz/submit' || cleanEp === '/quizzes/submit') {
+        const catId = data?.quizCategoryId || 1;
+        const catQuestions = FALLBACK_DATA.quizQuestions[catId] || FALLBACK_DATA.quizQuestions[1];
+        let score = 0;
+        const feedback = catQuestions.map((q, idx) => {
+            const userSelected = data?.answers ? data.answers[q.id] : null;
+            const correctOpt = q.options.find(o => o.isCorrect) || q.options[0];
+            const isCorrect = userSelected && (userSelected == correctOpt.id);
+            if (isCorrect) score++;
+            return {
+                questionText: q.questionText || q.text,
+                isCorrect: Boolean(isCorrect),
+                explanation: `Correct Answer: ${correctOpt.optionText || correctOpt.text}.`
+            };
+        });
+
+        const total = catQuestions.length;
         return {
-            success: true,
-            score: 5,
-            totalQuestions: 5,
-            percentage: 100,
-            feedback: "Brilliant historical IQ! You answered all questions with complete precision."
+            score: score,
+            totalQuestions: total,
+            percentage: Math.round((score / total) * 100),
+            feedback: feedback
         };
     }
 
-    // 12. AI Chat
+    // 12. AI Chat / Ask
     if (cleanEp.includes('/ai/') || cleanEp.includes('/chat')) {
-        const query = (data?.message || data?.query || '').toLowerCase();
-        let reply = "Greetings! I am Dr. Aditi, your Senior AI Historian. Human history is a vast and fascinating tapestry. ";
-        
-        if (query.includes('kalinga') || query.includes('ashoka')) {
-            reply += "The Kalinga War (261 BCE) was a watershed moment. Witnessing the immense bloodshed along the Daya river, Emperor Ashoka underwent a spiritual revolution, embraced Buddhism, and spread messages of peace and Dhamma across Asia.";
-        } else if (query.includes('shivaji') || query.includes('maratha') || query.includes('coronation')) {
-            reply += "Chhatrapati Shivaji Maharaj was formally crowned at Raigad Fort on 6 June 1674. He established Hindavi Swarajya, pioneered guerrilla tactics (Ganimi Kava), and built a formidable navy protecting the Konkan coast.";
-        } else if (query.includes('gandhi') || query.includes('salt') || query.includes('dandi')) {
-            reply += "The Dandi Salt March took place in 1930. Mahatma Gandhi and his followers walked 240 miles to produce salt in defiance of British monopolies, demonstrating the formidable power of non-violent civil disobedience.";
-        } else if (query.includes('taj mahal') || query.includes('monument')) {
-            reply += "The Taj Mahal in Agra was commissioned by Mughal Emperor Shah Jahan between 1632 and 1653 in memory of Mumtaz Mahal. It is globally celebrated as the supreme masterpiece of Mughal marble architecture.";
-        } else {
-            reply += "From ancient river valley civilizations to modern freedom struggles, every era teaches us resilience, leadership, and culture. Feel free to ask about specific emperors, architectural monuments, wars, or timelines!";
-        }
-        return { response: reply, text: reply, answer: reply };
+        const query = data?.question || data?.message || data?.query || '';
+        return generateAIHistoricalResponse(query);
     }
 
     return [];
@@ -589,7 +726,7 @@ const api = {
 
         try {
             const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 6000);
+            const timeoutId = setTimeout(() => controller.abort(), 5000);
 
             const response = await fetch(`${API_BASE_URL}${endpoint}`, {
                 method: 'POST',
@@ -598,9 +735,9 @@ const api = {
                 signal: controller.signal
             });
             clearTimeout(timeoutId);
-            return await this.handleResponse(response, endpoint);
+            return await this.handleResponse(response, endpoint, data);
         } catch (error) {
-            console.warn(`[Glory of the Past] POST error on ${endpoint}. Using Smart Fallback handler.`);
+            console.warn(`[Glory of the Past] POST fallback on ${endpoint}.`);
             return resolveFallback(endpoint, 'POST', data);
         }
     },
@@ -617,7 +754,7 @@ const api = {
                 headers: headers,
                 body: JSON.stringify(data)
             });
-            return await this.handleResponse(response, endpoint);
+            return await this.handleResponse(response, endpoint, data);
         } catch (error) {
             return { success: true };
         }
@@ -641,17 +778,17 @@ const api = {
     },
 
     // Handle responses safely
-    async handleResponse(response, endpoint = '') {
+    async handleResponse(response, endpoint = '', data = null) {
         if (response.status === 204) {
             return { success: true };
         }
 
         if (!response.ok) {
-            console.warn(`[Glory of the Past] HTTP ${response.status} on ${endpoint}. Falling back to cached data.`);
-            return resolveFallback(endpoint);
+            console.warn(`[Glory of the Past] HTTP ${response.status} on ${endpoint}. Falling back.`);
+            return resolveFallback(endpoint, 'GET', data);
         }
 
-        const data = await response.json().catch(() => null);
-        return data || resolveFallback(endpoint);
+        const resData = await response.json().catch(() => null);
+        return resData || resolveFallback(endpoint, 'GET', data);
     }
 };
