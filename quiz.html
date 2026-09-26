@@ -213,6 +213,7 @@
             document.getElementById('questionProgressText').innerText = `Question ${index + 1} of ${currentQuestions.length}`;
             document.getElementById('quizQuestionText').innerText = q.questionText;
 
+            const optsContainer = document.getElementById('quizOptionsContainer');
             optsContainer.innerHTML = q.options.map(opt => `
                 <button type="button" class="quiz-option-btn ${selectedAnswers[q.id] === opt.id ? 'selected' : ''}" onclick="selectOption(${q.id}, ${opt.id}, this)">
                     ${opt.optionText || opt.text || 'Option'}
