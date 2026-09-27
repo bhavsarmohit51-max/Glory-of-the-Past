@@ -46,29 +46,82 @@
     </nav>
 
     <!-- Hero Section -->
-    <section class="hero-section text-center" style="background: linear-gradient(180deg, rgba(10, 14, 23, 0.70) 0%, rgba(10, 14, 23, 0.80) 65%, rgba(10, 14, 23, 0.98) 100%), url('hero-banner.jpg'), url('https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=1600') center center / cover no-repeat !important;">
-        <div class="container">
-            <span class="badge bg-dark border border-warning text-warning px-3 py-2 rounded-pill mb-3">
-                <i class="bi bi-stars me-1"></i> AI-Powered Interactive Learning Platform
-            </span>
-            <h1 class="hero-title mb-3">Explore the Tapestry of History</h1>
-            <p class="lead text-secondary mx-auto mb-4" style="max-width: 720px;">
+    <section class="hero-section text-center" style="background: linear-gradient(180deg, rgba(10, 14, 23, 0.55) 0%, rgba(10, 14, 23, 0.72) 60%, rgba(10, 14, 23, 0.98) 100%), url('hero-banner.jpg'), url('https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=1600') center center / cover no-repeat !important;">
+        <div class="container position-relative" style="z-index: 2;">
+            <!-- Top AI Badge -->
+            <div class="mb-3">
+                <span class="hero-top-badge">
+                    <i class="bi bi-stars text-warning"></i> AI-Powered Interactive Learning Platform
+                </span>
+            </div>
+
+            <!-- Main Title -->
+            <h1 class="hero-title">
+                EXPLORE THE TAPESTRY OF <span class="hero-title-gold">HISTORY</span>
+            </h1>
+
+            <!-- Subtitle -->
+            <p class="hero-subtitle">
                 Journey through thousands of years of human civilization. Discover monumental events, iconic rulers, architectural wonders, and test your knowledge with interactive quizzes.
             </p>
 
-            <!-- Global Search Box -->
-            <div class="hero-search-box d-flex align-items-center mb-4">
-                <i class="bi bi-search text-warning fs-5 me-2"></i>
-                <input type="text" id="heroSearchInput" class="form-control" placeholder="Search events, personalities, places (e.g. Ashoka, Independence, Taj Mahal)...">
-                <button class="btn btn-gold" type="button" onclick="performHeroSearch()">Search</button>
+            <!-- Glowing Amber Capsule Search Bar -->
+            <div class="hero-search-wrapper">
+                <div class="hero-search-capsule">
+                    <i class="bi bi-search hero-search-icon"></i>
+                    <div class="hero-search-divider"></div>
+                    <input type="text" id="heroSearchInput" class="hero-search-input" 
+                           placeholder="Search events, personalities, places (e.g. Ashoka, Independence, Taj Mahal)..."
+                           autocomplete="off">
+                    
+                    <!-- Search Filter Sliders Dropdown -->
+                    <div class="dropdown me-2">
+                        <button class="hero-filter-btn" type="button" id="heroFilterDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false" title="Filter search category">
+                            <i class="bi bi-sliders2"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end hero-filter-dropdown" aria-labelledby="heroFilterDropdownBtn">
+                            <li><h6 class="dropdown-header text-warning"><i class="bi bi-funnel me-1"></i>Search Target</h6></li>
+                            <li><a class="dropdown-item active" href="javascript:void(0)" onclick="setSearchScope('all', this)"><i class="bi bi-grid me-2"></i>All Categories</a></li>
+                            <li><a class="dropdown-item" href="javascript:void(0)" onclick="setSearchScope('events', this)"><i class="bi bi-calendar-event me-2"></i>Historical Events</a></li>
+                            <li><a class="dropdown-item" href="javascript:void(0)" onclick="setSearchScope('persons', this)"><i class="bi bi-person-badge me-2"></i>Personalities & Rulers</a></li>
+                            <li><a class="dropdown-item" href="javascript:void(0)" onclick="setSearchScope('places', this)"><i class="bi bi-geo-alt me-2"></i>Monuments & Places</a></li>
+                            <li><a class="dropdown-item" href="javascript:void(0)" onclick="setSearchScope('timemap', this)"><i class="bi bi-clock-history me-2"></i>TimeMap Atlas</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="quiz.html"><i class="bi bi-journal-check me-2"></i>Historical Quiz</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Search CTA Button -->
+                    <button class="hero-search-cta" type="button" onclick="performHeroSearch()">
+                        <span>Search</span>
+                        <i class="bi bi-arrow-right"></i>
+                    </button>
+                </div>
+                <div class="hero-search-glow-flare"></div>
             </div>
 
-            <!-- Quick Action Buttons -->
-            <div class="d-flex justify-content-center gap-3 flex-wrap">
-                <a href="timemap.html" class="btn btn-gold shadow"><i class="bi bi-clock-history me-2 text-dark"></i>TimeMap History Atlas</a>
-                <a href="map.html" class="btn btn-outline-gold"><i class="bi bi-geo-alt-fill me-2"></i>Monuments Map</a>
-                <a href="timeline.html" class="btn btn-outline-warning"><i class="bi bi-calendar3 me-2"></i>Timeline</a>
-                <a href="ai-guide.html" class="btn btn-outline-light"><i class="bi bi-robot me-2"></i>Ask AI Historian</a>
+            <!-- 5 Quick Action Navigation Pills -->
+            <div class="hero-nav-pills-row">
+                <a href="timemap.html" class="hero-nav-pill pill-featured">
+                    <i class="bi bi-clock"></i>
+                    <span>TimeMap History Atlas</span>
+                </a>
+                <a href="map.html" class="hero-nav-pill">
+                    <i class="bi bi-geo-alt-fill"></i>
+                    <span>Monuments Map</span>
+                </a>
+                <a href="timeline.html" class="hero-nav-pill">
+                    <i class="bi bi-calendar3"></i>
+                    <span>Timeline</span>
+                </a>
+                <a href="quiz.html" class="hero-nav-pill">
+                    <i class="bi bi-journal-check"></i>
+                    <span>Historical Quiz</span>
+                </a>
+                <a href="ai-guide.html" class="hero-nav-pill">
+                    <i class="bi bi-robot"></i>
+                    <span>Ask AI Historian</span>
+                </a>
             </div>
         </div>
     </section>
@@ -300,10 +353,45 @@
             loadFeaturedPersons();
         });
 
+        // Search Scope Filter Handler
+        let currentSearchScope = 'all';
+
+        function setSearchScope(scope, el) {
+            currentSearchScope = scope;
+            document.querySelectorAll('.hero-filter-dropdown .dropdown-item').forEach(item => item.classList.remove('active'));
+            if (el) el.classList.add('active');
+            
+            const input = document.getElementById('heroSearchInput');
+            if (!input) return;
+            if (scope === 'events') {
+                input.placeholder = "Search historical events (e.g. 1857 Revolt, Battle of Panipat)...";
+            } else if (scope === 'persons') {
+                input.placeholder = "Search personalities & rulers (e.g. Shivaji, Ashoka, Akbar)...";
+            } else if (scope === 'places') {
+                input.placeholder = "Search places & monuments (e.g. Taj Mahal, Hampi, Qutub Minar)...";
+            } else if (scope === 'timemap') {
+                input.placeholder = "Search TimeMap atlas territories & rulers...";
+            } else {
+                input.placeholder = "Search events, personalities, places (e.g. Ashoka, Independence, Taj Mahal)...";
+            }
+            input.focus();
+        }
+
         // Search trigger
         function performHeroSearch() {
             const query = document.getElementById('heroSearchInput').value.trim();
-            if (query) {
+            if (!query) {
+                document.getElementById('heroSearchInput').focus();
+                return;
+            }
+
+            if (currentSearchScope === 'persons') {
+                window.location.href = `personalities.html?search=${encodeURIComponent(query)}`;
+            } else if (currentSearchScope === 'places') {
+                window.location.href = `places.html?search=${encodeURIComponent(query)}`;
+            } else if (currentSearchScope === 'timemap') {
+                window.location.href = `timemap.html?search=${encodeURIComponent(query)}`;
+            } else {
                 window.location.href = `events.html?search=${encodeURIComponent(query)}`;
             }
         }
