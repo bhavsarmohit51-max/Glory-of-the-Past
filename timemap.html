@@ -581,11 +581,24 @@
             transition: all 0.2s ease;
         }
 
-        .tm-tool-btn:hover {
+        .tm-tool-btn:hover, .tm-tool-btn.active {
             background: var(--tm-orange);
             color: #fff;
-            border-color: var(--tm-orange);
+            border-color: #ff9d6c;
             transform: scale(1.08);
+        }
+
+        .tm-vintage-control {
+            position: absolute;
+            right: 70px;
+            bottom: 110px;
+            z-index: 1050;
+            width: 270px;
+            background: rgba(18, 24, 32, 0.96);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(200, 90, 43, 0.5);
+            border-radius: 10px;
+            padding: 12px 16px;
         }
 
         /* Modal Styles */
@@ -678,12 +691,27 @@
 
         <!-- Floating Map Utility Tools -->
         <div class="tm-floating-tools">
+            <button class="tm-tool-btn" id="vintageOverlayBtn" onclick="toggleVintageMapOverlay()" title="Toggle 1855 Historical Map Overlay (David Rumsey / OldMapsOnline)"><i class="bi bi-clock-history text-warning"></i></button>
             <button class="tm-tool-btn" onclick="toggleBasemapStyle()" title="Switch Map Layer (Dark / Satellite / MapTiler)"><i class="bi bi-layers-fill" id="layerIcon"></i></button>
             <button class="tm-tool-btn" onclick="openApiKeyModal()" title="Configure Map API Key"><i class="bi bi-gear-fill"></i></button>
             <button class="tm-tool-btn" onclick="timeMap.zoomIn()" title="Zoom In"><i class="bi bi-plus-lg"></i></button>
             <button class="tm-tool-btn" onclick="timeMap.zoomOut()" title="Zoom Out"><i class="bi bi-dash-lg"></i></button>
             <button class="tm-tool-btn" onclick="resetToSubcontinentView()" title="Center Subcontinent Overview"><i class="bi bi-globe-asia-australia"></i></button>
             <button class="tm-tool-btn" onclick="toggleMapFullscreen()" title="Fullscreen Mode"><i class="bi bi-fullscreen" id="fsIcon"></i></button>
+        </div>
+
+        <!-- Vintage Map Overlay Slider (David Rumsey / OldMapsOnline) -->
+        <div id="vintageOverlayControl" class="tm-vintage-control shadow-lg" style="display: none;">
+            <div class="d-flex align-items-center justify-content-between mb-1">
+                <span class="small text-warning fw-bold"><i class="bi bi-map me-1"></i>1855 Antique Atlas Overlay</span>
+                <button type="button" class="btn-close btn-close-white" style="font-size: 10px;" onclick="toggleVintageMapOverlay()"></button>
+            </div>
+            <div class="small text-secondary mb-2" style="font-size: 10.5px;">David Rumsey Historical Cartography Collection</div>
+            <div class="d-flex align-items-center gap-2">
+                <span class="small text-secondary" style="font-size: 10px;">0%</span>
+                <input type="range" class="form-range" id="vintageOpacitySlider" min="0" max="1" step="0.05" value="0.75" oninput="setVintageOverlayOpacity(this.value)">
+                <span class="small text-secondary" style="font-size: 10px;">100%</span>
+            </div>
         </div>
 
         <!-- Sliding Information Drawer on Click (TimeMap.org Full History Panel) -->
@@ -737,6 +765,16 @@
                         <span class="text-secondary"><i class="bi bi-calendar-event me-1 text-warning"></i>Timeline Epoch:</span>
                         <strong id="tmDrawerEpochTag" class="text-info text-end">1855 CE</strong>
                     </div>
+                </div>
+
+                <!-- Key Historical Highlights of this Epoch -->
+                <div id="tmDrawerHighlightsContainer" class="p-2 rounded bg-black bg-opacity-40 border border-secondary border-opacity-25 small mb-3" style="display: none;">
+                    <div class="text-warning fw-bold mb-1" style="font-size: 11.5px;">
+                        <i class="bi bi-stars me-1"></i>Key Era Events & Milestones
+                    </div>
+                    <ul id="tmDrawerHighlightsList" class="text-light small ps-3 mb-0" style="font-size: 11.5px; line-height: 1.55;">
+                        <!-- Filled dynamically -->
+                    </ul>
                 </div>
 
                 <!-- Action Buttons (Read Full Wiki, Ask AI Guide) -->
@@ -1154,20 +1192,33 @@
                     }
                 ],
                 rulers: [
-                    { name: "Queen Victoria & Dalhousie", title: "Empress & Gov. General", realm: "British India", coords: [23.0, 80.0], era: "1855" },
-                    { name: "Naser al-Din Shah", title: "Shah of Persia", realm: "Qajar Iran", coords: [35.6, 51.4], era: "1848 - 1896" },
-                    { name: "Dost Mohammad Khan", title: "Emir of Afghanistan", realm: "Afghanistan", coords: [34.5, 69.1], era: "1826 - 1863" },
-                    { name: "King Mindon Min", title: "King of Burma", realm: "Konbaung", coords: [21.9, 96.0], era: "1853 - 1878" },
-                    { name: "Emperor Tự Đức", title: "Emperor of Vietnam", realm: "Đại Nam", coords: [16.4, 107.5], era: "1847 - 1883" }
+                    { name: "Queen Victoria & Dalhousie", title: "Empress & Gov. General", realm: "British India", coords: [22.57, 88.36], era: "1855" },
+                    { name: "Naser al-Din Shah", title: "Shah of Persia", realm: "Qajar Iran", coords: [35.68, 51.38], era: "1848 - 1896" },
+                    { name: "Dost Mohammad Khan", title: "Emir of Afghanistan", realm: "Afghanistan", coords: [34.55, 69.20], era: "1826 - 1863" },
+                    { name: "King Mindon Min", title: "King of Burma", realm: "Konbaung", coords: [21.97, 96.08], era: "1853 - 1878" },
+                    { name: "Emperor Tự Đức", title: "Emperor of Vietnam", realm: "Đại Nam", coords: [16.46, 107.59], era: "1847 - 1883" },
+                    { name: "Emperor Xianfeng", title: "Qing Emperor", realm: "Qing Dynasty", coords: [39.90, 116.40], era: "1850 - 1861" },
+                    { name: "Sultan Abdulmejid I", title: "Ottoman Caliph", realm: "Ottoman Empire", coords: [41.00, 28.97], era: "1839 - 1861" },
+                    { name: "Tsar Alexander II", title: "Emperor of All Russia", realm: "Russian Empire", coords: [59.93, 30.33], era: "1855 - 1881" },
+                    { name: "Napoleon III", title: "Emperor of the French", realm: "Second French Empire", coords: [48.85, 2.35], era: "1852 - 1870" },
+                    { name: "Bahadur Shah Zafar", title: "Last Mughal Emperor", realm: "Red Fort Delhi", coords: [28.65, 77.24], era: "1837 - 1857" }
                 ],
                 people: [
-                    { name: "Ishwar Chandra Vidyasagar", title: "Social Reformer & Scholar", location: "Calcutta", coords: [22.5, 88.3], era: "1820 - 1891" },
-                    { name: "Mirza Ghalib", title: "Urdu & Persian Poet", location: "Delhi", coords: [28.6, 77.2], era: "1797 - 1869" },
-                    { name: "Dadabhai Naoroji", title: "Grand Old Man of India", location: "Bombay", coords: [18.9, 72.8], era: "1825 - 1917" }
+                    { name: "Ishwar Chandra Vidyasagar", title: "Social Reformer & Polymath", location: "Calcutta", coords: [22.57, 88.36], era: "1820 - 1891" },
+                    { name: "Mirza Ghalib", title: "Urdu & Persian Master Poet", location: "Delhi", coords: [28.65, 77.23], era: "1797 - 1869" },
+                    { name: "Dadabhai Naoroji", title: "Grand Old Man of India", location: "Bombay", coords: [18.92, 72.83], era: "1825 - 1917" },
+                    { name: "Charles Darwin", title: "Naturalist & Author of Evolution", location: "Kent, England", coords: [51.33, 0.05], era: "1809 - 1882" },
+                    { name: "Karl Marx", title: "Philosopher & Political Theorist", location: "London", coords: [51.50, -0.12], era: "1818 - 1883" },
+                    { name: "Michael Faraday", title: "Pioneer of Electromagnetism", location: "London", coords: [51.51, -0.14], era: "1791 - 1867" },
+                    { name: "Florence Nightingale", title: "Founder of Modern Nursing", location: "Crimea / London", coords: [44.61, 33.52], era: "1820 - 1910" },
+                    { name: "Victor Hugo", title: "Author of Les Misérables", location: "Guernsey / Paris", coords: [49.45, -2.53], era: "1802 - 1885" }
                 ],
                 battles: [
-                    { name: "Santhal Rebellion", date: "1855 CE", combatants: "Santhals vs British East India", coords: [24.5, 87.2], outcome: "Rebellion led by Sidhu and Kanhu Murmu against British zamindari exploitation." },
-                    { name: "Anglo-Persian War", date: "1856 - 1857 CE", combatants: "British Empire vs Qajar Iran", coords: [28.9, 50.8], outcome: "British forces captured Bushehr; Iran relinquished claims on Herat." }
+                    { name: "Santhal Rebellion", date: "1855 CE", combatants: "Santhal Tribes vs British East India", coords: [24.58, 87.26], outcome: "Indigenous anti-colonial uprising led by Sidhu and Kanhu Murmu in Rajmahal Hills." },
+                    { name: "Siege of Sevastopol", date: "1854 - 1855 CE", combatants: "Britain, France, Ottoman vs Russia", coords: [44.61, 33.52], outcome: "Decisive 11-month siege in the Crimean War leading to the fall of the Russian fortress." },
+                    { name: "Charge of the Light Brigade", date: "1854 CE", combatants: "British Cavalry vs Russian Imperial Artillery", coords: [44.53, 33.60], outcome: "Famed heroic British cavalry charge immortalized by Lord Tennyson." },
+                    { name: "Third Battle of Nanjing", date: "1853 - 1856 CE", combatants: "Taiping Heavenly Kingdom vs Qing Empire", coords: [32.06, 118.79], outcome: "Hong Xiuquan established Tianjing (Heavenly Capital) in bloodiest civil conflict of 19th century." },
+                    { name: "Anglo-Persian War", date: "1856 - 1857 CE", combatants: "British Empire vs Qajar Iran", coords: [28.96, 50.83], outcome: "British expeditionary forces occupied Bushehr; Treaty of Paris recognized Afghan sovereignty." }
                 ]
             },
 
@@ -1533,7 +1584,7 @@
                 const icon = L.divIcon({
                     className: 'tm-ruler-marker',
                     html: `
-                        <div class="tm-entity-marker">
+                        <div class="tm-entity-marker" title="Ruler: ${r.name} (${r.realm})">
                             <div class="tm-entity-badge tm-badge-ruler"><i class="bi bi-crown"></i></div>
                             <span class="tm-entity-caption">${r.name}</span>
                         </div>
@@ -1542,14 +1593,20 @@
                     iconAnchor: [40, 25]
                 });
 
-                const m = L.marker(r.coords, { icon: icon }).addTo(mapLayersGroup);
-                m.on('click', () => {
+                const m = L.marker(r.coords, { icon: icon, interactive: true }).addTo(mapLayersGroup);
+                m.on('click', (e) => {
+                    if (e.originalEvent) {
+                        e.originalEvent.stopPropagation();
+                        e.originalEvent.preventDefault();
+                    }
+                    L.DomEvent.stopPropagation(e);
                     openEntityDrawer({
                         name: r.name,
                         dates: r.era,
                         dynasty: r.realm,
                         capital: r.title,
                         ruler: r.name,
+                        coords: r.coords,
                         desc: `${r.name} reigned over ${r.realm} during ${r.era} as sovereign monarch.`,
                         wiki: `https://en.wikipedia.org/wiki/${encodeURIComponent(r.name)}`
                     });
@@ -1563,7 +1620,7 @@
                 const icon = L.divIcon({
                     className: 'tm-person-marker',
                     html: `
-                        <div class="tm-entity-marker">
+                        <div class="tm-entity-marker" title="Notable Person: ${p.name}">
                             <div class="tm-entity-badge tm-badge-person"><i class="bi bi-person-fill"></i></div>
                             <span class="tm-entity-caption">${p.name}</span>
                         </div>
@@ -1572,14 +1629,20 @@
                     iconAnchor: [40, 25]
                 });
 
-                const m = L.marker(p.coords, { icon: icon }).addTo(mapLayersGroup);
-                m.on('click', () => {
+                const m = L.marker(p.coords, { icon: icon, interactive: true }).addTo(mapLayersGroup);
+                m.on('click', (e) => {
+                    if (e.originalEvent) {
+                        e.originalEvent.stopPropagation();
+                        e.originalEvent.preventDefault();
+                    }
+                    L.DomEvent.stopPropagation(e);
                     openEntityDrawer({
                         name: p.name,
                         dates: p.era,
                         dynasty: p.title,
                         capital: p.location,
-                        ruler: "Prominent Historical Figure",
+                        ruler: "Historical Luminary",
+                        coords: p.coords,
                         desc: `${p.name} was a celebrated ${p.title} active in ${p.location}.`,
                         wiki: `https://en.wikipedia.org/wiki/${encodeURIComponent(p.name)}`
                     });
@@ -1593,23 +1656,29 @@
                 const icon = L.divIcon({
                     className: 'tm-battle-marker',
                     html: `
-                        <div class="tm-entity-marker">
+                        <div class="tm-entity-marker" title="Historical Conflict: ${b.name}">
                             <div class="tm-entity-badge tm-badge-battle"><i class="bi bi-crosshair"></i></div>
-                            <span class="tm-entity-caption">${b.name}</span>
+                            <span class="tm-entity-caption">${b.name} (${b.date})</span>
                         </div>
                     `,
                     iconSize: [80, 50],
                     iconAnchor: [40, 25]
                 });
 
-                const m = L.marker(b.coords, { icon: icon }).addTo(mapLayersGroup);
-                m.on('click', () => {
+                const m = L.marker(b.coords, { icon: icon, interactive: true }).addTo(mapLayersGroup);
+                m.on('click', (e) => {
+                    if (e.originalEvent) {
+                        e.originalEvent.stopPropagation();
+                        e.originalEvent.preventDefault();
+                    }
+                    L.DomEvent.stopPropagation(e);
                     openEntityDrawer({
                         name: b.name,
                         dates: b.date,
                         dynasty: b.combatants,
                         capital: "Battlefield",
                         ruler: b.combatants,
+                        coords: b.coords,
                         desc: b.outcome,
                         wiki: `https://en.wikipedia.org/wiki/${encodeURIComponent(b.name)}`
                     });
@@ -1690,6 +1759,95 @@
             "Sikh Empire": "Sikh_Empire"
         };
 
+        const ERA_HIGHLIGHTS = {
+            "British India": [
+                "1853: First passenger railway line in Asia inaugurated between Bombay and Thane.",
+                "1855: Santhal Rebellion led by Sidhu and Kanhu Murmu against zamindari exploitation.",
+                "1857: Great Indian Uprising (First War of Independence) begins across Meerut and Delhi.",
+                "1858: Government of India Act passes control from the East India Company to Queen Victoria's direct Crown rule."
+            ],
+            "Iran": [
+                "1851: Reformist Grand Vizier Amir Kabir establishes Dar ul-Funun, modern Persia's first technical polytechnic.",
+                "1856: Anglo-Persian War breaks out as Persian forces besiege and capture Herat.",
+                "1857: Treaty of Paris signs peace with Britain; Persia formally cedes claims over Herat and Afghanistan."
+            ],
+            "Afghanistan": [
+                "1855: Treaty of Peshawar concluded between Emir Dost Mohammad Khan and Sir John Lawrence.",
+                "1856: Afghan army successfully recaptures Kandahar, solidifying unified national borders.",
+                "1857: Supplemental treaty allows British financial assistance during Anglo-Persian hostilities."
+            ],
+            "Tibet": [
+                "1855: Nepal–Tibet War breaks out under Rana prime minister Jung Bahadur.",
+                "1856: Treaty of Thapathali guarantees trade autonomy and tributary payments to Nepal.",
+                "1856: Potala Palace administrative council strengthens monastic suzerainty in Lhasa."
+            ],
+            "Đại Nam": [
+                "1847-1858: Reign of Emperor Tự Đức defending traditional Confucian civil examinations.",
+                "1858: Joint Franco-Spanish naval force under Admiral Rigault de Genouilly captures Da Nang."
+            ],
+            "Konbaung": [
+                "1853: King Mindon Min ascends Burmese throne in Amarapura, initiating widespread state modernization.",
+                "1857: King Mindon enacts the founding of the legendary fifth Buddhist royal capital of Mandalay."
+            ],
+            "Nejd": [
+                "1855: Imam Faisal bin Turki centralizes the Second Saudi State with Riyadh as the religious and military capital.",
+                "1856: Expanding territorial control across the Najd plateau and eastern ports of Al-Hasa."
+            ],
+            "Abu Dhabi": [
+                "1853: Trucial Sheikhs sign the Perpetual Maritime Truce with Britain, ending piracy conflicts in the Persian Gulf.",
+                "1855: Sheikh Saeed bin Tahnoun oversees the expansion of coastal pearling fleets."
+            ],
+            "Hong Kong": [
+                "1854: Hong Kong flourishes as a global maritime hub under Governor Sir John Bowring.",
+                "1856: Arrow Incident off Canton triggers the outbreak of the Second Opium War."
+            ],
+            "E. Indies": [
+                "1854: Netherlands colonial government enacts the Regeeringsreglement governance reform in Java and Sumatra.",
+                "1856: Multatuli publishes critiques of the Cultivation System (Cultuurstelsel)."
+            ]
+        };
+
+        // ============================================================
+        // VINTAGE MAP OVERLAY (DAVID RUMSEY / OLDMAPSONLINE FEATURE)
+        // ============================================================
+        let vintageOverlayLayer = null;
+        let isVintageOverlayActive = false;
+
+        function toggleVintageMapOverlay() {
+            const ctrl = document.getElementById('vintageOverlayControl');
+            const btn = document.getElementById('vintageOverlayBtn');
+
+            if (isVintageOverlayActive) {
+                if (vintageOverlayLayer) timeMap.removeLayer(vintageOverlayLayer);
+                isVintageOverlayActive = false;
+                ctrl.style.display = 'none';
+                btn.classList.remove('active');
+            } else {
+                if (!vintageOverlayLayer) {
+                    vintageOverlayLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}', {
+                        opacity: 0.75,
+                        attribution: '&copy; David Rumsey Historical Cartography & NatGeo Historical Atlas',
+                        maxZoom: 16
+                    });
+                }
+                const sliderVal = parseFloat(document.getElementById('vintageOpacitySlider').value || 0.75);
+                vintageOverlayLayer.setOpacity(sliderVal);
+                vintageOverlayLayer.addTo(timeMap);
+                vintageOverlayLayer.bringToFront();
+                if (mapLayersGroup) mapLayersGroup.bringToFront();
+
+                isVintageOverlayActive = true;
+                ctrl.style.display = 'block';
+                btn.classList.add('active');
+            }
+        }
+
+        function setVintageOverlayOpacity(val) {
+            if (vintageOverlayLayer) {
+                vintageOverlayLayer.setOpacity(parseFloat(val));
+            }
+        }
+
         function focusOnActiveTerritory() {
             if (currentActiveTerritory && currentActiveTerritory.center) {
                 timeMap.flyTo(currentActiveTerritory.center, 5.5, { duration: 1 });
@@ -1729,6 +1887,19 @@
                 flagImg.classList.remove('d-none');
             } else {
                 flagImg.classList.add('d-none');
+            }
+
+            // Highlights list
+            const hlContainer = document.getElementById('tmDrawerHighlightsContainer');
+            const hlList = document.getElementById('tmDrawerHighlightsList');
+            const highlights = ERA_HIGHLIGHTS[reg.name] || [
+                `${reg.dates || '1855'}: Active historical territory and political sovereignty during this era.`,
+                `Capital established at ${reg.capital || 'regional citadel'}.`,
+                `Governed under ${reg.dynasty || 'sovereign administration'}.`
+            ];
+            if (hlList && hlContainer) {
+                hlList.innerHTML = highlights.map(h => `<li class="mb-1">${h}</li>`).join('');
+                hlContainer.style.display = 'block';
             }
 
             const descEl = document.getElementById('tmDrawerDesc');
@@ -1848,6 +2019,8 @@
         function closeInfoDrawer() {
             const drawer = document.getElementById('tmInfoDrawer');
             if (drawer) drawer.classList.remove('open');
+            const hlContainer = document.getElementById('tmDrawerHighlightsContainer');
+            if (hlContainer) hlContainer.style.display = 'none';
             if (activeSelectedPoly && activeSelectedPoly.setStyle) {
                 activeSelectedPoly.setStyle({ 
                     color: activeSelectedPoly._defaultStroke || '#94a3b8', 
