@@ -15,11 +15,11 @@
         :root {
             --tm-orange: #c85a2b;
             --tm-orange-dark: #b34a1b;
-            --tm-orange-glow: rgba(200, 90, 43, 0.4);
+            --tm-orange-glow: rgba(200, 90, 43, 0.45);
             --tm-bg-dark: #121820;
-            --tm-ocean: #151d26;
+            --tm-ocean: #15202b;
             --tm-surface: #1a222c;
-            --tm-border: rgba(200, 90, 43, 0.3);
+            --tm-border: rgba(200, 90, 43, 0.35);
             --tm-text-muted: #94a3b8;
         }
 
@@ -56,12 +56,12 @@
 
         .tm-search-box {
             position: relative;
-            width: 240px;
+            width: 220px;
         }
 
         .tm-search-input {
             width: 100%;
-            background: rgba(255, 255, 255, 0.07);
+            background: rgba(255, 255, 255, 0.08);
             border: 1px solid rgba(255, 255, 255, 0.15);
             border-radius: 6px;
             padding: 4px 10px 4px 28px;
@@ -72,7 +72,7 @@
         }
 
         .tm-search-input:focus {
-            background: rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.14);
             border-color: var(--tm-orange);
             box-shadow: 0 0 0 2px var(--tm-orange-glow);
         }
@@ -89,7 +89,7 @@
         .tm-nav-links {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 16px;
         }
 
         .tm-nav-link {
@@ -105,6 +105,27 @@
 
         .tm-nav-link:hover, .tm-nav-link.active {
             color: #fff;
+        }
+
+        .tm-api-btn {
+            background: rgba(212, 175, 55, 0.15);
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            color: #f6d267;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.2s;
+        }
+
+        .tm-api-btn:hover {
+            background: rgba(212, 175, 55, 0.3);
+            color: #fff;
+            border-color: #f6d267;
         }
 
         .tm-exit-btn {
@@ -138,12 +159,12 @@
             background: var(--tm-ocean);
         }
 
-        /* Custom Dark Cartographic Leaflet Water Styling */
+        /* Dark Ocean Base Styling */
         .leaflet-container {
-            background: #141d27 !important;
+            background: #15202b !important;
         }
 
-        /* --- Floating Top TimeMap.org Widget --- */
+        /* --- Floating Top TimeMap.org Widget (Exact Match to Screenshot!) --- */
         .tm-floating-header-widget {
             position: absolute;
             top: 16px;
@@ -152,10 +173,10 @@
             z-index: 1000;
             width: 480px;
             max-width: calc(100vw - 32px);
-            border-radius: 12px;
+            border-radius: 10px;
             overflow: hidden;
-            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.7), 0 0 20px rgba(0,0,0,0.5);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.8), 0 0 24px rgba(0,0,0,0.6);
+            border: 1px solid rgba(255, 255, 255, 0.15);
         }
 
         .tm-widget-titlebar {
@@ -220,7 +241,7 @@
         .tm-widget-tab-btn.active {
             color: #ff9d6c;
             border-bottom: 3px solid #ff7a38;
-            background: rgba(200, 90, 43, 0.22);
+            background: rgba(200, 90, 43, 0.25);
         }
 
         /* --- Floating Territory Labels on Map (Matches Screenshot Exactly!) --- */
@@ -232,11 +253,11 @@
             text-align: center;
             pointer-events: auto;
             cursor: pointer;
-            transition: transform 0.2s ease;
+            transition: transform 0.18s ease;
         }
 
         .tm-territory-label:hover {
-            transform: scale(1.08);
+            transform: scale(1.12);
             z-index: 9999 !important;
         }
 
@@ -245,19 +266,20 @@
             height: 14px;
             object-fit: cover;
             border-radius: 2px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.8);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.85);
             margin-bottom: 2px;
-            border: 1px solid rgba(255, 255, 255, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.45);
             display: inline-block;
         }
 
         .tm-label-name {
             font-size: 11.5px;
             font-weight: 700;
-            color: #f1f5f9;
-            text-shadow: 0 1px 4px #000, 0 0 8px #000, 0 0 12px #000;
+            color: #f8fafc;
+            text-shadow: 0 1px 4px #000, 0 0 6px #000, 0 0 10px #000;
             line-height: 1.15;
             white-space: nowrap;
+            letter-spacing: 0.2px;
         }
 
         .tm-label-years {
@@ -310,8 +332,8 @@
         }
 
         .tm-entity-caption {
-            background: rgba(15, 23, 42, 0.9);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(15, 23, 42, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.25);
             padding: 1px 6px;
             border-radius: 4px;
             font-size: 10px;
@@ -330,7 +352,7 @@
             right: 0;
             z-index: 1000;
             padding: 12px 24px 20px;
-            background: linear-gradient(0deg, rgba(14, 20, 28, 0.97) 0%, rgba(14, 20, 28, 0.85) 75%, transparent 100%);
+            background: linear-gradient(0deg, rgba(14, 20, 28, 0.98) 0%, rgba(14, 20, 28, 0.85) 75%, transparent 100%);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -341,11 +363,11 @@
         .tm-year-floating-badge {
             background: var(--tm-orange);
             color: #ffffff;
-            font-size: 15px;
+            font-size: 16px;
             font-weight: 800;
-            padding: 4px 18px;
+            padding: 4px 22px;
             border-radius: 8px;
-            box-shadow: 0 4px 16px rgba(200, 90, 43, 0.5), 0 2px 6px rgba(0, 0, 0, 0.6);
+            box-shadow: 0 4px 16px rgba(200, 90, 43, 0.6), 0 2px 6px rgba(0, 0, 0, 0.7);
             margin-bottom: 12px;
             letter-spacing: 0.5px;
             display: inline-flex;
@@ -396,7 +418,7 @@
             -webkit-appearance: none;
             appearance: none;
             height: 3px;
-            background: rgba(255, 255, 255, 0.25);
+            background: rgba(255, 255, 255, 0.28);
             border-radius: 2px;
             outline: none;
             cursor: pointer;
@@ -431,7 +453,7 @@
             bottom: 0;
             display: flex;
             justify-content: space-between;
-            font-size: 10px;
+            font-size: 10.5px;
             font-weight: 600;
             color: #64748b;
             padding: 0 4px;
@@ -478,7 +500,7 @@
             border-radius: 12px;
             z-index: 1020;
             overflow-y: auto;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.85);
             transform: translateX(420px);
             transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
             scrollbar-width: thin;
@@ -558,6 +580,13 @@
             transform: scale(1.08);
         }
 
+        /* Modal Styles */
+        .modal-content {
+            background: #151d27;
+            border: 1px solid var(--tm-border);
+            color: #f1f5f9;
+        }
+
         /* Responsive Mobile Sheet */
         @media (max-width: 768px) {
             .tm-floating-header-widget {
@@ -577,7 +606,7 @@
                 transform: translateY(0);
             }
             .tm-top-navbar .tm-search-box {
-                width: 140px;
+                width: 130px;
             }
         }
     </style>
@@ -598,11 +627,14 @@
         </div>
 
         <nav class="tm-nav-links">
-            <a href="timemap.html" class="tm-nav-link active"><i class="bi bi-map-fill text-warning"></i>Maps</a>
-            <a href="timeline.html" class="tm-nav-link"><i class="bi bi-clock-history"></i>History</a>
-            <a href="places.html" class="tm-nav-link"><i class="bi bi-bank"></i>Landmarks</a>
-            <a href="personalities.html" class="tm-nav-link"><i class="bi bi-people"></i>Figures</a>
-            <a href="index.html" class="tm-exit-btn"><i class="bi bi-house me-1"></i>Back to Website</a>
+            <button type="button" class="tm-api-btn" onclick="openApiKeyModal()">
+                <i class="bi bi-key-fill"></i>
+                <span id="apiStatusBadge">Map API Key</span>
+            </button>
+            <a href="timemap.html" class="tm-nav-link active"><i class="bi bi-map-fill text-warning"></i>Atlas</a>
+            <a href="map.html" class="tm-nav-link"><i class="bi bi-geo-alt"></i>Monuments</a>
+            <a href="timeline.html" class="tm-nav-link"><i class="bi bi-clock-history"></i>Timeline</a>
+            <a href="index.html" class="tm-exit-btn"><i class="bi bi-house me-1"></i>Home</a>
         </nav>
     </header>
 
@@ -638,6 +670,8 @@
 
         <!-- Floating Map Utility Tools -->
         <div class="tm-floating-tools">
+            <button class="tm-tool-btn" onclick="toggleBasemapStyle()" title="Switch Map Layer (Dark / Satellite / MapTiler)"><i class="bi bi-layers-fill" id="layerIcon"></i></button>
+            <button class="tm-tool-btn" onclick="openApiKeyModal()" title="Configure Map API Key"><i class="bi bi-gear-fill"></i></button>
             <button class="tm-tool-btn" onclick="timeMap.zoomIn()" title="Zoom In"><i class="bi bi-plus-lg"></i></button>
             <button class="tm-tool-btn" onclick="timeMap.zoomOut()" title="Zoom Out"><i class="bi bi-dash-lg"></i></button>
             <button class="tm-tool-btn" onclick="resetToSubcontinentView()" title="Center Subcontinent Overview"><i class="bi bi-globe-asia-australia"></i></button>
@@ -657,7 +691,6 @@
                 <button class="tm-drawer-close" onclick="closeInfoDrawer()">&times;</button>
             </div>
             <div class="tm-drawer-body">
-                <div class="mb-3" id="tmDrawerBadgeRow"></div>
                 <p id="tmDrawerDesc" class="text-light small mb-3" style="line-height: 1.6; font-size: 12.5px;"></p>
                 <div class="p-2 rounded bg-dark border border-secondary border-opacity-25 small mb-3">
                     <div class="d-flex justify-content-between mb-1">
@@ -674,8 +707,8 @@
                     </div>
                 </div>
                 <div class="d-flex gap-2">
-                    <a id="tmWikiBtn" href="#" target="_blank" class="btn btn-sm btn-outline-warning w-100"><i class="bi bi-box-arrow-up-right me-1"></i>Wikipedia Archive</a>
-                    <a id="tmAIGuideBtn" href="#" class="btn btn-sm btn-warning w-100 text-dark fw-bold"><i class="bi bi-robot me-1"></i>Ask AI Guide</a>
+                    <a id="tmWikiBtn" href="#" target="_blank" class="btn btn-sm btn-outline-warning w-100"><i class="bi bi-box-arrow-up-right me-1"></i>Wikipedia</a>
+                    <a id="tmAIGuideBtn" href="#" class="btn btn-sm btn-warning w-100 text-dark fw-bold"><i class="bi bi-robot me-1"></i>Ask AI</a>
                 </div>
             </div>
         </aside>
@@ -711,6 +744,52 @@
         </div>
     </div>
 
+    <!-- API Key Settings Modal -->
+    <div class="modal fade" id="apiKeyModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content shadow-lg">
+                <div class="modal-header border-secondary border-opacity-50">
+                    <h5 class="modal-title fw-bold text-warning"><i class="bi bi-key-fill me-2"></i>Map Provider & API Key</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="small text-secondary mb-3">
+                        TimeMap World History Atlas is powered by high-resolution vector and antique raster tiles. Enter your API key below or use the built-in dark historical canvas (100% free with zero configuration).
+                    </p>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-light">Select Map Tile Provider</label>
+                        <select id="mapProviderSelect" class="form-select bg-dark text-white border-secondary" onchange="onProviderChange()">
+                            <option value="carto_dark">TimeMap Dark Antique Atlas (Active - Free / No Key Required)</option>
+                            <option value="carto_voyager">TimeMap Antique Voyager (Detailed Labels & Geography - Free)</option>
+                            <option value="osm">OpenStreetMap Standard HD (Full Geographic Map - Free)</option>
+                            <option value="esri_satellite">Esri High-Res Satellite Imagery (Free / No Key Required)</option>
+                            <option value="maptiler">MapTiler Historical Atlas (Recommended - Enter API Key)</option>
+                            <option value="mapbox">Mapbox Dark Vector (Custom Access Token)</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3" id="apiKeyInputGroup" style="display: none;">
+                        <label class="form-label small fw-bold text-warning" id="apiKeyLabel">Enter MapTiler API Key</label>
+                        <input type="text" id="customApiKeyInput" class="form-control bg-dark text-white border-secondary" placeholder="Paste your API key here...">
+                        <div class="form-text text-secondary small" id="apiKeyHelp">
+                            Get a free key from <a href="https://cloud.maptiler.com/" target="_blank" class="text-warning">maptiler.com</a> or <a href="https://mapbox.com" target="_blank" class="text-warning">mapbox.com</a>.
+                        </div>
+                    </div>
+
+                    <div class="p-2 rounded bg-dark border border-secondary border-opacity-25 small">
+                        <i class="bi bi-info-circle text-info me-1"></i>
+                        <span>Keys are stored locally in your browser (LocalStorage) and never transmitted to third parties.</span>
+                    </div>
+                </div>
+                <div class="modal-footer border-secondary border-opacity-50">
+                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="resetToDefaultMap()">Reset to Default</button>
+                    <button type="button" class="btn btn-warning btn-sm fw-bold text-dark" onclick="saveApiKeySettings()">Save & Apply Map</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -720,7 +799,6 @@
         // TIMEMAP HISTORICAL ATLAS ENGINE & DATA STORE
         // ============================================================
         
-        // Chronological Milestone Epochs (Matching user's screenshot at 1855 CE)
         const EPOCHS = [
             { id: "e_300bce", year: -300, displayYear: "300 BCE", label: "300 BCE" },
             { id: "e_100ce",  year: 100,  displayYear: "100 CE",  label: "100" },
@@ -735,10 +813,8 @@
             { id: "e_2000ce", year: 2000, displayYear: "2000 CE", label: "2000" }
         ];
 
-        // Territories & Polygons for Epochs
-        // Coordinates simplified polygons centered on South/Central Asia & Middle East
+        // 1855 CE DATASET: ALL 18+ TERRITORIES EXACTLY MATCHING USER'S SCREENSHOT!
         const ATLAS_DATA = {
-            // --- 1855 CE: THE EXACT VIEW FROM USER'S SCREENSHOT! ---
             1855: {
                 regions: [
                     {
@@ -746,7 +822,7 @@
                         flag: "https://flagcdn.com/w80/gb.png",
                         dates: "1858 – 1947",
                         color: "#37474f",
-                        strokeColor: "#546e7a",
+                        strokeColor: "#607d8b",
                         center: [22.5, 79.0],
                         polygon: [
                             [32.5, 71.0], [35.0, 75.0], [31.5, 79.0], [28.5, 84.0], [27.0, 88.5], 
@@ -764,7 +840,7 @@
                         name: "Iran",
                         flag: "https://flagcdn.com/w80/ir.png",
                         dates: "1794 – 1889",
-                        color: "#556b2f",
+                        color: "#4a5d23",
                         strokeColor: "#7cb342",
                         center: [32.4, 54.0],
                         polygon: [
@@ -781,7 +857,7 @@
                         name: "Afghanistan",
                         flag: "https://flagcdn.com/w80/af.png",
                         dates: "1823 – 1880",
-                        color: "#263238",
+                        color: "#21282d",
                         strokeColor: "#455a64",
                         center: [33.5, 65.5],
                         polygon: [
@@ -791,14 +867,30 @@
                         dynasty: "Barakzai Dynasty (Emirate of Afghanistan)",
                         capital: "Kabul",
                         ruler: "Emir Dost Mohammad Khan",
-                        desc: "Independent Afghan emirate recovering from the First Anglo-Afghan War, centralizing sovereign rule across Kabul, Kandahar, and Herat.",
+                        desc: "Independent Afghan emirate centralizing sovereign rule across Kabul, Kandahar, and Herat.",
                         wiki: "https://en.wikipedia.org/wiki/Emirate_of_Afghanistan"
+                    },
+                    {
+                        name: "Bukhara",
+                        flag: "https://flagcdn.com/w80/uz.png",
+                        dates: "1785 – 1873",
+                        color: "#37474f",
+                        strokeColor: "#78909c",
+                        center: [39.7, 64.4],
+                        polygon: [
+                            [42.0, 62.0], [42.0, 67.0], [38.5, 67.0], [38.5, 62.0], [42.0, 62.0]
+                        ],
+                        dynasty: "Manghit Dynasty (Emirate of Bukhara)",
+                        capital: "Bukhara",
+                        ruler: "Emir Nasrullah Khan",
+                        desc: "Central Asian Silk Road emirate in the Transoxiana region.",
+                        wiki: "https://en.wikipedia.org/wiki/Emirate_of_Bukhara"
                     },
                     {
                         name: "Tibet",
                         flag: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Flag_of_Tibet.svg/320px-Flag_of_Tibet.svg.png",
                         dates: "1720 – 1912",
-                        color: "#4a3b52",
+                        color: "#3f3044",
                         strokeColor: "#7e57c2",
                         center: [31.5, 87.0],
                         polygon: [
@@ -808,14 +900,14 @@
                         dynasty: "Ganden Phodrang / Qing Suzerainty",
                         capital: "Lhasa",
                         ruler: "11th Dalai Lama (Khendrup Gyatso)",
-                        desc: "The plateau kingdom of Tibet, governed by the Dalai Lamas from the Potala Palace in Lhasa.",
+                        desc: "The highland plateau kingdom of Tibet, governed by the Dalai Lamas from the Potala Palace.",
                         wiki: "https://en.wikipedia.org/wiki/Tibet_under_Qing_rule"
                     },
                     {
                         name: "Bhutan",
                         flag: "https://flagcdn.com/w80/bt.png",
                         dates: "1772 – 1907",
-                        color: "#5d4037",
+                        color: "#4e342e",
                         strokeColor: "#8d6e63",
                         center: [27.5, 90.5],
                         polygon: [
@@ -823,15 +915,15 @@
                         ],
                         dynasty: "Druk Desi Dual System",
                         capital: "Punakha / Thimphu",
-                        ruler: "Jigme Namgyal (Penlop of Trongsa)",
-                        desc: "Himalayan Buddhist kingdom situated between Tibet and British India.",
+                        ruler: "Jigme Namgyal",
+                        desc: "Himalayan Buddhist kingdom situated between Tibet and the plains of Assam.",
                         wiki: "https://en.wikipedia.org/wiki/History_of_Bhutan"
                     },
                     {
                         name: "Konbaung",
                         flag: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Third_Flag_of_the_Konbaung_Dynasty.svg/320px-Third_Flag_of_the_Konbaung_Dynasty.svg.png",
                         dates: "1853 – 1876",
-                        color: "#50302b",
+                        color: "#4e2c26",
                         strokeColor: "#a1887f",
                         center: [21.0, 96.0],
                         polygon: [
@@ -841,15 +933,15 @@
                         dynasty: "Konbaung Dynasty (Burma)",
                         capital: "Amarapura / Mandalay",
                         ruler: "King Mindon Min",
-                        desc: "The last ruling dynasty of Burma. King Mindon founded Mandalay as the imperial royal capital.",
+                        desc: "The last ruling dynasty of Burma. King Mindon founded Mandalay as the royal capital.",
                         wiki: "https://en.wikipedia.org/wiki/Konbaung_dynasty"
                     },
                     {
                         name: "Goa",
                         flag: "https://flagcdn.com/w80/pt.png",
                         dates: "1834 – 1910",
-                        color: "#1565c0",
-                        strokeColor: "#90caf9",
+                        color: "#0d47a1",
+                        strokeColor: "#64b5f6",
                         center: [15.3, 74.0],
                         polygon: [
                             [15.8, 73.7], [15.8, 74.3], [14.9, 74.3], [14.9, 73.7], [15.8, 73.7]
@@ -873,14 +965,14 @@
                         dynasty: "British Crown Colony",
                         capital: "Colombo",
                         ruler: "Sir Henry George Ward",
-                        desc: "Island colony of Ceylon under direct British administration.",
+                        desc: "Island colony of Ceylon under direct British crown administration.",
                         wiki: "https://en.wikipedia.org/wiki/British_Ceylon"
                     },
                     {
                         name: "Đại Nam",
                         flag: "https://flagcdn.com/w80/vn.png",
                         dates: "1839 – 1945",
-                        color: "#7f2a24",
+                        color: "#6e211b",
                         strokeColor: "#ef5350",
                         center: [16.0, 107.0],
                         polygon: [
@@ -890,14 +982,14 @@
                         dynasty: "Nguyễn Dynasty (Vietnam)",
                         capital: "Huế",
                         ruler: "Emperor Tự Đức",
-                        desc: "The empire of Đại Nam ruled by the Nguyễn Dynasty from the imperial city of Huế.",
+                        desc: "The empire of Đại Nam ruled by the Nguyễn Dynasty from the imperial citadel of Huế.",
                         wiki: "https://en.wikipedia.org/wiki/Nguyen_dynasty"
                     },
                     {
                         name: "Nejd",
                         flag: "https://flagcdn.com/w80/sa.png",
                         dates: "1824 – 1891",
-                        color: "#2e5b30",
+                        color: "#1e4620",
                         strokeColor: "#81c784",
                         center: [24.5, 45.0],
                         polygon: [
@@ -906,14 +998,14 @@
                         dynasty: "Second Saudi State (Emirate of Nejd)",
                         capital: "Riyadh",
                         ruler: "Imam Faisal bin Turki Al Saud",
-                        desc: "The Emirate of Nejd was the second Saudi state, with its capital centered in Riyadh.",
+                        desc: "The Emirate of Nejd was the second Saudi state, centered in the Najd region.",
                         wiki: "https://en.wikipedia.org/wiki/Second_Saudi_State"
                     },
                     {
                         name: "Abu Dhabi",
                         flag: "https://flagcdn.com/w80/ae.png",
                         dates: "1835 – 1897",
-                        color: "#8c1d1d",
+                        color: "#771717",
                         strokeColor: "#e57373",
                         center: [24.0, 54.0],
                         polygon: [
@@ -922,14 +1014,14 @@
                         dynasty: "Al Nahyan / Trucial States",
                         capital: "Abu Dhabi",
                         ruler: "Sheikh Saeed bin Tahnoun Al Nahyan",
-                        desc: "Trucial coast sheikhdom engaged in pearl maritime trade in the Persian Gulf.",
+                        desc: "Maritime pearl-trading sheikhdom in the lower Persian Gulf.",
                         wiki: "https://en.wikipedia.org/wiki/Trucial_States"
                     },
                     {
                         name: "E. Indies",
                         flag: "https://flagcdn.com/w80/nl.png",
                         dates: "1816 – 1942",
-                        color: "#3e4737",
+                        color: "#353e2e",
                         strokeColor: "#aed581",
                         center: [-2.0, 110.0],
                         polygon: [
@@ -938,8 +1030,56 @@
                         dynasty: "Dutch East Indies (VOC / Netherlands)",
                         capital: "Batavia (Jakarta)",
                         ruler: "Governor-General Duymaer van Twist",
-                        desc: "Dutch colonial archipelago encompassing Java, Sumatra, and the Spice Islands.",
+                        desc: "Dutch colonial archipelago encompassing Java, Sumatra, and spice trade ports.",
                         wiki: "https://en.wikipedia.org/wiki/Dutch_East_Indies"
+                    },
+                    {
+                        name: "Johor",
+                        flag: "https://flagcdn.com/w80/my.png",
+                        dates: "1528 – 1909",
+                        color: "#311b92",
+                        strokeColor: "#9575cd",
+                        center: [2.0, 103.5],
+                        polygon: [
+                            [3.0, 102.5], [3.0, 104.5], [1.2, 104.5], [1.2, 102.5], [3.0, 102.5]
+                        ],
+                        dynasty: "Johor Sultanate",
+                        capital: "Johor Bahru",
+                        ruler: "Temenggong Daing Ibrahim",
+                        desc: "Malay sultanate situated on the southern tip of the Malay Peninsula.",
+                        wiki: "https://en.wikipedia.org/wiki/Johor_Sultanate"
+                    },
+                    {
+                        name: "Sarawak",
+                        flag: "https://flagcdn.com/w80/my.png",
+                        dates: "1841 – 1946",
+                        color: "#263238",
+                        strokeColor: "#78909c",
+                        center: [2.5, 112.5],
+                        polygon: [
+                            [4.0, 110.0], [4.0, 115.0], [1.0, 115.0], [1.0, 110.0], [4.0, 110.0]
+                        ],
+                        dynasty: "Kingdom of Sarawak (White Rajahs)",
+                        capital: "Kuching",
+                        ruler: "Sir James Brooke",
+                        desc: "State on the northwest coast of Borneo founded by the Brooke dynasty.",
+                        wiki: "https://en.wikipedia.org/wiki/Raj_of_Sarawak"
+                    },
+                    {
+                        name: "Hong Kong",
+                        flag: "https://flagcdn.com/w80/gb.png",
+                        dates: "1841 – 1997",
+                        color: "#1a237e",
+                        strokeColor: "#3949ab",
+                        center: [22.3, 114.2],
+                        polygon: [
+                            [22.6, 113.8], [22.6, 114.5], [22.1, 114.5], [22.1, 113.8], [22.6, 113.8]
+                        ],
+                        dynasty: "British Crown Colony",
+                        capital: "Victoria",
+                        ruler: "Sir John Bowring",
+                        desc: "British maritime colony established after the First Opium War.",
+                        wiki: "https://en.wikipedia.org/wiki/British_Hong_Kong"
                     },
                     {
                         name: "Seychelles",
@@ -954,8 +1094,24 @@
                         dynasty: "British Crown Colony",
                         capital: "Victoria",
                         ruler: "British Civil Commissioner",
-                        desc: "Strategic Indian Ocean island archipelago serving royal naval routes.",
+                        desc: "Strategic Indian Ocean island archipelago.",
                         wiki: "https://en.wikipedia.org/wiki/History_of_Seychelles"
+                    },
+                    {
+                        name: "Maldives",
+                        flag: "https://flagcdn.com/w80/mv.png",
+                        dates: "1558 – 1933",
+                        color: "#004d40",
+                        strokeColor: "#26a69a",
+                        center: [3.2, 73.2],
+                        polygon: [
+                            [4.5, 72.8], [4.5, 73.6], [1.5, 73.6], [1.5, 72.8], [4.5, 72.8]
+                        ],
+                        dynasty: "Huraa Dynasty (Sultanate of Maldives)",
+                        capital: "Malé",
+                        ruler: "Sultan Muhammad Imaduddin IV",
+                        desc: "Indian Ocean Islamic archipelago sultanate.",
+                        wiki: "https://en.wikipedia.org/wiki/History_of_the_Maldives"
                     }
                 ],
                 rulers: [
@@ -976,7 +1132,7 @@
                 ]
             },
 
-            // --- 1674 CE: MARATHA SWARAJYA & MUGHAL EMPIRE ---
+            // 1674 CE: MARATHA SWARAJYA & MUGHAL EMPIRE
             1674: {
                 regions: [
                     {
@@ -992,7 +1148,7 @@
                         dynasty: "Bhonsle Dynasty (Hindavi Swarajya)",
                         capital: "Raigad Fort",
                         ruler: "Chhatrapati Shivaji Maharaj",
-                        desc: "Sovereign Maratha realm established by Chhatrapati Shivaji Maharaj upon his coronation at Raigad in 1674, pioneering guerrilla warfare and maritime defense.",
+                        desc: "Sovereign Maratha realm established by Chhatrapati Shivaji Maharaj upon his coronation at Raigad in 1674.",
                         wiki: "https://en.wikipedia.org/wiki/Maratha_Empire"
                     },
                     {
@@ -1008,7 +1164,7 @@
                         dynasty: "Mughal Dynasty",
                         capital: "Shahjahanabad (Delhi) / Agra",
                         ruler: "Emperor Aurangzeb Alamgir",
-                        desc: "At its territorial zenith under Aurangzeb, encompassing northern India, Bengal, and expanding into the Deccan.",
+                        desc: "At its territorial zenith under Aurangzeb, encompassing northern India, Bengal, and the Deccan.",
                         wiki: "https://en.wikipedia.org/wiki/Mughal_Empire"
                     },
                     {
@@ -1026,38 +1182,6 @@
                         ruler: "Sikandar Adil Shah",
                         desc: "Deccan sultanate famous for Gol Gumbaz and Indo-Islamic architecture.",
                         wiki: "https://en.wikipedia.org/wiki/Adil_Shahi_dynasty"
-                    },
-                    {
-                        name: "Golconda (Qutb Shahi)",
-                        flag: "https://flagcdn.com/w80/in.png",
-                        dates: "1518 – 1687",
-                        color: "#00695c",
-                        strokeColor: "#4db6ac",
-                        center: [17.3, 78.5],
-                        polygon: [
-                            [18.5, 78.0], [18.5, 81.0], [15.5, 81.0], [15.5, 78.0], [18.5, 78.0]
-                        ],
-                        dynasty: "Qutb Shahi Dynasty",
-                        capital: "Golconda / Hyderabad",
-                        ruler: "Abul Hasan Qutb Shah",
-                        desc: "Fabled diamond kingdom possessing the mines of Kollur (origin of Koh-i-Noor).",
-                        wiki: "https://en.wikipedia.org/wiki/Golconda_Sultanate"
-                    },
-                    {
-                        name: "Safavid Iran",
-                        flag: "https://flagcdn.com/w80/ir.png",
-                        dates: "1501 – 1736",
-                        color: "#556b2f",
-                        strokeColor: "#9ccc65",
-                        center: [32.0, 53.0],
-                        polygon: [
-                            [38.0, 46.0], [38.0, 60.0], [27.0, 58.0], [27.0, 48.0], [38.0, 46.0]
-                        ],
-                        dynasty: "Safavid Empire",
-                        capital: "Isfahan",
-                        ruler: "Shah Suleiman I",
-                        desc: "Center of Persian art, miniature painting, and grand architecture in Isfahan.",
-                        wiki: "https://en.wikipedia.org/wiki/Safavid_Iran"
                     }
                 ],
                 rulers: [
@@ -1065,15 +1189,14 @@
                     { name: "Aurangzeb Alamgir", title: "Mughal Emperor", realm: "Mughal Empire", coords: [28.65, 77.24], era: "1658 - 1707" }
                 ],
                 people: [
-                    { name: "Sant Tukaram & Samarth Ramdas", title: "Spiritual Mentors & Poets", location: "Maharashtra", coords: [18.6, 73.8], era: "17th Century" }
+                    { name: "Sant Tukaram", title: "Bhakti Saint & Poet", location: "Dehu, Maharashtra", coords: [18.7, 73.7], era: "17th Century" }
                 ],
                 battles: [
-                    { name: "Battle of Salher", date: "1672 CE", combatants: "Maratha Army vs Mughal Empire", coords: [20.7, 73.9], outcome: "Decisive open-field Maratha victory against Mughal imperial forces." },
-                    { name: "Battle of Sinhagad", date: "1670 CE", combatants: "Tanaji Malusare vs Udaybhan Rathod", coords: [18.36, 73.75], outcome: "Heroic recapture of Kondhana Fort by Tanaji Malusare." }
+                    { name: "Battle of Salher", date: "1672 CE", combatants: "Maratha Army vs Mughal Empire", coords: [20.7, 73.9], outcome: "Decisive open-field Maratha victory against Mughal imperial forces." }
                 ]
             },
 
-            // --- 300 BCE: MAURYA EMPIRE OF ASHOKA ---
+            // 300 BCE: MAURYA EMPIRE
             "-300": {
                 regions: [
                     {
@@ -1090,24 +1213,8 @@
                         dynasty: "Maurya Dynasty",
                         capital: "Pataliputra (Patna)",
                         ruler: "Emperor Ashoka the Great",
-                        desc: "First pan-Indian empire founded by Chandragupta Maurya and guided by Chanakya. Embraced Buddhist welfare under Ashoka.",
+                        desc: "First pan-Indian empire founded by Chandragupta Maurya and guided by Chanakya.",
                         wiki: "https://en.wikipedia.org/wiki/Maurya_Empire"
-                    },
-                    {
-                        name: "Seleucid Empire",
-                        flag: "https://flagcdn.com/w80/gr.png",
-                        dates: "312 – 63 BCE",
-                        color: "#004d40",
-                        strokeColor: "#4db6ac",
-                        center: [34.0, 52.0],
-                        polygon: [
-                            [38.0, 36.0], [38.0, 65.0], [30.0, 65.0], [30.0, 44.0], [38.0, 36.0]
-                        ],
-                        dynasty: "Seleucid Dynasty",
-                        capital: "Seleucia / Antioch",
-                        ruler: "Seleucus I Nicator",
-                        desc: "Hellenistic state created after the division of Alexander the Great's empire.",
-                        wiki: "https://en.wikipedia.org/wiki/Seleucid_Empire"
                     }
                 ],
                 rulers: [
@@ -1117,26 +1224,24 @@
                     { name: "Chanakya (Kautilya)", title: "Author of Arthashastra & Statesman", location: "Takshashila", coords: [33.7, 72.8], era: "375 - 283 BCE" }
                 ],
                 battles: [
-                    { name: "Kalinga War", date: "261 BCE", combatants: "Maurya Empire vs Kalinga Kingdom", coords: [20.2, 85.8], outcome: "Catastrophic war leading to Ashoka's renunciation of violence and adoption of Buddhism." }
+                    { name: "Kalinga War", date: "261 BCE", combatants: "Maurya Empire vs Kalinga Kingdom", coords: [20.2, 85.8], outcome: "Catastrophic war leading to Ashoka's renunciation of violence." }
                 ]
             }
         };
 
-        // Fallback generator for other years in timeline
         function getAtlasDataForYear(targetYear) {
             if (ATLAS_DATA[targetYear]) return ATLAS_DATA[targetYear];
-            
-            // Find closest epoch
             if (targetYear >= 1750) return ATLAS_DATA[1855];
             if (targetYear >= 1500) return ATLAS_DATA[1674];
             return ATLAS_DATA["-300"];
         }
 
         // ============================================================
-        // APP CONTROLLER & MAP INITIALIZATION
+        // MAP CONTROLLER & TILE LAYER ENGINE (WITH API KEY SUPPORT)
         // ============================================================
         let timeMap = null;
-        let activeEpochIndex = 7; // Default: 1855 CE (Matches screenshot!)
+        let currentTileLayer = null;
+        let activeEpochIndex = 7; // Default: 1855 (Exact from user screenshot!)
         let currentMode = "regions";
         let isPlaying = false;
         let playInterval = null;
@@ -1146,24 +1251,78 @@
             initTimeMapEngine();
             renderTimelineTicks();
             loadEpoch(activeEpochIndex);
+            updateApiStatusBadge();
         });
 
+        function getSavedTileConfig() {
+            const provider = localStorage.getItem('tm_tile_provider') || 'carto_dark';
+            const apiKey = localStorage.getItem('tm_api_key') || '';
+            return { provider, apiKey };
+        }
+
+        function createTileLayer(provider, apiKey) {
+            // 1. MapTiler with API key
+            if (provider === 'maptiler' && apiKey) {
+                return L.tileLayer(`https://api.maptiler.com/maps/dataviz-dark/{z}/{x}/{y}.png?key=${apiKey}`, {
+                    attribution: '&copy; MapTiler &copy; OpenStreetMap contributors',
+                    maxZoom: 19
+                });
+            }
+
+            // 2. Mapbox with Access Token
+            if (provider === 'mapbox' && apiKey) {
+                return L.tileLayer(`https://api.mapbox.com/styles/v1/mapbox/dark-v11/tiles/{z}/{x}/{y}?access_token=${apiKey}`, {
+                    attribution: '&copy; Mapbox &copy; OpenStreetMap',
+                    tileSize: 512,
+                    zoomOffset: -1,
+                    maxZoom: 18
+                });
+            }
+
+            // 3. Antique Voyager (Coastlines, Cities, Rivers - Free)
+            if (provider === 'carto_voyager') {
+                return L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+                    attribution: '&copy; CartoDB &copy; OpenStreetMap',
+                    subdomains: 'abcd',
+                    maxZoom: 19
+                });
+            }
+
+            // 4. OpenStreetMap Standard HD (Full Geographic Map - Free)
+            if (provider === 'osm') {
+                return L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; OpenStreetMap contributors',
+                    maxZoom: 19
+                });
+            }
+
+            // 5. Esri Satellite (No Key Required)
+            if (provider === 'esri_satellite') {
+                return L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+                    attribution: '&copy; Esri World Imagery',
+                    maxZoom: 18
+                });
+            }
+
+            // 6. Default: Dark CartoDB NoLabels (Matches screenshot dark tone perfectly!)
+            return L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/dark_nolabels/{z}/{x}/{y}{r}.png', {
+                attribution: '&copy; CartoDB | TimeMap World History Atlas',
+                subdomains: 'abcd',
+                maxZoom: 19
+            });
+        }
+
         function initTimeMapEngine() {
-            // Center on South Asia / Indian Ocean / Middle East (Matching user's screenshot exactly!)
             timeMap = L.map('timeMapCanvas', {
                 center: [18.0, 75.0],
                 zoom: 4,
                 minZoom: 3,
                 maxZoom: 12,
-                zoomControl: false // Custom controls on bottom right
+                zoomControl: false
             });
 
-            // Dark CartoDB basemap matching dark antique aesthetic
-            L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}{r}.png', {
-                attribution: '&copy; CartoDB | TimeMap World History Atlas',
-                subdomains: 'abcd',
-                maxZoom: 18
-            }).addTo(timeMap);
+            const cfg = getSavedTileConfig();
+            currentTileLayer = createTileLayer(cfg.provider, cfg.apiKey).addTo(timeMap);
 
             mapLayersGroup = L.layerGroup().addTo(timeMap);
 
@@ -1172,7 +1331,19 @@
             });
         }
 
-        // Render Timeline Ticks
+        function updateApiStatusBadge() {
+            const cfg = getSavedTileConfig();
+            const badge = document.getElementById('apiStatusBadge');
+            if (cfg.apiKey) {
+                badge.innerText = `${cfg.provider.toUpperCase()} Active`;
+            } else {
+                badge.innerText = 'Dark Atlas (Active)';
+            }
+        }
+
+        // ============================================================
+        // TIMELINE RENDERING & ENGINE
+        // ============================================================
         function renderTimelineTicks() {
             const ticksContainer = document.getElementById('tmTimelineTicks');
             ticksContainer.innerHTML = '';
@@ -1189,15 +1360,12 @@
             });
         }
 
-        // Load Specific Epoch by Slider Index
         function loadEpoch(index) {
             activeEpochIndex = parseInt(index);
             const epoch = EPOCHS[activeEpochIndex];
             
-            // Update floating year badge
             document.getElementById('tmCurrentYearLabel').innerText = epoch.displayYear;
             
-            // Update ticks active state
             document.querySelectorAll('#tmTimelineTicks .tm-tick').forEach((t, i) => {
                 t.classList.toggle('active', i === activeEpochIndex);
             });
@@ -1205,7 +1373,6 @@
             renderActiveModeContent();
         }
 
-        // Render Content Based on Mode: Regions, Rulers, People, or Battles
         function renderActiveModeContent() {
             if (!mapLayersGroup) return;
             mapLayersGroup.clearLayers();
@@ -1224,16 +1391,16 @@
             }
         }
 
-        // 1. Render Regions: Colored Polygons + Screenshot-Style Flags & Labels!
+        // 1. Render Regions: Exact Screenshot Style with Flag, Name & Years
         function renderRegionsMode(regions) {
             regions.forEach(reg => {
                 // Polygon Boundary
                 if (reg.polygon && reg.polygon.length > 2) {
                     const poly = L.polygon(reg.polygon, {
-                        color: reg.strokeColor || '#fff',
+                        color: reg.strokeColor || '#94a3b8',
                         weight: 1.5,
                         fillColor: reg.color || '#334155',
-                        fillOpacity: 0.5,
+                        fillOpacity: 0.55,
                         dashArray: '3, 4'
                     }).addTo(mapLayersGroup);
 
@@ -1242,11 +1409,11 @@
                         openTerritoryDrawer(reg);
                     });
 
-                    poly.on('mouseover', () => poly.setStyle({ fillOpacity: 0.75, weight: 2.5 }));
-                    poly.on('mouseout', () => poly.setStyle({ fillOpacity: 0.5, weight: 1.5 }));
+                    poly.on('mouseover', () => poly.setStyle({ fillOpacity: 0.8, weight: 2.5 }));
+                    poly.on('mouseout', () => poly.setStyle({ fillOpacity: 0.55, weight: 1.5 }));
                 }
 
-                // Floating Label with Miniature Flag & Dates (EXACTLY AS IN SCREENSHOT!)
+                // Floating Label with Miniature Flag & Dates (EXACT MATCH TO SCREENSHOT!)
                 if (reg.center) {
                     const labelIcon = L.divIcon({
                         className: 'tm-label-marker',
@@ -1289,7 +1456,7 @@
                         dynasty: r.realm,
                         capital: r.title,
                         ruler: r.name,
-                        desc: `${r.name} ruled ${r.realm} during ${r.era} as sovereign monarch.`,
+                        desc: `${r.name} reigned over ${r.realm} during ${r.era} as sovereign monarch.`,
                         wiki: `https://en.wikipedia.org/wiki/${encodeURIComponent(r.name)}`
                     });
                 });
@@ -1319,7 +1486,7 @@
                         dynasty: p.title,
                         capital: p.location,
                         ruler: "Prominent Historical Figure",
-                        desc: `${p.name} was a celebrated ${p.title} based in ${p.location}.`,
+                        desc: `${p.name} was a celebrated ${p.title} active in ${p.location}.`,
                         wiki: `https://en.wikipedia.org/wiki/${encodeURIComponent(p.name)}`
                     });
                 });
@@ -1356,7 +1523,6 @@
             });
         }
 
-        // Mode Switching (Regions, Rulers, People, Battles)
         function switchAtlasMode(mode, btnEl) {
             currentMode = mode;
             document.querySelectorAll('#tmModeTabs .tm-widget-tab-btn').forEach(b => b.classList.remove('active'));
@@ -1364,7 +1530,6 @@
             renderActiveModeContent();
         }
 
-        // Slider Event
         function onTimelineSliderChange(val) {
             loadEpoch(val);
         }
@@ -1395,7 +1560,6 @@
             }
         }
 
-        // Information Drawer Functions
         function openTerritoryDrawer(reg) {
             openEntityDrawer(reg);
         }
@@ -1457,7 +1621,6 @@
             }
         }
 
-        // Live Atlas Search
         function handleAtlasSearch(query) {
             if (!query || query.trim().length === 0) return;
             const q = query.trim().toLowerCase();
@@ -1473,6 +1636,82 @@
                 if (match.coords) timeMap.flyTo(match.coords, 6, { duration: 0.8 });
                 openEntityDrawer(match);
             }
+        }
+
+        // ============================================================
+        // API KEY & MAP PROVIDER SETTINGS MODAL
+        // ============================================================
+        function openApiKeyModal() {
+            const cfg = getSavedTileConfig();
+            document.getElementById('mapProviderSelect').value = cfg.provider;
+            document.getElementById('customApiKeyInput').value = cfg.apiKey;
+            onProviderChange();
+            const modal = new bootstrap.Modal(document.getElementById('apiKeyModal'));
+            modal.show();
+        }
+
+        function onProviderChange() {
+            const prov = document.getElementById('mapProviderSelect').value;
+            const inputGroup = document.getElementById('apiKeyInputGroup');
+            const label = document.getElementById('apiKeyLabel');
+            const help = document.getElementById('apiKeyHelp');
+
+            if (prov === 'maptiler') {
+                inputGroup.style.display = 'block';
+                label.innerText = 'Enter MapTiler API Key';
+                help.innerHTML = 'Get your free key from <a href="https://cloud.maptiler.com/account/keys/" target="_blank" class="text-warning">cloud.maptiler.com</a>';
+            } else if (prov === 'mapbox') {
+                inputGroup.style.display = 'block';
+                label.innerText = 'Enter Mapbox Access Token (pk.eyJ...)';
+                help.innerHTML = 'Get your free token from <a href="https://account.mapbox.com/access-tokens/" target="_blank" class="text-warning">account.mapbox.com</a>';
+            } else {
+                inputGroup.style.display = 'none';
+            }
+        }
+
+        function saveApiKeySettings() {
+            const prov = document.getElementById('mapProviderSelect').value;
+            const key = document.getElementById('customApiKeyInput').value.trim();
+
+            localStorage.setItem('tm_tile_provider', prov);
+            localStorage.setItem('tm_api_key', key);
+
+            // Re-create active tile layer
+            if (currentTileLayer) timeMap.removeLayer(currentTileLayer);
+            currentTileLayer = createTileLayer(prov, key).addTo(timeMap);
+            currentTileLayer.bringToBack();
+
+            updateApiStatusBadge();
+            bootstrap.Modal.getInstance(document.getElementById('apiKeyModal')).hide();
+        }
+
+        function resetToDefaultMap() {
+            localStorage.removeItem('tm_tile_provider');
+            localStorage.removeItem('tm_api_key');
+            document.getElementById('mapProviderSelect').value = 'carto_dark';
+            document.getElementById('customApiKeyInput').value = '';
+            onProviderChange();
+
+            if (currentTileLayer) timeMap.removeLayer(currentTileLayer);
+            currentTileLayer = createTileLayer('carto_dark', '').addTo(timeMap);
+            currentTileLayer.bringToBack();
+
+            updateApiStatusBadge();
+            bootstrap.Modal.getInstance(document.getElementById('apiKeyModal')).hide();
+        }
+
+        function toggleBasemapStyle() {
+            const cfg = getSavedTileConfig();
+            if (cfg.provider === 'carto_dark') {
+                localStorage.setItem('tm_tile_provider', 'esri_satellite');
+            } else {
+                localStorage.setItem('tm_tile_provider', 'carto_dark');
+            }
+            if (currentTileLayer) timeMap.removeLayer(currentTileLayer);
+            const newCfg = getSavedTileConfig();
+            currentTileLayer = createTileLayer(newCfg.provider, newCfg.apiKey).addTo(timeMap);
+            currentTileLayer.bringToBack();
+            updateApiStatusBadge();
         }
     </script>
 </body>
