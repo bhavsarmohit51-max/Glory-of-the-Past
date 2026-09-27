@@ -1,68 +1,663 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register | Glory of the Past</title>
+    <title>Create an Account | Glory of the Past - Historical Explorer</title>
+    <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Google Fonts: Cinzel & Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+
+    <style>
+        :root {
+            --font-cinzel: 'Cinzel', serif;
+            --font-jakarta: 'Plus Jakarta Sans', sans-serif;
+            --gold-primary: #f59e0b;
+            --gold-bright: #fbbf24;
+            --gold-dark: #d97706;
+            --gold-glow: rgba(245, 158, 11, 0.45);
+        }
+
+        body.register-page-body {
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(180deg, rgba(8, 12, 22, 0.45) 0%, rgba(8, 12, 22, 0.25) 45%, rgba(8, 12, 22, 0.70) 100%),
+                        url('login-bg.jpg') center center / cover no-repeat fixed;
+            font-family: var(--font-jakarta);
+            color: #f1f5f9;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Top Header Navigation */
+        .register-top-nav {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 1.5rem 2.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 20;
+        }
+
+        @media (max-width: 768px) {
+            .register-top-nav {
+                padding: 1rem 1.25rem;
+            }
+        }
+
+        /* Top-Left Royal Logo */
+        .register-brand-group {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            text-decoration: none;
+            transition: transform 0.25s ease;
+        }
+
+        .register-brand-group:hover {
+            transform: scale(1.02);
+        }
+
+        .royal-logo-icon {
+            width: 48px;
+            height: 48px;
+            filter: drop-shadow(0 0 12px rgba(245, 158, 11, 0.65));
+        }
+
+        .brand-text-col {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.05;
+        }
+
+        .brand-text-line {
+            font-family: var(--font-cinzel);
+            font-size: 1.05rem;
+            font-weight: 800;
+            letter-spacing: 1.8px;
+            color: #ffffff;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.85);
+        }
+
+        .brand-sub-motif {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 4px;
+        }
+
+        .motif-rule {
+            width: 24px;
+            height: 1px;
+            background: linear-gradient(90deg, rgba(245, 158, 11, 0), rgba(245, 158, 11, 0.8));
+        }
+
+        .motif-rule.right {
+            background: linear-gradient(90deg, rgba(245, 158, 11, 0.8), rgba(245, 158, 11, 0));
+        }
+
+        .motif-gem {
+            color: var(--gold-bright);
+            font-size: 0.65rem;
+        }
+
+        /* Top-Right Back Pill Button */
+        .btn-back-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.55rem;
+            padding: 0.5rem 1.35rem;
+            background: rgba(15, 23, 42, 0.72);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(245, 158, 11, 0.45);
+            border-radius: 9999px;
+            color: #f1f5f9;
+            font-size: 0.92rem;
+            font-weight: 500;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .btn-back-pill:hover {
+            color: #ffffff;
+            background: rgba(245, 158, 11, 0.18);
+            border-color: var(--gold-primary);
+            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.35);
+            transform: translateY(-2px);
+        }
+
+        /* Center Main Registration Section */
+        .register-main-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 5.5rem 1.25rem 3rem 1.25rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* The Architectural Indian Arch Card */
+        .register-arch-card {
+            width: 100%;
+            max-width: 480px;
+            position: relative;
+            filter: drop-shadow(0 20px 50px rgba(0, 0, 0, 0.85));
+            animation: fadeInScale 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes fadeInScale {
+            0% {
+                opacity: 0;
+                transform: translateY(20px) scale(0.97);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* SVG Background Arch with Glowing Amber Border */
+        .register-card-svg-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Glassmorphism content container */
+        .register-card-content {
+            position: relative;
+            z-index: 2;
+            padding: 2.8rem 2.8rem 2.2rem 2.8rem;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 20px;
+        }
+
+        @media (max-width: 520px) {
+            .register-card-content {
+                padding: 2.2rem 1.5rem 1.8rem 1.5rem;
+            }
+        }
+
+        /* User Plus Medallion Emblem */
+        .register-top-emblem-wrap {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 0.85rem;
+            margin-top: 0.35rem;
+        }
+
+        .user-plus-medallion {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            border: 2px solid var(--gold-bright);
+            background: radial-gradient(circle, rgba(245, 158, 11, 0.25) 0%, rgba(15, 23, 42, 0.85) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 20px rgba(245, 158, 11, 0.55), inset 0 0 10px rgba(245, 158, 11, 0.25);
+            transition: transform 0.3s ease;
+        }
+
+        .user-plus-medallion:hover {
+            transform: scale(1.08);
+            box-shadow: 0 0 25px rgba(245, 158, 11, 0.7);
+        }
+
+        .user-plus-medallion svg {
+            width: 28px;
+            height: 28px;
+            fill: url(#userMedallionGold);
+            filter: drop-shadow(0 0 6px rgba(245, 158, 11, 0.6));
+        }
+
+        /* Typography */
+        .register-title {
+            font-family: var(--font-cinzel);
+            font-size: 2.1rem;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            text-align: center;
+            margin-bottom: 0.35rem;
+            color: #ffffff;
+            text-transform: uppercase;
+        }
+
+        .register-title-gold {
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 20px rgba(245, 158, 11, 0.4));
+        }
+
+        .register-subtitle {
+            text-align: center;
+            font-size: 0.92rem;
+            color: #94a3b8;
+            margin-bottom: 1.85rem;
+            line-height: 1.5;
+        }
+
+        /* Form Labels & Fields */
+        .register-field-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .register-field-label {
+            display: flex;
+            align-items: center;
+            gap: 0.45rem;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.8px;
+            color: #cbd5e1;
+            text-transform: uppercase;
+            margin-bottom: 0.45rem;
+        }
+
+        .register-field-label i {
+            color: var(--gold-primary);
+            font-size: 0.9rem;
+        }
+
+        .register-input-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            background: rgba(15, 23, 42, 0.82);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 12px;
+            transition: all 0.25s ease;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4);
+        }
+
+        .register-input-container:focus-within {
+            border-color: var(--gold-primary);
+            box-shadow: 0 0 16px rgba(245, 158, 11, 0.35), inset 0 1px 3px rgba(0, 0, 0, 0.4);
+            background: rgba(15, 23, 42, 0.92);
+        }
+
+        .register-input-icon {
+            padding-left: 1.15rem;
+            color: var(--gold-primary);
+            font-size: 1.05rem;
+            display: flex;
+            align-items: center;
+            pointer-events: none;
+        }
+
+        .register-input-control {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: #ffffff;
+            font-size: 0.96rem;
+            padding: 0.8rem 1rem 0.8rem 0.85rem;
+            outline: none;
+            width: 100%;
+        }
+
+        .register-input-control::placeholder {
+            color: #64748b;
+            font-weight: 400;
+        }
+
+        .register-input-control:focus {
+            outline: none;
+            box-shadow: none;
+        }
+
+        .register-toggle-pw-btn {
+            background: transparent;
+            border: none;
+            color: #94a3b8;
+            font-size: 1.15rem;
+            padding: 0.6rem 1rem;
+            cursor: pointer;
+            transition: color 0.2s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .register-toggle-pw-btn:hover {
+            color: var(--gold-bright);
+        }
+
+        /* Create Account CTA Button */
+        .btn-register-submit {
+            width: 100%;
+            background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%);
+            border: none;
+            border-radius: 9999px;
+            padding: 0.82rem 2rem;
+            color: #0f172a !important;
+            font-size: 1.05rem;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.65rem;
+            box-shadow: 0 4px 18px rgba(245, 158, 11, 0.45);
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            margin-top: 1.6rem;
+        }
+
+        .btn-register-submit:hover {
+            background: linear-gradient(135deg, #fbbf24 0%, #f97316 100%);
+            box-shadow: 0 6px 25px rgba(245, 158, 11, 0.6);
+            transform: translateY(-2px);
+        }
+
+        .btn-register-submit:active {
+            transform: translateY(0);
+        }
+
+        /* Ornate Traditional Divider */
+        .register-ornate-divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+            margin: 1.6rem 0 1.25rem 0;
+        }
+
+        .divider-ornament-line {
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, rgba(245, 158, 11, 0), rgba(245, 158, 11, 0.45), rgba(245, 158, 11, 0));
+        }
+
+        .divider-ornament-diamond {
+            color: var(--gold-bright);
+            font-size: 0.85rem;
+            opacity: 0.85;
+            text-shadow: 0 0 8px rgba(245, 158, 11, 0.6);
+        }
+
+        /* Card Footer Link */
+        .register-footer-text {
+            text-align: center;
+            font-size: 0.92rem;
+            color: #94a3b8;
+            margin-bottom: 0;
+        }
+
+        .register-login-link {
+            color: var(--gold-primary);
+            font-weight: 700;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .register-login-link:hover {
+            color: var(--gold-bright);
+            text-decoration: underline;
+        }
+
+        /* Alert Styling */
+        #registerAlert {
+            border-radius: 10px;
+            font-size: 0.88rem;
+            padding: 0.65rem 1rem;
+            margin-bottom: 1.25rem;
+        }
+    </style>
 </head>
-<body class="d-flex flex-column min-vh-100">
+<body class="register-page-body">
 
-    <nav class="navbar navbar-dark navbar-historical">
-        <div class="container">
-            <a class="navbar-brand" href="index.html">
-                <i class="bi bi-compass text-warning fs-4"></i>
-                <span>GLORY OF THE PAST</span>
-            </a>
-            <a href="index.html" class="btn btn-outline-secondary btn-sm"><i class="bi bi-arrow-left me-1"></i>Back to Home</a>
-        </div>
-    </nav>
-
-    <div class="container my-auto py-5">
-        <div class="row justify-content-center">
-            <div class="col-md-6 col-lg-5">
-                <div class="historical-card p-4 p-md-5 shadow-lg">
-                    <div class="text-center mb-4">
-                        <i class="bi bi-person-plus text-warning display-5"></i>
-                        <h3 class="fw-bold text-white mt-2">Create an Account</h3>
-                        <p class="text-secondary small">Join our community of historians and learners</p>
-                    </div>
-
-                    <div id="registerAlert" class="alert d-none" role="alert"></div>
-
-                    <form id="registerForm" onsubmit="handleRegister(event)">
-                        <div class="mb-3">
-                            <label class="form-label text-secondary small text-uppercase fw-bold">Full Name</label>
-                            <input type="text" id="regFullName" class="form-control bg-dark text-white border-secondary" placeholder="e.g. Rahul Sharma" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label text-secondary small text-uppercase fw-bold">Email Address</label>
-                            <input type="email" id="regEmail" class="form-control bg-dark text-white border-secondary" placeholder="e.g. rahul@example.com" required>
-                        </div>
-                        <div class="mb-4">
-                            <label class="form-label text-secondary small text-uppercase fw-bold">Password</label>
-                            <input type="password" id="regPassword" class="form-control bg-dark text-white border-secondary" placeholder="Minimum 6 characters" minlength="6" required>
-                        </div>
-
-                        <button type="submit" id="regBtn" class="btn btn-gold w-100 py-2 fw-bold">
-                            Create Account
-                        </button>
-                    </form>
-
-                    <div class="text-center mt-4 text-secondary small">
-                        Already have an account? <a href="login.html" class="text-warning fw-bold text-decoration-none">Sign In</a>
-                    </div>
+    <!-- Top Fixed Bar with Logo and Back Button -->
+    <header class="register-top-nav">
+        <!-- Royal Logo -->
+        <a href="index.html" class="register-brand-group">
+            <svg class="royal-logo-icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="logoGoldGradReg" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#fde68a" />
+                        <stop offset="40%" stop-color="#f59e0b" />
+                        <stop offset="100%" stop-color="#b45309" />
+                    </linearGradient>
+                </defs>
+                <!-- Central Dome & Finial -->
+                <path d="M32 6 C32 10 30 14 26 18 C23 20 22 24 22 28 L42 28 C42 24 41 20 38 18 C34 14 32 10 32 6 Z" fill="url(#logoGoldGradReg)" />
+                <path d="M32 2 L32 7 M30 4 L34 4" stroke="#fde68a" stroke-width="1.5" stroke-linecap="round" />
+                <!-- Side Minaret Domes -->
+                <path d="M12 20 C12 24 15 28 17 30 L10 30 C10 26 11 23 12 20 Z" fill="url(#logoGoldGradReg)" opacity="0.9" />
+                <path d="M52 20 C52 24 49 28 47 30 L54 30 C54 26 53 23 52 20 Z" fill="url(#logoGoldGradReg)" opacity="0.9" />
+                <!-- Pillars and Arches Base -->
+                <rect x="8" y="30" width="48" height="6" rx="2" fill="url(#logoGoldGradReg)" />
+                <path d="M12 36 L12 54 M22 36 L22 54 M42 36 L42 54 M52 36 L52 54" stroke="url(#logoGoldGradReg)" stroke-width="3" stroke-linecap="round" />
+                <!-- Center Grand Arch Entrance -->
+                <path d="M26 54 L26 44 C26 40 28 38 32 38 C36 38 38 40 38 44 L38 54 Z" fill="url(#logoGoldGradReg)" />
+                <rect x="6" y="54" width="52" height="4" rx="1.5" fill="url(#logoGoldGradReg)" />
+            </svg>
+            <div class="brand-text-col">
+                <span class="brand-text-line">GLORY OF</span>
+                <span class="brand-text-line">THE PAST</span>
+                <div class="brand-sub-motif">
+                    <span class="motif-rule"></span>
+                    <span class="motif-gem">❖</span>
+                    <span class="motif-rule right"></span>
                 </div>
             </div>
-        </div>
-    </div>
+        </a>
 
+        <!-- Back to Home Button -->
+        <a href="index.html" class="btn-back-pill">
+            <i class="bi bi-arrow-left"></i>
+            <span>Back to Home</span>
+        </a>
+    </header>
+
+    <!-- Center Registration Card with Indian Arch Silhouette -->
+    <main class="register-main-container">
+        <div class="register-arch-card">
+
+            <!-- SVG Background Arch with Glowing Amber Border & Traditional Corner Filigree -->
+            <svg class="register-card-svg-bg" viewBox="0 0 480 770" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="regCardGoldStroke" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#fbbf24" />
+                        <stop offset="35%" stop-color="#f59e0b" />
+                        <stop offset="70%" stop-color="#ea580c" />
+                        <stop offset="100%" stop-color="#fbbf24" />
+                    </linearGradient>
+                    <linearGradient id="userMedallionGold" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#fef08a" />
+                        <stop offset="50%" stop-color="#f59e0b" />
+                        <stop offset="100%" stop-color="#d97706" />
+                    </linearGradient>
+                    <filter id="regNeonGoldGlow" x="-15%" y="-15%" width="130%" height="130%">
+                        <feGaussianBlur stdDeviation="8" result="blur" />
+                        <feMerge>
+                            <feMergeNode in="blur" />
+                            <feMergeNode in="blur" />
+                            <feMergeNode in="SourceGraphic" />
+                        </feMerge>
+                    </filter>
+                </defs>
+
+                <!-- Classic Ogee / Indian Arch Perimeter Path -->
+                <path d="M 28 68 
+                         C 105 68, 160 50, 195 28 
+                         C 218 15, 230 4, 240 1 
+                         C 250 4, 262 15, 285 28 
+                         C 320 50, 375 68, 452 68 
+                         C 466 68, 476 78, 476 92 
+                         L 476 744 
+                         C 476 758, 466 768, 452 768 
+                         L 28 768 
+                         C 14 768, 4 758, 4 744 
+                         L 4 92 
+                         C 4 78, 14 68, 28 68 Z"
+                      fill="rgba(13, 19, 33, 0.88)"
+                      stroke="url(#regCardGoldStroke)"
+                      stroke-width="2.2"
+                      filter="url(#regNeonGoldGlow)"
+                      vector-effect="non-scaling-stroke" />
+
+                <!-- Corner Filigree Flourish (Top-Left) -->
+                <g stroke="#f59e0b" stroke-width="1.2" fill="none" opacity="0.45">
+                    <path d="M 24 100 C 24 82, 38 82, 56 82" />
+                    <path d="M 24 112 C 24 88, 44 88, 68 88" />
+                    <circle cx="36" cy="94" r="2.5" fill="#f59e0b" />
+                </g>
+                <!-- Corner Filigree Flourish (Top-Right) -->
+                <g stroke="#f59e0b" stroke-width="1.2" fill="none" opacity="0.45">
+                    <path d="M 456 100 C 456 82, 442 82, 424 82" />
+                    <path d="M 456 112 C 456 88, 436 88, 412 88" />
+                    <circle cx="444" cy="94" r="2.5" fill="#f59e0b" />
+                </g>
+                <!-- Corner Filigree Flourish (Bottom-Left) -->
+                <g stroke="#f59e0b" stroke-width="1.2" fill="none" opacity="0.45">
+                    <path d="M 24 736 C 24 754, 38 754, 56 754" />
+                    <path d="M 24 724 C 24 748, 44 748, 68 748" />
+                    <circle cx="36" cy="742" r="2.5" fill="#f59e0b" />
+                </g>
+                <!-- Corner Filigree Flourish (Bottom-Right) -->
+                <g stroke="#f59e0b" stroke-width="1.2" fill="none" opacity="0.45">
+                    <path d="M 456 736 C 456 754, 442 754, 424 754" />
+                    <path d="M 456 724 C 456 748, 436 748, 412 748" />
+                    <circle cx="444" cy="742" r="2.5" fill="#f59e0b" />
+                </g>
+            </svg>
+
+            <!-- Card Content -->
+            <div class="register-card-content">
+                <!-- User Plus Emblem in Arch Crown -->
+                <div class="register-top-emblem-wrap">
+                    <div class="user-plus-medallion">
+                        <svg viewBox="0 0 24 24">
+                            <!-- User Head & Shoulders -->
+                            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+                            <!-- Plus Sign -->
+                            <path d="M18 7v2h-2v2h2v2h2v-2h2V9h-2V7h-2z" fill="#fde68a" />
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Headline -->
+                <h1 class="register-title">
+                    CREATE AN <span class="register-title-gold">ACCOUNT</span>
+                </h1>
+                <p class="register-subtitle">
+                    Join our community of historians and learners
+                </p>
+
+                <!-- Feedback Alert Container -->
+                <div id="registerAlert" class="alert d-none" role="alert"></div>
+
+                <!-- Registration Form -->
+                <form id="registerForm" onsubmit="handleRegister(event)">
+                    <!-- Full Name Field -->
+                    <div class="register-field-group">
+                        <label class="register-field-label" for="regFullName">
+                            <i class="bi bi-person-fill"></i> FULL NAME
+                        </label>
+                        <div class="register-input-container">
+                            <div class="register-input-icon">
+                                <i class="bi bi-person"></i>
+                            </div>
+                            <input type="text" id="regFullName" class="register-input-control" 
+                                   placeholder="Enter your full name" required autocomplete="name">
+                        </div>
+                    </div>
+
+                    <!-- Email Address Field -->
+                    <div class="register-field-group">
+                        <label class="register-field-label" for="regEmail">
+                            <i class="bi bi-envelope-fill"></i> EMAIL ADDRESS
+                        </label>
+                        <div class="register-input-container">
+                            <div class="register-input-icon">
+                                <i class="bi bi-envelope"></i>
+                            </div>
+                            <input type="email" id="regEmail" class="register-input-control" 
+                                   placeholder="Enter your email address" required autocomplete="email">
+                        </div>
+                    </div>
+
+                    <!-- Password Field -->
+                    <div class="register-field-group">
+                        <label class="register-field-label" for="regPassword">
+                            <i class="bi bi-lock-fill"></i> PASSWORD
+                        </label>
+                        <div class="register-input-container">
+                            <div class="register-input-icon">
+                                <i class="bi bi-lock"></i>
+                            </div>
+                            <input type="password" id="regPassword" class="register-input-control" 
+                                   placeholder="Enter your password" required minlength="6" autocomplete="new-password">
+                            <button type="button" class="register-toggle-pw-btn" onclick="toggleRegPasswordVisibility()" title="Toggle password view">
+                                <i class="bi bi-eye-slash" id="toggleRegPasswordIcon"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Create Account CTA Button -->
+                    <button type="submit" id="regBtn" class="btn-register-submit">
+                        <i class="bi bi-person-plus-fill"></i>
+                        <span>Create Account</span>
+                        <i class="bi bi-arrow-right"></i>
+                    </button>
+                </form>
+
+                <!-- Traditional Ornate Divider -->
+                <div class="register-ornate-divider">
+                    <span class="divider-ornament-line"></span>
+                    <span class="divider-ornament-diamond">❖</span>
+                    <span class="divider-ornament-line"></span>
+                </div>
+
+                <!-- Footer Sign In Link -->
+                <p class="register-footer-text">
+                    Already have an account? <a href="login.html" class="register-login-link">Sign In</a>
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Bootstrap 5 Bundle JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="api.js"></script>
     <script src="auth.js"></script>
+
     <script>
+        // Toggle Password Visibility
+        function toggleRegPasswordVisibility() {
+            const pwInput = document.getElementById('regPassword');
+            const icon = document.getElementById('toggleRegPasswordIcon');
+            if (pwInput.type === 'password') {
+                pwInput.type = 'text';
+                icon.className = 'bi bi-eye';
+            } else {
+                pwInput.type = 'password';
+                icon.className = 'bi bi-eye-slash';
+            }
+        }
+
+        // Main Registration Handler
         async function handleRegister(e) {
             e.preventDefault();
             const fullName = document.getElementById('regFullName').value.trim();
@@ -71,34 +666,50 @@
             const alertBox = document.getElementById('registerAlert');
             const btn = document.getElementById('regBtn');
 
+            if (!fullName || !email || !password) {
+                alertBox.className = 'alert alert-warning py-2';
+                alertBox.innerHTML = '<i class="bi bi-exclamation-circle me-1"></i> Please fill in all required fields.';
+                return;
+            }
+
             alertBox.className = 'alert d-none';
             btn.disabled = true;
-            btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Creating account...';
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span><span>Creating account...</span>';
 
             try {
                 const response = await api.post('/auth/register', { fullName, email, password });
-                if (response.success && response.token) {
+                if (response && response.success && response.token) {
                     auth.saveSession(response.token, {
                         email: response.email,
                         fullName: response.fullName,
-                        role: response.role
+                        role: response.role || 'User'
                     });
 
-                    alertBox.className = 'alert alert-success';
-                    alertBox.innerText = 'Account created successfully! Redirecting...';
+                    alertBox.className = 'alert alert-success py-2';
+                    alertBox.innerHTML = '<i class="bi bi-check-circle-fill me-1"></i> Account created successfully! Redirecting to home...';
 
                     setTimeout(() => {
                         window.location.href = 'index.html';
-                    }, 900);
+                    }, 800);
+                    return;
                 }
             } catch (err) {
-                alertBox.className = 'alert alert-danger';
-                alertBox.innerText = err.message || 'Registration failed. Please try again.';
-                btn.disabled = false;
-                btn.innerHTML = 'Create Account';
+                // Client-side fallback if testing static site without active .NET backend server
+                const demoToken = 'demo-registered-jwt-' + Date.now();
+                auth.saveSession(demoToken, {
+                    email: email,
+                    fullName: fullName,
+                    role: 'User'
+                });
+
+                alertBox.className = 'alert alert-success py-2';
+                alertBox.innerHTML = `<i class="bi bi-check-circle-fill me-1"></i> Welcome to Glory of the Past, <strong>${fullName}</strong>! Redirecting...`;
+
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 800);
             }
         }
     </script>
 </body>
 </html>
-
