@@ -32,7 +32,8 @@
                     <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="events.html">Events</a></li>
                     <li class="nav-item"><a class="nav-link" href="timeline.html">Interactive Timeline</a></li>
-                    <li class="nav-item"><a class="nav-link" href="map.html"><i class="bi bi-geo-alt-fill text-warning me-1"></i>Historical Map</a></li>
+                    <li class="nav-item"><a class="nav-link" href="timemap.html"><i class="bi bi-globe-central-south text-warning me-1"></i>TimeMap Atlas</a></li>
+                    <li class="nav-item"><a class="nav-link" href="map.html"><i class="bi bi-geo-alt-fill text-warning me-1"></i>Monuments Map</a></li>
                     <li class="nav-item"><a class="nav-link" href="personalities.html">Personalities</a></li>
                     <li class="nav-item"><a class="nav-link" href="places.html">Historical Places</a></li>
                     <li class="nav-item"><a class="nav-link" href="quiz.html">History Quiz</a></li>
@@ -64,10 +65,10 @@
 
             <!-- Quick Action Buttons -->
             <div class="d-flex justify-content-center gap-3 flex-wrap">
-                <a href="map.html" class="btn btn-gold shadow"><i class="bi bi-geo-alt-fill me-2 text-dark"></i>Interactive Map</a>
-                <a href="timeline.html" class="btn btn-outline-gold"><i class="bi bi-clock-history me-2"></i>Explore Timeline</a>
-                <a href="ai-guide.html" class="btn btn-outline-warning"><i class="bi bi-robot me-2"></i>Ask AI Historian</a>
-                <a href="quiz.html" class="btn btn-outline-light"><i class="bi bi-trophy me-2"></i>Play History Quiz</a>
+                <a href="timemap.html" class="btn btn-gold shadow"><i class="bi bi-clock-history me-2 text-dark"></i>TimeMap History Atlas</a>
+                <a href="map.html" class="btn btn-outline-gold"><i class="bi bi-geo-alt-fill me-2"></i>Monuments Map</a>
+                <a href="timeline.html" class="btn btn-outline-warning"><i class="bi bi-calendar3 me-2"></i>Timeline</a>
+                <a href="ai-guide.html" class="btn btn-outline-light"><i class="bi bi-robot me-2"></i>Ask AI Historian</a>
             </div>
         </div>
     </section>
@@ -105,8 +106,9 @@
                     <h2 class="h3 fw-bold text-white mb-1">Interactive Historical Map</h2>
                     <p class="text-secondary mb-0">Explore ancient forts, sacred temples, grand palaces, and UNESCO heritage landmarks plotted across India & the World.</p>
                 </div>
-                <div class="d-flex gap-2 align-items-center">
-                    <a href="map.html" class="btn btn-gold shadow"><i class="bi bi-arrows-fullscreen me-2"></i>Full-Screen Map</a>
+                <div class="d-flex gap-2 align-items-center flex-wrap">
+                    <a href="timemap.html" class="btn btn-gold shadow"><i class="bi bi-clock-history me-2"></i>TimeMap World Atlas</a>
+                    <a href="map.html" class="btn btn-outline-gold"><i class="bi bi-arrows-fullscreen me-2"></i>Monuments Map</a>
                 </div>
             </div>
 
@@ -125,9 +127,14 @@
                             <button type="button" class="cat-pill" onclick="homeFilterMap('Palaces', this)"><i class="bi bi-building text-info"></i> Palaces</button>
                             <button type="button" class="cat-pill" onclick="homeFilterMap('UNESCO', this)"><i class="bi bi-award-fill text-success"></i> UNESCO Heritage</button>
                         </div>
-                        <a href="map.html" class="badge bg-dark border border-warning text-warning text-decoration-none px-3 py-2 shadow" style="pointer-events: auto;">
-                            <i class="bi bi-compass me-1"></i>3D Full Explorer &rarr;
-                        </a>
+                        <div class="d-flex gap-2">
+                            <a href="timemap.html" class="badge bg-warning text-dark text-decoration-none px-3 py-2 shadow fw-bold" style="pointer-events: auto;">
+                                <i class="bi bi-clock-history me-1"></i>TimeMap Atlas (1855) &rarr;
+                            </a>
+                            <a href="map.html" class="badge bg-dark border border-warning text-warning text-decoration-none px-3 py-2 shadow" style="pointer-events: auto;">
+                                <i class="bi bi-compass me-1"></i>Monuments Map &rarr;
+                            </a>
+                        </div>
                     </div>
                 </div>
 
