@@ -760,11 +760,12 @@
                     <div class="mb-3">
                         <label class="form-label small fw-bold text-light">Select Map Tile Provider</label>
                         <select id="mapProviderSelect" class="form-select bg-dark text-white border-secondary" onchange="onProviderChange()">
-                            <option value="carto_dark">TimeMap Dark Antique Atlas (Active - Free / No Key Required)</option>
-                            <option value="carto_voyager">TimeMap Antique Voyager (Detailed Labels & Geography - Free)</option>
-                            <option value="osm">OpenStreetMap Standard HD (Full Geographic Map - Free)</option>
-                            <option value="esri_satellite">Esri High-Res Satellite Imagery (Free / No Key Required)</option>
-                            <option value="maptiler">MapTiler Historical Atlas (Recommended - Enter API Key)</option>
+                            <option value="maptiler" selected>MapTiler Dataviz Dark (TimeMap.org Ultra-HD - Active)</option>
+                            <option value="maptiler_topo">MapTiler Topographic Relief (Mountains & Physical HD)</option>
+                            <option value="carto_dark">TimeMap Dark Antique Atlas (Free Raster)</option>
+                            <option value="carto_voyager">TimeMap Antique Voyager (Detailed Labels & Geography)</option>
+                            <option value="osm">OpenStreetMap Standard HD (Full Geographic Map)</option>
+                            <option value="esri_satellite">Esri High-Res Satellite Imagery</option>
                             <option value="mapbox">Mapbox Dark Vector (Custom Access Token)</option>
                         </select>
                     </div>
@@ -1254,22 +1255,38 @@
             updateApiStatusBadge();
         });
 
+        const BUILTIN_MAPTILER_KEY = 'Kk0Rh5MzTdAspUMylFFA';
+
         function getSavedTileConfig() {
-            const provider = localStorage.getItem('tm_tile_provider') || 'carto_dark';
-            const apiKey = localStorage.getItem('tm_api_key') || '';
+            const provider = localStorage.getItem('tm_tile_provider') || 'maptiler';
+            const apiKey = localStorage.getItem('tm_api_key') || BUILTIN_MAPTILER_KEY;
             return { provider, apiKey };
         }
 
         function createTileLayer(provider, apiKey) {
-            // 1. MapTiler with API key
-            if (provider === 'maptiler' && apiKey) {
-                return L.tileLayer(`https://api.maptiler.com/maps/dataviz-dark/{z}/{x}/{y}.png?key=${apiKey}`, {
+            const effectiveKey = apiKey || BUILTIN_MAPTILER_KEY;
+
+            // 1. MapTiler Dataviz Dark (Original TimeMap.org Style - Ultra HD)
+            if (provider === 'maptiler') {
+                return L.tileLayer(`https://api.maptiler.com/maps/dataviz-dark/{z}/{x}/{y}.png?key=${effectiveKey}`, {
                     attribution: '&copy; MapTiler &copy; OpenStreetMap contributors',
+                    tileSize: 512,
+                    zoomOffset: -1,
                     maxZoom: 19
                 });
             }
 
-            // 2. Mapbox with Access Token
+            // 2. MapTiler Topographic Relief (Mountains, Valleys & Geography HD)
+            if (provider === 'maptiler_topo') {
+                return L.tileLayer(`https://api.maptiler.com/maps/topo-v2/{z}/{x}/{y}.png?key=${effectiveKey}`, {
+                    attribution: '&copy; MapTiler &copy; OpenStreetMap contributors',
+                    tileSize: 512,
+                    zoomOffset: -1,
+                    maxZoom: 19
+                });
+            }
+
+            // 3. Mapbox with Access Token
             if (provider === 'mapbox' && apiKey) {
                 return L.tileLayer(`https://api.mapbox.com/styles/v1/mapbox/dark-v11/tiles/{z}/{x}/{y}?access_token=${apiKey}`, {
                     attribution: '&copy; Mapbox &copy; OpenStreetMap',
@@ -1279,7 +1296,7 @@
                 });
             }
 
-            // 3. Antique Voyager (Coastlines, Cities, Rivers - Free)
+            // 4. Antique Voyager (Coastlines, Cities, Rivers - Free)
             if (provider === 'carto_voyager') {
                 return L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
                     attribution: '&copy; CartoDB &copy; OpenStreetMap',
@@ -1288,7 +1305,7 @@
                 });
             }
 
-            // 4. OpenStreetMap Standard HD (Full Geographic Map - Free)
+            // 5. OpenStreetMap Standard HD (Full Geographic Map - Free)
             if (provider === 'osm') {
                 return L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '&copy; OpenStreetMap contributors',
@@ -1296,7 +1313,7 @@
                 });
             }
 
-            // 5. Esri Satellite (No Key Required)
+            // 6. Esri Satellite (No Key Required)
             if (provider === 'esri_satellite') {
                 return L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
                     attribution: '&copy; Esri World Imagery',
@@ -1304,7 +1321,7 @@
                 });
             }
 
-            // 6. Default: Dark CartoDB NoLabels (Matches screenshot dark tone perfectly!)
+            // 7. Default: Dark CartoDB NoLabels (Matches screenshot dark tone perfectly!)
             return L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/dark_nolabels/{z}/{x}/{y}{r}.png', {
                 attribution: '&copy; CartoDB | TimeMap World History Atlas',
                 subdomains: 'abcd',
@@ -1334,10 +1351,14 @@
         function updateApiStatusBadge() {
             const cfg = getSavedTileConfig();
             const badge = document.getElementById('apiStatusBadge');
-            if (cfg.apiKey) {
-                badge.innerText = `${cfg.provider.toUpperCase()} Active`;
+            if (cfg.provider === 'maptiler') {
+                badge.innerText = 'MapTiler HD (Active)';
+            } else if (cfg.provider === 'maptiler_topo') {
+                badge.innerText = 'MapTiler Topo (Active)';
+            } else if (cfg.provider === 'mapbox') {
+                badge.innerText = 'Mapbox (Active)';
             } else {
-                badge.innerText = 'Dark Atlas (Active)';
+                badge.innerText = 'Atlas (Active)';
             }
         }
 
@@ -1656,10 +1677,10 @@
             const label = document.getElementById('apiKeyLabel');
             const help = document.getElementById('apiKeyHelp');
 
-            if (prov === 'maptiler') {
+            if (prov === 'maptiler' || prov === 'maptiler_topo') {
                 inputGroup.style.display = 'block';
-                label.innerText = 'Enter MapTiler API Key';
-                help.innerHTML = 'Get your free key from <a href="https://cloud.maptiler.com/account/keys/" target="_blank" class="text-warning">cloud.maptiler.com</a>';
+                label.innerText = 'MapTiler API Key (Active)';
+                help.innerHTML = 'Active Key: <code class="text-warning">Kk0Rh5MzTdAspUMylFFA</code> (100,000 requests/mo). You can paste another key anytime.';
             } else if (prov === 'mapbox') {
                 inputGroup.style.display = 'block';
                 label.innerText = 'Enter Mapbox Access Token (pk.eyJ...)';
@@ -1671,7 +1692,7 @@
 
         function saveApiKeySettings() {
             const prov = document.getElementById('mapProviderSelect').value;
-            const key = document.getElementById('customApiKeyInput').value.trim();
+            const key = document.getElementById('customApiKeyInput').value.trim() || BUILTIN_MAPTILER_KEY;
 
             localStorage.setItem('tm_tile_provider', prov);
             localStorage.setItem('tm_api_key', key);
@@ -1688,12 +1709,12 @@
         function resetToDefaultMap() {
             localStorage.removeItem('tm_tile_provider');
             localStorage.removeItem('tm_api_key');
-            document.getElementById('mapProviderSelect').value = 'carto_dark';
-            document.getElementById('customApiKeyInput').value = '';
+            document.getElementById('mapProviderSelect').value = 'maptiler';
+            document.getElementById('customApiKeyInput').value = BUILTIN_MAPTILER_KEY;
             onProviderChange();
 
             if (currentTileLayer) timeMap.removeLayer(currentTileLayer);
-            currentTileLayer = createTileLayer('carto_dark', '').addTo(timeMap);
+            currentTileLayer = createTileLayer('maptiler', BUILTIN_MAPTILER_KEY).addTo(timeMap);
             currentTileLayer.bringToBack();
 
             updateApiStatusBadge();
