@@ -409,10 +409,11 @@
             // Reposition zoom control to bottom right so it doesn't clash with floating header
             map.zoomControl.setPosition('bottomright');
 
-            // 1.1 Dark Historical CartoDB (Primary aesthetic matching Glory of the Past)
-            tileLayers.dark = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-                attribution: '&copy; <a href="https://carto.com/">CARTO</a> | Glory of the Past',
-                subdomains: 'abcd',
+            // 1.1 MapTiler High Definition (Primary aesthetic matching Glory of the Past)
+            tileLayers.dark = L.tileLayer('https://api.maptiler.com/maps/streets-v2/{z}/{x}/{y}.png?key=Kk0Rh5MzTdAspUMylFFA', {
+                attribution: '&copy; <a href="https://www.maptiler.com/copyright/" target="_blank">MapTiler</a> &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
+                tileSize: 512,
+                zoomOffset: -1,
                 maxZoom: 19
             });
 

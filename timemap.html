@@ -1296,11 +1296,12 @@
                 });
             }
 
-            // 4. Antique Voyager (Coastlines, Cities, Rivers - Free)
-            if (provider === 'carto_voyager') {
-                return L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-                    attribution: '&copy; CartoDB &copy; OpenStreetMap',
-                    subdomains: 'abcd',
+            // 4. MapTiler Street / Voyager Style (Coastlines, Cities, Rivers HD)
+            if (provider === 'carto_voyager' || provider === 'streets') {
+                return L.tileLayer(`https://api.maptiler.com/maps/streets-v2/{z}/{x}/{y}.png?key=${effectiveKey}`, {
+                    attribution: '&copy; MapTiler &copy; OpenStreetMap',
+                    tileSize: 512,
+                    zoomOffset: -1,
                     maxZoom: 19
                 });
             }
@@ -1321,10 +1322,11 @@
                 });
             }
 
-            // 7. Default: Dark CartoDB NoLabels (Matches screenshot dark tone perfectly!)
-            return L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/dark_nolabels/{z}/{x}/{y}{r}.png', {
-                attribution: '&copy; CartoDB | TimeMap World History Atlas',
-                subdomains: 'abcd',
+            // 7. Default Fallback: MapTiler Dataviz Dark
+            return L.tileLayer(`https://api.maptiler.com/maps/dataviz-dark/{z}/{x}/{y}.png?key=${effectiveKey}`, {
+                attribution: '&copy; MapTiler &copy; OpenStreetMap',
+                tileSize: 512,
+                zoomOffset: -1,
                 maxZoom: 19
             });
         }

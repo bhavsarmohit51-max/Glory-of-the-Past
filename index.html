@@ -445,9 +445,11 @@
                     scrollWheelZoom: false
                 });
 
-                L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-                    attribution: '&copy; CARTO | Glory of the Past',
-                    subdomains: 'abcd',
+                const MAPTILER_KEY = 'Kk0Rh5MzTdAspUMylFFA';
+                L.tileLayer(`https://api.maptiler.com/maps/streets-v2/{z}/{x}/{y}.png?key=${MAPTILER_KEY}`, {
+                    attribution: '&copy; <a href="https://www.maptiler.com/copyright/" target="_blank">MapTiler</a> &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
+                    tileSize: 512,
+                    zoomOffset: -1,
                     maxZoom: 19
                 }).addTo(homeMap);
 
