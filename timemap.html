@@ -486,22 +486,30 @@
             height: 7px;
         }
 
+        .leaflet-marker-icon.tm-label-marker {
+            cursor: pointer !important;
+            pointer-events: auto !important;
+        }
+        .leaflet-interactive {
+            cursor: pointer !important;
+        }
+
         /* --- Sliding Detail Drawer on Click --- */
         .tm-info-drawer {
             position: absolute;
             top: 64px;
             right: 20px;
-            width: 360px;
-            max-width: calc(100vw - 40px);
-            max-height: calc(100vh - 180px);
-            background: rgba(18, 24, 32, 0.95);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(200, 90, 43, 0.4);
+            width: 390px;
+            max-width: calc(100vw - 32px);
+            max-height: calc(100vh - 120px);
+            background: rgba(18, 24, 32, 0.96);
+            backdrop-filter: blur(18px);
+            border: 1px solid rgba(200, 90, 43, 0.45);
             border-radius: 12px;
-            z-index: 1020;
+            z-index: 2050;
             overflow-y: auto;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.85);
-            transform: translateX(420px);
+            box-shadow: 0 24px 48px rgba(0, 0, 0, 0.9), 0 0 20px rgba(200, 90, 43, 0.2);
+            transform: translateX(450px);
             transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
             scrollbar-width: thin;
             scrollbar-color: var(--tm-orange) transparent;
@@ -678,37 +686,67 @@
             <button class="tm-tool-btn" onclick="toggleMapFullscreen()" title="Fullscreen Mode"><i class="bi bi-fullscreen" id="fsIcon"></i></button>
         </div>
 
-        <!-- Sliding Information Drawer on Click -->
+        <!-- Sliding Information Drawer on Click (TimeMap.org Full History Panel) -->
         <aside class="tm-info-drawer" id="tmInfoDrawer">
             <div class="tm-drawer-header">
                 <div class="d-flex align-items-center gap-2">
                     <img id="tmDrawerFlag" src="" alt="Flag" class="tm-flag-large d-none">
                     <div>
-                        <h6 id="tmDrawerTitle" class="fw-bold text-white mb-0" style="font-size: 15px;">Territory Details</h6>
-                        <span id="tmDrawerSpan" class="text-warning small" style="font-size: 11px;">1855 CE</span>
+                        <h6 id="tmDrawerTitle" class="fw-bold text-white mb-0" style="font-size: 16px; letter-spacing: 0.3px;">Territory Details</h6>
+                        <span id="tmDrawerSpan" class="badge bg-warning bg-opacity-25 text-warning border border-warning border-opacity-25 mt-1" style="font-size: 11px;">1855 CE</span>
                     </div>
                 </div>
-                <button class="tm-drawer-close" onclick="closeInfoDrawer()">&times;</button>
+                <button class="tm-drawer-close" onclick="closeInfoDrawer()" title="Close details panel">&times;</button>
             </div>
+            
             <div class="tm-drawer-body">
-                <p id="tmDrawerDesc" class="text-light small mb-3" style="line-height: 1.6; font-size: 12.5px;"></p>
+                <!-- Hero Image Container (Fetched dynamically from Wikipedia) -->
+                <div id="tmDrawerHeroContainer" class="mb-3 position-relative" style="display: none;">
+                    <img id="tmDrawerHeroImg" src="" alt="Historical Visual" class="w-100 rounded shadow" style="max-height: 180px; object-fit: cover; border: 1px solid rgba(255,255,255,0.2);">
+                    <div id="tmDrawerHeroCaption" class="small text-secondary mt-1" style="font-size: 11px; font-style: italic;"></div>
+                </div>
+
+                <!-- Live Sync Source Badge & Focus Button -->
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                    <span id="tmWikiSourceBadge" class="badge bg-secondary bg-opacity-25 text-light border border-secondary border-opacity-25 small" style="display: none;">
+                        <i class="bi bi-wikipedia text-warning me-1"></i>Wikipedia Live Sync
+                    </span>
+                    <button type="button" class="btn btn-link text-warning p-0 text-decoration-none small" style="font-size: 11.5px;" onclick="focusOnActiveTerritory()">
+                        <i class="bi bi-crosshair me-1"></i>Focus on Map
+                    </button>
+                </div>
+
+                <!-- Main Narrative Extract -->
+                <div id="tmDrawerDesc" class="text-light small mb-3" style="line-height: 1.65; font-size: 12.5px;"></div>
+
+                <!-- Quick Metadata Grid (TimeMap Style) -->
                 <div class="p-2 rounded bg-dark border border-secondary border-opacity-25 small mb-3">
-                    <div class="d-flex justify-content-between mb-1">
-                        <span class="text-secondary">Dynasty / Power:</span>
-                        <strong id="tmDrawerDynasty" class="text-white">-</strong>
+                    <div class="d-flex justify-content-between mb-1 pb-1 border-bottom border-secondary border-opacity-25">
+                        <span class="text-secondary"><i class="bi bi-shield me-1 text-warning"></i>Ruling Power:</span>
+                        <strong id="tmDrawerDynasty" class="text-white text-end">-</strong>
                     </div>
-                    <div class="d-flex justify-content-between mb-1">
-                        <span class="text-secondary">Capital City:</span>
-                        <strong id="tmDrawerCapital" class="text-white">-</strong>
+                    <div class="d-flex justify-content-between mb-1 pb-1 border-bottom border-secondary border-opacity-25">
+                        <span class="text-secondary"><i class="bi bi-building me-1 text-warning"></i>Capital City:</span>
+                        <strong id="tmDrawerCapital" class="text-white text-end">-</strong>
+                    </div>
+                    <div class="d-flex justify-content-between mb-1 pb-1 border-bottom border-secondary border-opacity-25">
+                        <span class="text-secondary"><i class="bi bi-person-badge me-1 text-warning"></i>Notable Sovereign:</span>
+                        <strong id="tmDrawerRuler" class="text-warning text-end">-</strong>
                     </div>
                     <div class="d-flex justify-content-between">
-                        <span class="text-secondary">Notable Ruler:</span>
-                        <strong id="tmDrawerRuler" class="text-warning">-</strong>
+                        <span class="text-secondary"><i class="bi bi-calendar-event me-1 text-warning"></i>Timeline Epoch:</span>
+                        <strong id="tmDrawerEpochTag" class="text-info text-end">1855 CE</strong>
                     </div>
                 </div>
-                <div class="d-flex gap-2">
-                    <a id="tmWikiBtn" href="#" target="_blank" class="btn btn-sm btn-outline-warning w-100"><i class="bi bi-box-arrow-up-right me-1"></i>Wikipedia</a>
-                    <a id="tmAIGuideBtn" href="#" class="btn btn-sm btn-warning w-100 text-dark fw-bold"><i class="bi bi-robot me-1"></i>Ask AI</a>
+
+                <!-- Action Buttons (Read Full Wiki, Ask AI Guide) -->
+                <div class="d-flex flex-column gap-2">
+                    <a id="tmWikiBtn" href="#" target="_blank" class="btn btn-sm btn-outline-warning w-100 fw-bold">
+                        <i class="bi bi-box-arrow-up-right me-1"></i>Read Full Article on Wikipedia
+                    </a>
+                    <a id="tmAIGuideBtn" href="#" class="btn btn-sm btn-warning w-100 text-dark fw-bold">
+                        <i class="bi bi-robot me-1"></i>Explore with AI Historical Guide
+                    </a>
                 </div>
             </div>
         </aside>
@@ -1345,7 +1383,18 @@
 
             mapLayersGroup = L.layerGroup().addTo(timeMap);
 
-            timeMap.on('click', () => {
+            timeMap.on('click', (e) => {
+                if (e.originalEvent) {
+                    const t = e.originalEvent.target;
+                    if (t.closest('#tmInfoDrawer') || 
+                        t.closest('.tm-label-marker') || 
+                        t.closest('.tm-floating-header-widget') || 
+                        t.closest('.tm-bottom-timeline-container') ||
+                        t.closest('.tm-floating-tools') ||
+                        t.closest('.leaflet-interactive')) {
+                        return;
+                    }
+                }
                 closeInfoDrawer();
             });
         }
@@ -1417,9 +1466,10 @@
         // 1. Render Regions: Exact Screenshot Style with Flag, Name & Years
         function renderRegionsMode(regions) {
             regions.forEach(reg => {
+                let polyLayer = null;
                 // Polygon Boundary
                 if (reg.polygon && reg.polygon.length > 2) {
-                    const poly = L.polygon(reg.polygon, {
+                    polyLayer = L.polygon(reg.polygon, {
                         color: reg.strokeColor || '#94a3b8',
                         weight: 1.5,
                         fillColor: reg.color || '#334155',
@@ -1427,13 +1477,25 @@
                         dashArray: '3, 4'
                     }).addTo(mapLayersGroup);
 
-                    poly.on('click', (e) => {
+                    polyLayer.on('click', (e) => {
+                        if (e.originalEvent) {
+                            e.originalEvent.stopPropagation();
+                            e.originalEvent.preventDefault();
+                        }
                         L.DomEvent.stopPropagation(e);
-                        openTerritoryDrawer(reg);
+                        openTerritoryDrawer(reg, polyLayer);
                     });
 
-                    poly.on('mouseover', () => poly.setStyle({ fillOpacity: 0.8, weight: 2.5 }));
-                    poly.on('mouseout', () => poly.setStyle({ fillOpacity: 0.55, weight: 1.5 }));
+                    polyLayer.on('mouseover', () => {
+                        if (activeSelectedPoly !== polyLayer) {
+                            polyLayer.setStyle({ fillOpacity: 0.75, weight: 2.5 });
+                        }
+                    });
+                    polyLayer.on('mouseout', () => {
+                        if (activeSelectedPoly !== polyLayer) {
+                            polyLayer.setStyle({ fillOpacity: 0.55, weight: 1.5 });
+                        }
+                    });
                 }
 
                 // Floating Label with Miniature Flag & Dates (EXACT MATCH TO SCREENSHOT!)
@@ -1441,7 +1503,7 @@
                     const labelIcon = L.divIcon({
                         className: 'tm-label-marker',
                         html: `
-                            <div class="tm-territory-label" onclick="openTerritoryDrawerByName('${reg.name}')">
+                            <div class="tm-territory-label" title="Click to view history of ${reg.name}">
                                 ${reg.flag ? `<img src="${reg.flag}" alt="" class="tm-label-flag">` : ''}
                                 <span class="tm-label-name">${reg.name}</span>
                                 <span class="tm-label-years">${reg.dates || ''}</span>
@@ -1451,7 +1513,16 @@
                         iconAnchor: [55, 18]
                     });
 
-                    L.marker(reg.center, { icon: labelIcon }).addTo(mapLayersGroup);
+                    const labelMarker = L.marker(reg.center, { icon: labelIcon, interactive: true }).addTo(mapLayersGroup);
+
+                    labelMarker.on('click', (e) => {
+                        if (e.originalEvent) {
+                            e.originalEvent.stopPropagation();
+                            e.originalEvent.preventDefault();
+                        }
+                        L.DomEvent.stopPropagation(e);
+                        openTerritoryDrawer(reg, polyLayer);
+                    });
                 }
             });
         }
@@ -1583,43 +1654,209 @@
             }
         }
 
-        function openTerritoryDrawer(reg) {
-            openEntityDrawer(reg);
+        let activeSelectedPoly = null;
+        let currentActiveTerritory = null;
+
+        const WIKI_SLUG_MAP = {
+            "British India": "British_Raj",
+            "Iran": "Qajar_Iran",
+            "Afghanistan": "Emirate_of_Afghanistan",
+            "Bukhara": "Emirate_of_Bukhara",
+            "Tibet": "Tibet_under_Qing_rule",
+            "Bhutan": "History_of_Bhutan",
+            "Konbaung": "Konbaung_dynasty",
+            "Goa": "Portuguese_India",
+            "Ceylon": "British_Ceylon",
+            "Đại Nam": "Nguyen_dynasty",
+            "Nejd": "Emirate_of_Nejd",
+            "Abu Dhabi": "Trucial_States",
+            "E. Indies": "Dutch_East_Indies",
+            "Johor": "Johor_Sultanate",
+            "Sarawak": "Raj_of_Sarawak",
+            "Hong Kong": "British_Hong_Kong",
+            "Seychelles": "History_of_Seychelles",
+            "Maldives": "History_of_the_Maldives",
+            // Ancient & Classical
+            "Maurya Empire": "Maurya_Empire",
+            "Maratha Empire": "Maratha_Empire",
+            "Mughal Empire": "Mughal_Empire",
+            "Chola Empire": "Chola_dynasty",
+            "Gupta Empire": "Gupta_Empire",
+            "Kushan Empire": "Kushan_Empire",
+            "Satavahana Empire": "Satavahana_dynasty",
+            "Bahmani Sultanate": "Bahmani_Sultanate",
+            "Vijayanagara Empire": "Vijayanagara_Empire",
+            "Delhi Sultanate": "Delhi_Sultanate",
+            "Sikh Empire": "Sikh_Empire"
+        };
+
+        function focusOnActiveTerritory() {
+            if (currentActiveTerritory && currentActiveTerritory.center) {
+                timeMap.flyTo(currentActiveTerritory.center, 5.5, { duration: 1 });
+            }
+        }
+
+        async function openTerritoryDrawer(reg, polyLayer) {
+            currentActiveTerritory = reg;
+
+            // Highlight polygon border
+            if (activeSelectedPoly && activeSelectedPoly.setStyle) {
+                activeSelectedPoly.setStyle({ 
+                    color: activeSelectedPoly._defaultStroke || '#94a3b8', 
+                    weight: 1.5, 
+                    fillOpacity: 0.55 
+                });
+            }
+            if (polyLayer && polyLayer.setStyle) {
+                activeSelectedPoly = polyLayer;
+                polyLayer._defaultStroke = reg.strokeColor || '#94a3b8';
+                polyLayer.setStyle({ color: '#ff9d6c', weight: 3.5, fillOpacity: 0.8 });
+                polyLayer.bringToFront();
+            }
+
+            const drawer = document.getElementById('tmInfoDrawer');
+            document.getElementById('tmDrawerTitle').innerText = reg.name;
+            document.getElementById('tmDrawerSpan').innerText = reg.dates || (EPOCHS[activeEpochIndex].displayYear);
+            document.getElementById('tmDrawerDynasty').innerText = reg.dynasty || '-';
+            document.getElementById('tmDrawerCapital').innerText = reg.capital || '-';
+            document.getElementById('tmDrawerRuler').innerText = reg.ruler || '-';
+            const epochTag = document.getElementById('tmDrawerEpochTag');
+            if (epochTag) epochTag.innerText = `${EPOCHS[activeEpochIndex].displayYear} Historical Atlas`;
+
+            const flagImg = document.getElementById('tmDrawerFlag');
+            if (reg.flag) {
+                flagImg.src = reg.flag;
+                flagImg.classList.remove('d-none');
+            } else {
+                flagImg.classList.add('d-none');
+            }
+
+            const descEl = document.getElementById('tmDrawerDesc');
+            const heroContainer = document.getElementById('tmDrawerHeroContainer');
+            const wikiBadge = document.getElementById('tmWikiSourceBadge');
+
+            if (heroContainer) heroContainer.style.display = 'none';
+            if (wikiBadge) wikiBadge.style.display = 'none';
+
+            descEl.innerHTML = `
+                <div class="d-flex align-items-center gap-2 text-warning small my-2">
+                    <div class="spinner-border spinner-border-sm" role="status"></div>
+                    <span>Fetching live historical records from Wikipedia...</span>
+                </div>
+                <p class="text-secondary small mb-0">${reg.desc || ''}</p>
+            `;
+
+            document.getElementById('tmWikiBtn').href = reg.wiki || `https://en.wikipedia.org/wiki/${encodeURIComponent(reg.name)}`;
+            document.getElementById('tmAIGuideBtn').href = `ai-guide.html?q=${encodeURIComponent('Provide a comprehensive historical summary of ' + reg.name + ' during ' + (reg.dates || 'the era'))}`;
+
+            drawer.classList.add('open');
+
+            // Smoothly pan camera towards territory
+            if (reg.center) {
+                timeMap.panTo(reg.center, { animate: true, duration: 0.6 });
+            }
+
+            // Fetch live Wikipedia Summary & Photo
+            await loadWikipediaDetails(reg);
         }
 
         function openTerritoryDrawerByName(name) {
             const epoch = EPOCHS[activeEpochIndex];
             const data = getAtlasDataForYear(epoch.year);
             const found = (data.regions || []).find(r => r.name === name);
-            if (found) openTerritoryDrawer(found);
+            if (found) openTerritoryDrawer(found, null);
+        }
+
+        async function loadWikipediaDetails(entity) {
+            const slug = WIKI_SLUG_MAP[entity.name] || entity.wikiSlug || entity.name.replace(/\s+/g, '_');
+            const descEl = document.getElementById('tmDrawerDesc');
+            const heroContainer = document.getElementById('tmDrawerHeroContainer');
+            const heroImg = document.getElementById('tmDrawerHeroImg');
+            const heroCap = document.getElementById('tmDrawerHeroCaption');
+            const wikiBadge = document.getElementById('tmWikiSourceBadge');
+            const wikiBtn = document.getElementById('tmWikiBtn');
+
+            try {
+                const resp = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(slug)}`);
+                if (!resp.ok) throw new Error("Wikipedia API error: " + resp.status);
+                const data = await resp.json();
+
+                if (data.extract) {
+                    descEl.innerHTML = `
+                        ${data.description ? `<div class="badge bg-warning bg-opacity-25 text-warning mb-2 border border-warning border-opacity-25"><i class="bi bi-clock me-1"></i>${data.description}</div>` : ''}
+                        <p class="text-light small mb-0" style="line-height: 1.65; font-size: 13px;">${data.extract}</p>
+                    `;
+                } else {
+                    descEl.innerText = entity.desc || 'Historical territory record.';
+                }
+
+                if (data.thumbnail && data.thumbnail.source) {
+                    heroImg.src = data.thumbnail.source;
+                    if (heroCap) heroCap.innerText = data.title || entity.name;
+                    heroContainer.style.display = 'block';
+                } else if (data.originalimage && data.originalimage.source) {
+                    heroImg.src = data.originalimage.source;
+                    if (heroCap) heroCap.innerText = data.title || entity.name;
+                    heroContainer.style.display = 'block';
+                }
+
+                if (data.content_urls && data.content_urls.desktop && data.content_urls.desktop.page) {
+                    wikiBtn.href = data.content_urls.desktop.page;
+                }
+
+                if (wikiBadge) wikiBadge.style.display = 'inline-flex';
+
+            } catch (err) {
+                console.warn("Wikipedia live sync fallback:", err);
+                descEl.innerHTML = `<p class="text-light small mb-0" style="line-height: 1.6; font-size: 13px;">${entity.desc || 'Historical territory record from atlas database.'}</p>`;
+            }
         }
 
         function openEntityDrawer(data) {
+            closeInfoDrawer();
             const drawer = document.getElementById('tmInfoDrawer');
             document.getElementById('tmDrawerTitle').innerText = data.name;
-            document.getElementById('tmDrawerSpan').innerText = data.dates || '';
-            document.getElementById('tmDrawerDesc').innerText = data.desc || '';
-            document.getElementById('tmDrawerDynasty').innerText = data.dynasty || '-';
-            document.getElementById('tmDrawerCapital').innerText = data.capital || '-';
-            document.getElementById('tmDrawerRuler').innerText = data.ruler || '-';
+            document.getElementById('tmDrawerSpan').innerText = data.dates || data.era || data.date || '';
+            document.getElementById('tmDrawerDynasty').innerText = data.dynasty || data.realm || data.combatants || '-';
+            document.getElementById('tmDrawerCapital').innerText = data.capital || data.location || '-';
+            document.getElementById('tmDrawerRuler').innerText = data.ruler || data.name || '-';
+            const epochTag = document.getElementById('tmDrawerEpochTag');
+            if (epochTag) epochTag.innerText = `${EPOCHS[activeEpochIndex].displayYear} Historical Record`;
 
             const flagImg = document.getElementById('tmDrawerFlag');
-            if (data.flag) {
-                flagImg.src = data.flag;
-                flagImg.classList.remove('d-none');
-            } else {
-                flagImg.classList.add('d-none');
-            }
+            flagImg.classList.add('d-none');
+
+            const heroContainer = document.getElementById('tmDrawerHeroContainer');
+            if (heroContainer) heroContainer.style.display = 'none';
+
+            const wikiBadge = document.getElementById('tmWikiSourceBadge');
+            if (wikiBadge) wikiBadge.style.display = 'none';
+
+            const descEl = document.getElementById('tmDrawerDesc');
+            descEl.innerHTML = `<p class="text-light small mb-0" style="line-height: 1.65; font-size: 13px;">${data.desc || data.outcome || ''}</p>`;
 
             document.getElementById('tmWikiBtn').href = data.wiki || `https://en.wikipedia.org/wiki/${encodeURIComponent(data.name)}`;
             document.getElementById('tmAIGuideBtn').href = `ai-guide.html?q=${encodeURIComponent('Tell me about ' + data.name + ' in history')}`;
 
             drawer.classList.add('open');
+            if (data.coords) {
+                timeMap.panTo(data.coords, { animate: true, duration: 0.6 });
+            }
+            loadWikipediaDetails(data);
         }
 
         function closeInfoDrawer() {
             const drawer = document.getElementById('tmInfoDrawer');
             if (drawer) drawer.classList.remove('open');
+            if (activeSelectedPoly && activeSelectedPoly.setStyle) {
+                activeSelectedPoly.setStyle({ 
+                    color: activeSelectedPoly._defaultStroke || '#94a3b8', 
+                    weight: 1.5, 
+                    fillOpacity: 0.55 
+                });
+                activeSelectedPoly = null;
+            }
+            currentActiveTerritory = null;
         }
 
         function toggleHeaderWidget() {
