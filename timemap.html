@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -627,7 +627,69 @@
                 transform: translateY(0);
             }
             .tm-top-navbar .tm-search-box {
-                width: 130px;
+        /* Floating Basemap Quick Style Switcher */
+        .tm-basemap-switcher-pill {
+            position: absolute;
+            top: 65px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            background: rgba(13, 19, 33, 0.88);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(245, 158, 11, 0.45);
+            border-radius: 9999px;
+            padding: 0.3rem 0.45rem;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7), 0 0 15px rgba(245, 158, 11, 0.2);
+        }
+
+        .tm-basemap-pill {
+            background: transparent;
+            border: none;
+            border-radius: 9999px;
+            padding: 0.35rem 0.85rem;
+            color: #cbd5e1;
+            font-size: 0.82rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .tm-basemap-pill i {
+            font-size: 0.95rem;
+            color: #f59e0b;
+        }
+
+        .tm-basemap-pill:hover {
+            color: #ffffff;
+            background: rgba(245, 158, 11, 0.15);
+        }
+
+        .tm-basemap-pill.active {
+            background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%);
+            color: #0f172a !important;
+            font-weight: 700;
+            box-shadow: 0 2px 10px rgba(245, 158, 11, 0.4);
+        }
+
+        .tm-basemap-pill.active i {
+            color: #0f172a !important;
+        }
+
+        @media (max-width: 992px) {
+            .tm-basemap-switcher-pill {
+                top: auto;
+                bottom: 80px;
+                right: 10px;
+                left: 10px;
+                justify-content: center;
+                overflow-x: auto;
             }
         }
     </style>
@@ -706,6 +768,25 @@
                     <span>Battles</span>
                 </button>
             </div>
+        </div>
+
+        <!-- Floating Basemap Quick Style Switcher (TimeMap 5-in-1 Styles) -->
+        <div class="tm-basemap-switcher-pill" id="tmBasemapSwitcher">
+            <button class="tm-basemap-pill active" onclick="setBasemapQuick('maptiler', this)" title="MapTiler Dataviz Dark (Default Historical)">
+                <i class="bi bi-moon-stars-fill"></i><span>Dark Atlas</span>
+            </button>
+            <button class="tm-basemap-pill" onclick="setBasemapQuick('esri_satellite', this)" title="Ultra HD Satellite View (Photorealistic Space View)">
+                <i class="bi bi-globe-americas"></i><span>Satellite HD</span>
+            </button>
+            <button class="tm-basemap-pill" onclick="setBasemapQuick('maptiler_topo', this)" title="Topographic Physical Mountains Relief">
+                <i class="bi bi-triangle-half"></i><span>Physical Topo</span>
+            </button>
+            <button class="tm-basemap-pill" onclick="setBasemapQuick('carto_voyager', this)" title="Voyager Coastlines & Rivers HD">
+                <i class="bi bi-compass"></i><span>Voyager</span>
+            </button>
+            <button class="tm-basemap-pill" onclick="toggleVintageMapOverlay()" id="btnAntiqueOverlayQuick" title="1855 Antique David Rumsey Atlas Overlay">
+                <i class="bi bi-clock-history text-warning"></i><span>1855 Antique</span>
+            </button>
         </div>
 
         <!-- Floating Map Utility Tools -->
@@ -2152,18 +2233,35 @@
             bootstrap.Modal.getInstance(document.getElementById('apiKeyModal')).hide();
         }
 
+        // Quick 1-Click Basemap Style Switcher
+        function setBasemapQuick(provider, btnEl) {
+            document.querySelectorAll('.tm-basemap-pill').forEach(b => {
+                if (b.id !== 'btnAntiqueOverlayQuick') b.classList.remove('active');
+            });
+            if (btnEl && btnEl.id !== 'btnAntiqueOverlayQuick') btnEl.classList.add('active');
+
+            localStorage.setItem('tm_tile_provider', provider);
+            if (currentTileLayer) timeMap.removeLayer(currentTileLayer);
+            const cfg = getSavedTileConfig();
+            currentTileLayer = createTileLayer(provider, cfg.apiKey).addTo(timeMap);
+            currentTileLayer.bringToBack();
+
+            if (vintageOverlayLayer && isVintageOverlayActive) {
+                vintageOverlayLayer.bringToFront();
+            }
+            if (mapLayersGroup) mapLayersGroup.bringToFront();
+            updateApiStatusBadge();
+        }
+
         function toggleBasemapStyle() {
             const cfg = getSavedTileConfig();
-            if (cfg.provider === 'carto_dark') {
-                localStorage.setItem('tm_tile_provider', 'esri_satellite');
-            } else {
-                localStorage.setItem('tm_tile_provider', 'carto_dark');
-            }
-            if (currentTileLayer) timeMap.removeLayer(currentTileLayer);
-            const newCfg = getSavedTileConfig();
-            currentTileLayer = createTileLayer(newCfg.provider, newCfg.apiKey).addTo(timeMap);
-            currentTileLayer.bringToBack();
-            updateApiStatusBadge();
+            const providers = ['maptiler', 'esri_satellite', 'maptiler_topo', 'carto_voyager'];
+            let nextIndex = (providers.indexOf(cfg.provider) + 1) % providers.length;
+            if (nextIndex < 0) nextIndex = 0;
+            const nextProv = providers[nextIndex];
+
+            const btn = document.querySelectorAll('.tm-basemap-pill')[nextIndex];
+            setBasemapQuick(nextProv, btn);
         }
     </script>
 </body>
